@@ -44,3 +44,8 @@ format:
     toc-title: On this page
 
 number-sections: false
+
+execute:
+  echo: true      # Show the code
+  eval: false     # Do NOT execute the code
+

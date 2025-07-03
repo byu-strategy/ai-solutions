@@ -3,4 +3,8 @@
 .RData
 .Ruserdata
 
+*.py
+*.csv
+content.jsonl
+
 /.quarto/
