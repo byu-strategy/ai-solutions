@@ -1,0 +1,39 @@
+---
+title: "Schedule"
+
+---
+
+Below is the planned daily schedule. Dates, topics, and assignments may adjust as needed. All readings, slides, and homework are linked here.
+
+| Week | Date | Topic | In-class Quiz | Homework Assigned | Homework Due |
+|-------|-----------------|------------|-------------|------------|------------|
+| 1 | **Wed, Sept 3** | Course Introduction & Foundations Overview | – | [Pre-Course Knowledge Check](01-assignments.qmd#pre-course-knowledge-check) | Tuesday, Sept 9 (6pm Testing Center) |
+| 2 | **Mon, Sept 8** | Foundations: Machine Learning & LLMs | [Syllabus Reading Quiz](index.qmd) | – | – |
+| 2 | **Wed, Sept 10** | AI Foundations: Capabilities & Limitations | [AI Foundations Reading Quiz 1](02-foundations.qmd) | – | – |
+| 3 | **Mon, Sept 15** | Prompt Engineering Fundamentals | [AI Foundations Reading Quiz 2](02-foundations.qmd) | [HW 1 – Prompt Engineering](01-assignments.qmd#hw-1-prompt-engineering) | Wed, Sept 22, 11:59pm |
+| 3 | **Wed, Sept 17** | Programmatic Prompting and Workshop |  | – | – |
+| 4 | **Mon, Sept 22** | Creating a lightweight UI with Streamlit | [Prompt Engineering Reading Quiz](03-prompt-engineering.qmd) | – | – |
+| 4 | **Wed, Sept 24** | Retrieval-Augmented Generation (RAG) Fundamentals | – | [HW 2 – RAG](01-assignments.qmd#hw-2-rag) | Wed, Oct 6 |
+| 5 | **Mon, Sept 29** | RAG Implementation Working Session | [RAG Reading Quiz](05-retrieval-augmented-generation.qmd) |  |  |
+| 5 | **Wed, Oct 1** | **Guest Speaker – RAG in Practice** | – | – | – |
+| 6 | **Mon, Oct 6** | Fine-Tuning Fundamentals | – | – |  |
+| 6 | **Wed, Oct 8** | Fine-Tuning Working Session | [Fine-tuning Reading Quiz](06-fine-tuning.qmd) | [HW 3 – Fine-Tuning](01-assignments.qmd#hw-3-fine-tuning) | Mon, Oct 15 |
+| 7 | **Mon, Oct 13** | **Guest Speaker – Fine-Tuning Applications** | – | – | – |
+| 7 | **Wed, Oct 15** | Agents Overview & Planning | – | Mid-Course Survey | Mon, Oct 20 |
+| 8 | **Mon, Oct 20** | Advanced Agents & Tool Use | [Agents Reading Quiz 1](07-agents.qmd) | [HW 4 – Agents](01-assignments.qmd#hw-4-agents) | Wed, Oct 29 |
+| 8 | **Wed, Oct 22** | Building Agents Working Session | [Agents Reading Quiz 2](07-agents.qmd) |  |  |
+| 9 | **Mon, Oct 27** | **Guest Speaker – Agents in Production** | \- | – | – |
+| 9 | **Wed, Oct 29** | Evaluation of AI Solutions |  | – | – |
+| 10 | **Mon, Nov 3** | Strategy for AI Value Creation | [Evaluations Reading Quiz](08-evaluation-and-tooling.qmd) | [HW 5 – Strategy Memo](01-assignments.qmd#hw-5-strategy-memo) | Mon, Nov 10 |
+| 10 | **Wed, Nov 5** | **Guest Speaker – AI Strategy in Practice** | – | – | – |
+| 11 | **Mon, Nov 10** | Project Guidelines, Team Formation & Work Session | [AI Strategy Reading Quiz](09-business-strategy.qmd) | [Group Project Overview](01-assignments.qmd#group-project) | Wed, Dec 10 (Presentation) |
+| 11 | **Wed, Nov 12** | Project Work Session | – | – | – |
+| 12 | **Mon, Nov 17** | Project Work Session | – | – | – |
+| 12 | **Wed, Nov 19** | Project Peer Review | – | Peer Demo and Review Write-up | **Mon, Nov 24** |
+| 13 | **Mon, Nov 24** | No Class (Thanksgiving Week) | – | – | – |
+| 13 | **Wed, Nov 26** | No Class (Thanksgiving Week) | – | – | – |
+| 14 | **Mon, Dec 1** | Final Project Work Session | – | – | – |
+| 14 | **Wed, Dec 3** | Final Project Rehearsals | – | – | – |
+| 15 | **Mon, Dec 8** | Final Presentations – Session 1 | – | 5 pts. Extra Credit (Student Ratings Survey) |  |
+| 15 | **Wed, Dec 10** | Final Presentations – Session 2 & Course Wrap-up | – | [Final Exam](01-assignments.qmd#final-exam) | Wed, Dec 17 (Testing Center) |
+

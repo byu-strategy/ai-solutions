@@ -1,0 +1,44 @@
+---
+title: "Assignments"
+format: html
+---
+
+# Assignments Overview
+
+This page consolidates all assignments.
+
+## Pre-Course Knowledge Check
+
+*(details here)*
+
+## Reading Quizzes
+
+*(details here)*
+
+## HW 1 – Prompt Engineering
+
+*(details here)*
+
+## HW 2 – Retrieval-Augmented Generation
+
+*(details here)*
+
+## HW 3 – Fine-Tuning
+
+*(details here)*
+
+## HW 4 – Agents
+
+*(details here)*
+
+## HW 5 – Strategy Memo
+
+*(details here)*
+
+## Group Project
+
+*(details here)*
+
+## Final Exam
+
+*(details here)*

@@ -1,0 +1,46 @@
+project:
+  type: book
+  output-dir: docs
+  resources:
+    - images
+
+book:
+  title: "STRAT 490R – Building Strategic AI Solutions"
+  author: "Scott Murff, Nathan McCauley, David Fillmore"
+  date: "7/1/2025"
+  favicon: images/strategic-ai-favicon.png
+  chapters:
+    - part: Course Information
+      chapters:
+        - index.qmd
+        - 01-schedule.qmd
+        - 01-assignments.qmd
+    - part: Topics
+      chapters:
+        - 02-foundations.qmd
+        - 03-prompt-engineering.qmd
+        - 04-streamlit-ui.qmd
+        - 05-retrieval-augmented-generation.qmd
+        - 06-fine-tuning.qmd
+        - 07-agents.qmd
+        - 08-evaluation-and-tooling.qmd
+        - 09-business-strategy.qmd
+    - part: Resources
+      chapters:
+        - 90-resources.qmd
+        - 98-faq.qmd
+        - 99-references.qmd
+
+# bibliography: references.bib
+csl: informs.csl
+
+format:
+  html:
+    theme: cosmo
+    link-external-icon: false
+    link-external-newwindow: false
+    css: styles.css
+    markdown: default
+    toc-title: On this page
+
+number-sections: false
