@@ -3,3 +3,103 @@ title: "FAQ"
 format: html
 ---
 
+### How do I make a pull request to update these course notes?
+
+This guide explains how to contribute to the Quarto course notes using Git and RStudio. It assumes you are a collaborator on the GitHub repository.
+
+If you're starting from scratch, install the following tools:
+
+- [RStudio](https://posit.co/download/rstudio-desktop/)
+- [Quarto CLI](https://quarto.org/docs/get-started/)
+
+---
+
+::: {.callout-tip collapse=true}
+#### Step 1: Clone the Repository in RStudio
+
+1. Open RStudio.  
+2. Go to: `File > New Project > Version Control > Git`.  
+3. Paste the HTTPS URL of the GitHub repository (e.g., `https://github.com/org-name/repo-name.git`).  
+4. Choose a local directory (we suggest creating a "Cloned Repos" folder on your Desktop) and name the project.  
+5. Click "Create Project". This will clone the repository and open it in RStudio.
+:::
+
+---
+
+::: {.callout-tip collapse=true}
+#### Step 2: Ensure You Are Up to Date with Main
+
+```bash
+git checkout main       # switch to the main branch
+git pull origin main    # update your local copy with the latest changes from GitHub
+```
+:::
+
+---
+
+::: {.callout-tip collapse=true}
+#### Step 3: Create a Feature Branch
+
+```bash
+git checkout -b my-feature-branch
+```
+
+Replace `my-feature-branch` with a short, descriptive name like `fix-faq-typo` or `update-agents-chapter`.
+
+Create a new branch for each focused task — for example:
+- Editing one chapter
+- Fixing a layout bug
+- Adding a new section
+
+Keeping branches small and scoped makes them easier to review and merge.
+:::
+
+---
+
+::: {.callout-tip collapse=true}
+#### Step 4: Make Edits and Preview Changes
+
+Use the RStudio editor to edit `.qmd` files. To preview changes without committing any output:
+
+```bash
+quarto preview name-of-file.qmd
+```
+
+This opens a live preview in your browser. Be sure to **save your file** to see updates.
+
+While preview is running:
+- You cannot enter new terminal commands
+- To fix this, open a second terminal or press `Ctrl + C` to stop the preview
+
+You must stop the preview to run `git` commands.
+:::
+
+---
+
+::: {.callout-tip collapse=true}
+#### Step 5: Commit and Push Your Changes
+
+```bash
+git status                                # confirm you're on the correct branch and see what changed
+git add filename.qmd                      # stage your edited file (replace with actual filename)
+git commit -m "Clear, descriptive message"  # commit your changes
+git push origin my-feature-branch         # push your branch to GitHub
+```
+
+Only stage and commit the `.qmd` files you edited.  
+Do **not** commit rendered `.html` files, `.quarto_ipynb`, or anything in `_book/`.
+:::
+
+---
+
+::: {.callout-tip collapse=true}
+#### Step 6: Create a Pull Request
+
+1. Go to the GitHub repository in your browser.  
+2. Click the prompt to open a pull request from your branch.  
+3. Click **"Compare & pull request"**.  
+4. Add a clear title and description of your changes.  
+5. Submit the pull request for review.
+:::
+
+---
