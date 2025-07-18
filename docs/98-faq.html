@@ -329,8 +329,12 @@ Step 2: Ensure You Are Up to Date with Main
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout main       <span class="co"># switch to the main branch</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main    <span class="co"># update your local copy with the latest changes from GitHub</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Before pulling updates, reset your working directory to avoid merge conflicts from locally rendered files:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout main                                         <span class="co"># switch to the main branch</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> restore <span class="at">--source</span><span class="op">=</span>HEAD <span class="at">--staged</span> <span class="at">--worktree</span> <span class="at">--</span> .       <span class="co"># discard any local changes</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clean <span class="at">-fd</span>                                             <span class="co"># remove untracked files (like HTML and notebooks)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> pull origin main                                      <span class="co"># pull the latest changes from GitHub</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Warning: These commands will permanently delete all uncommitted changes and untracked files, including any locally rendered .html, .ipynb, and Quarto preview files. Only run them if you’re okay starting from a clean slate.</p>
 </div>
 </div>
 </div>
