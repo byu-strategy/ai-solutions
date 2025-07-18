@@ -29,10 +29,15 @@ If you're starting from scratch, install the following tools:
 ::: {.callout-tip collapse=true}
 #### Step 2: Ensure You Are Up to Date with Main
 
+Before pulling updates, reset your working directory to avoid merge conflicts from locally rendered files:
+
 ```bash
-git checkout main       # switch to the main branch
-git pull origin main    # update your local copy with the latest changes from GitHub
+git checkout main                                         # switch to the main branch
+git restore --source=HEAD --staged --worktree -- .       # discard any local changes
+git clean -fd                                             # remove untracked files (like HTML and notebooks)
+git pull origin main                                      # pull the latest changes from GitHub
 ```
+Warning: These commands will permanently delete all uncommitted changes and untracked files, including any locally rendered .html, .ipynb, and Quarto preview files. Only run them if you're okay starting from a clean slate.
 :::
 
 ---
