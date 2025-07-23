@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Quarto
@@ -21,18 +21,26 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install minimal Python deps
+      - name: Install minimal Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install jupyter pyyaml
 
-      - name: Render book
-        run: quarto render --output-dir docs --execute
+      - name: Clean docs folder
+        run: |
+          rm -rf docs/*
+          touch docs/.nojekyll
+
+      - name: Render Quarto book
+        run: quarto render --output-dir docs
 
       - name: Commit rendered HTML
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add docs/
-          git diff --quiet || git commit -m "Auto-render Quarto book"
-          git push
+          if git diff --cached --quiet; then
+            echo "✅ No updates to publish – skipping commit."
+          else
+            git commit -m "Auto-rendered Quarto book"
+            git push
