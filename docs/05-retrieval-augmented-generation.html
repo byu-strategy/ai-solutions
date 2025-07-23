@@ -258,14 +258,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#introduction-to-retrieval-augmented-generation" id="toc-introduction-to-retrieval-augmented-generation" class="nav-link active" data-scroll-target="#introduction-to-retrieval-augmented-generation">Introduction to Retrieval-Augmented Generation</a></li>
   <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works">How It Works</a>
   <ul class="collapse">
-  <li><a href="#the-role-of-retrieval-in-ai-systems" id="toc-the-role-of-retrieval-in-ai-systems" class="nav-link" data-scroll-target="#the-role-of-retrieval-in-ai-systems">The Role of Retrieval in AI Systems</a></li>
-  <li><a href="#how-rag-differs-from-traditional-generation-models" id="toc-how-rag-differs-from-traditional-generation-models" class="nav-link" data-scroll-target="#how-rag-differs-from-traditional-generation-models">How RAG Differs from Traditional Generation Models</a></li>
   <li><a href="#key-components-of-rag-retriever-and-generator" id="toc-key-components-of-rag-retriever-and-generator" class="nav-link" data-scroll-target="#key-components-of-rag-retriever-and-generator">Key Components of RAG: Retriever and Generator</a></li>
   <li><a href="#integrating-retrieval-and-generation-workflow-and-architecture" id="toc-integrating-retrieval-and-generation-workflow-and-architecture" class="nav-link" data-scroll-target="#integrating-retrieval-and-generation-workflow-and-architecture">Integrating Retrieval and Generation: Workflow and Architecture</a></li>
-  <li><a href="#benefits-and-challenges-of-using-rag" id="toc-benefits-and-challenges-of-using-rag" class="nav-link" data-scroll-target="#benefits-and-challenges-of-using-rag">Benefits and Challenges of Using RAG</a></li>
+  <li><a href="#challenges-of-rag" id="toc-challenges-of-rag" class="nav-link" data-scroll-target="#challenges-of-rag">Challenges of RAG</a></li>
   <li><a href="#use-cases-and-applications-of-rag" id="toc-use-cases-and-applications-of-rag" class="nav-link" data-scroll-target="#use-cases-and-applications-of-rag">Use Cases and Applications of RAG</a></li>
   <li><a href="#evaluating-the-performance-of-rag-systems" id="toc-evaluating-the-performance-of-rag-systems" class="nav-link" data-scroll-target="#evaluating-the-performance-of-rag-systems">Evaluating the Performance of RAG Systems</a></li>
-  <li><a href="#future-trends-and-developments-in-retrieval-augmented-generation" id="toc-future-trends-and-developments-in-retrieval-augmented-generation" class="nav-link" data-scroll-target="#future-trends-and-developments-in-retrieval-augmented-generation">Future Trends and Developments in Retrieval-Augmented Generation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -295,13 +292,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction-to-retrieval-augmented-generation" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-to-retrieval-augmented-generation">Introduction to Retrieval-Augmented Generation</h2>
 <p>Retrieval-Augmented Generation (RAG) is a method for improving the accuracy of LLMs by retrieving relevant information from external sources before generating a response.</p>
-<p>LLMs like ChatGPT are powerful, but they have a major limitation: they don’t have access to private or real-time data. Ask a model, <em>“What do our sales figures look like for Q2?”</em>, and it will either:</p>
-<ul>
-<li>Respond with <em>“I don’t have that information,”</em> or<br>
-</li>
-<li>Confidently invent something that sounds right (but isn’t).</li>
-</ul>
-<p>RAG solves this problem. Instead of generating answers based only on what the model was trained on, RAG first searches a trusted data source (like internal documents or a database), then uses the retrieved content to inform its response.</p>
+<p>LLMs like ChatGPT are powerful, but they have a major limitation: they don’t have access to private or real-time data. Imagine you’re an account executive at a small tech company, gathering data about the last quarter. Could you ask ChatGPT, “What do our sales figures look like for Q2?” Not really… It would probably respond with either fake data or state that is unable to provide the information needed. Without augmentation, LLMs are limited in their capacity.</p>
+<p>RAG solves this problem. Instead of generating answers based only on what the model was trained on, RAG models first search a trusted data source (like internal documents or a database), and then use the retrieved content to inform their response.</p>
 <p>RAG is especially valuable in use cases where factual accuracy and context are critical, such as:</p>
 <ul>
 <li>Customer support agents answering from internal documentation<br>
@@ -310,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
 <li>Legal teams reviewing company-specific policies</li>
 </ul>
-<p>By connecting the model to a retrieval system, RAG enables it to generate responses that reflect the most up-to-date and relevant information (not just what it remembers from pretraining).</p>
+<p>By connecting the model to a retrieval system, RAG enables it to generate responses that reflect the most up-to-date and relevant information.</p>
 <hr>
 </section>
 <section id="how-it-works" class="level1">
@@ -323,252 +315,105 @@ A search engine (e.g., FAISS, Elasticsearch) that finds relevant documents, pass
 A language model (like GPT-4) that takes the user’s query plus the retrieved content and generates a coherent, fact-based response.</p></li>
 </ol>
 <p>This process helps mitigate hallucinations by grounding generation in retrieved facts.</p>
+<p>Example of RAG process:</p>
 <hr>
-<div id="978f1000" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's illustrate a simple RAG-like process using Python.</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll use a mock retrieval system and a basic generative model.</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Mock retrieval function</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> retrieve_documents(query, corpus):</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Simulate document retrieval by returning documents containing the query keyword."""</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [doc <span class="cf">for</span> doc <span class="kw">in</span> corpus <span class="cf">if</span> query.lower() <span class="kw">in</span> doc.lower()]</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple generative function</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_response(retrieved_docs):</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Generate a response by summarizing retrieved documents."""</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> retrieved_docs:</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"No relevant information found."</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"Based on the documents, here is the summary: "</span> <span class="op">+</span> <span class="st">' '</span>.join(retrieved_docs)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Example corpus</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>document_corpus <span class="op">=</span> [</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The French Revolution was a period of far-reaching social and political upheaval in France."</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The Industrial Revolution marked a major turning point in Earth's ecology and humans' relationship with their environment."</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The American Revolution was a colonial revolt that took place between 1765 and 1783."</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Example query</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"revolution"</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieval step</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>retrieved_docs <span class="op">=</span> retrieve_documents(query, document_corpus)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Generation step</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> generate_response(retrieved_docs)</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1771d8ca" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll use a mock retrieval system and a basic generative model.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mock retrieval function</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> retrieve_documents(query, corpus):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Simulate document retrieval by returning documents containing the query keyword."""</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [doc <span class="cf">for</span> doc <span class="kw">in</span> corpus <span class="cf">if</span> query.lower() <span class="kw">in</span> doc.lower()]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Simple generative function</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_response(retrieved_docs):</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Generate a response by summarizing retrieved documents."""</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> retrieved_docs:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"No relevant information found."</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"Based on the documents, here is the summary: "</span> <span class="op">+</span> <span class="st">' '</span>.join(retrieved_docs)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Example corpus</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>document_corpus <span class="op">=</span> [</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The French Revolution was a period of far-reaching social and political upheaval in France."</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The Industrial Revolution marked a major turning point in Earth's ecology and humans' relationship with their environment."</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The American Revolution was a colonial revolt that took place between 1765 and 1783."</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Example query</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"revolution"</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieval step</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>retrieved_docs <span class="op">=</span> retrieve_documents(query, document_corpus)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Generation step</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> generate_response(retrieved_docs)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>In this code example, we simulate a RAG-like process using a simple retrieval function and a generative function. The <code>retrieve_documents</code> function mimics the retrieval step by selecting documents from a corpus that contain the query keyword. The <code>generate_response</code> function then synthesizes a response based on the retrieved documents. Although this example is rudimentary compared to sophisticated RAG models, it illustrates the fundamental concept of combining retrieval and generation.</p>
+<p>In this code example, we simulate a RAG-like process using a simple retrieval function and a generative function. The <code>retrieve_documents</code> function is selecting documents from a corpus that contain the query keyword. The <code>generate_response</code> function then synthesizes a response based on the retrieved documents. Although this example is rudimentary compared to sophisticated RAG models, it illustrates the fundamental concept of combining retrieval and generation.</p>
 <p>In practice, RAG models are implemented using more advanced techniques. The retrieval component often employs vector search methods, such as those based on embeddings from neural networks, to find semantically relevant documents. The generative component is typically a powerful language model, like GPT or BERT, fine-tuned to produce coherent and contextually appropriate responses. These components work together in a pipeline, where the retrieval step informs and constrains the generation process, leading to more accurate and reliable AI-driven interactions.</p>
-<section id="the-role-of-retrieval-in-ai-systems" class="level2">
-<h2 class="anchored" data-anchor-id="the-role-of-retrieval-in-ai-systems">The Role of Retrieval in AI Systems</h2>
-<p>In the realm of AI systems, retrieval plays a pivotal role by supplying the generative model with relevant information from a vast corpus of data. This process is crucial in overcoming the limitations of generative models, which often struggle with providing accurate and up-to-date information due to their reliance on pre-trained knowledge. Retrieval-augmented generation (RAG) addresses this by integrating retrieval mechanisms that access external databases or documents, thereby enhancing the model’s ability to generate contextually rich and precise responses.</p>
-<p>The retrieval component in RAG systems acts as a bridge between the static knowledge of a language model and the dynamic, ever-evolving world of information. It allows the AI to fetch specific pieces of data that are not inherently embedded within the model’s parameters. For instance, when asked about the latest scientific discoveries or current events, a RAG system can retrieve the most recent articles or papers, ensuring the response is both relevant and timely.</p>
-<p>Consider a scenario where a user queries an AI system for detailed information about a specific medical condition. A traditional language model might provide a general overview based on its training data. However, a RAG system would first retrieve the latest research articles or clinical guidelines from a medical database, then generate a response that incorporates this newly retrieved information, leading to a more accurate and informative answer.</p>
-<div id="be0eb606" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a basic retrieval function using a hypothetical database</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simple_retrieval(query, database):</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Simulates a retrieval process by searching for relevant documents in a database.</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">    :param query: The user's query as a string.</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    :param database: A list of documents (each document is a string).</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    :return: A list of documents that match the query.</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For simplicity, let's assume a document is relevant if it contains the query string</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    retrieved_docs <span class="op">=</span> [doc <span class="cf">for</span> doc <span class="kw">in</span> database <span class="cf">if</span> query.lower() <span class="kw">in</span> doc.lower()]</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> retrieved_docs</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Hypothetical database of documents</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>database <span class="op">=</span> [</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"COVID-19 is a respiratory illness caused by the coronavirus SARS-CoV-2."</span>,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The latest research on COVID-19 vaccines shows promising results."</span>,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"AI technologies are advancing rapidly in the field of natural language processing."</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Example query</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"COVID-19"</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve documents</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>relevant_docs <span class="op">=</span> simple_retrieval(query, database)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Relevant Documents:"</span>, relevant_docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In this code example, we define a simple retrieval function that searches through a list of documents (our database) to find those that contain the user’s query. This basic implementation highlights the core concept of retrieval: identifying and extracting relevant information from a larger dataset. In real-world applications, retrieval systems are far more sophisticated, often employing advanced techniques like semantic search, vector embeddings, and machine learning algorithms to improve accuracy and relevance.</p>
-<p>The integration of retrieval into AI systems not only enhances the quality of generated responses but also broadens the applicability of AI in various domains. For example, in legal tech, RAG systems can retrieve and analyze case law to provide insights or summaries tailored to specific legal questions. In customer support, they can pull up relevant product manuals or troubleshooting guides to assist users more effectively.</p>
-<p>Ultimately, the role of retrieval in AI systems is to empower generative models with the ability to access and utilize external knowledge sources dynamically. This synergy between retrieval and generation is what makes RAG a powerful framework for building strategic AI solutions that are both informed and adaptable to new information.</p>
-</section>
-<section id="how-rag-differs-from-traditional-generation-models" class="level2">
-<h2 class="anchored" data-anchor-id="how-rag-differs-from-traditional-generation-models">How RAG Differs from Traditional Generation Models</h2>
-<p>Retrieval-augmented generation (RAG) represents a significant evolution in the design of AI systems, particularly in how they handle information retrieval and generation tasks. Unlike traditional generation models, which rely solely on their pre-trained knowledge, RAG models incorporate an additional retrieval mechanism to access external knowledge bases or documents. This integration allows RAG systems to generate more accurate and contextually relevant responses by leveraging up-to-date information that may not be present in their training data.</p>
-<p>Traditional generation models, such as GPT (Generative Pre-trained Transformer), operate based on a fixed dataset they have been trained on. These models generate text by predicting the next word in a sequence, using patterns learned during training. However, their responses are limited to the information encoded in their parameters, which may become outdated or incomplete over time. For example, a traditional model trained before a recent scientific discovery will not be able to generate responses that include this new information.</p>
-<p>In contrast, a RAG model combines the strengths of both retrieval and generation. It first retrieves relevant documents or data from an external source, such as a database or search engine, and then uses this retrieved information to inform its generation process. This approach ensures that the model’s outputs are not only informed by its pre-trained knowledge but also by the most current data available, enhancing both relevance and accuracy.</p>
-<div id="5ea7da2e" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> RagTokenizer, RagRetriever, RagTokenForGeneration</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the tokenizer, retriever, and model</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume 'facebook/rag-token-nq' is a pre-trained RAG model</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>rag_tokenizer <span class="op">=</span> RagTokenizer.from_pretrained(<span class="st">'facebook/rag-token-nq'</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>rag_retriever <span class="op">=</span> RagRetriever.from_pretrained(</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'facebook/rag-token-nq'</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    index_name<span class="op">=</span><span class="st">'exact'</span>,  <span class="co"># Using an exact index for retrieval</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>rag_model <span class="op">=</span> RagTokenForGeneration.from_pretrained(<span class="st">'facebook/rag-token-nq'</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Example input text</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>input_text <span class="op">=</span> <span class="st">"What are the latest advancements in AI?"</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the input text</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> rag_tokenizer(input_text, return_tensors<span class="op">=</span><span class="st">'pt'</span>).input_ids</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve relevant documents</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>retrieved_docs <span class="op">=</span> rag_retriever(input_ids<span class="op">=</span>input_ids, question<span class="op">=</span>input_text)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a response based on the retrieved documents</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> rag_model.generate(</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    input_ids<span class="op">=</span>input_ids,</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    context_input_ids<span class="op">=</span>retrieved_docs[<span class="st">'context_input_ids'</span>],</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    context_attention_mask<span class="op">=</span>retrieved_docs[<span class="st">'context_attention_mask'</span>],</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    num_return_sequences<span class="op">=</span><span class="dv">1</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Decode the generated response</span></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> rag_tokenizer.batch_decode(outputs, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Generated response:"</span>, response[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In the provided example, a RAG model is initialized along with its tokenizer and retriever. When a question about the latest advancements in AI is posed, the model first retrieves relevant documents using the retriever. These documents provide the context that informs the generation process, allowing the model to produce a response that reflects the most recent information. This two-step process—retrieval followed by generation—enables the model to dynamically incorporate new data, which is a key differentiator from traditional generation models.</p>
-<p>The ability to access and incorporate external information in real-time makes RAG particularly suited for applications where the knowledge base is constantly evolving, such as news aggregation, scientific research, and customer support. By bridging the gap between static training data and dynamic external information, RAG models offer a powerful solution for generating responses that are not only coherent but also contextually and temporally relevant.</p>
-</section>
 <section id="key-components-of-rag-retriever-and-generator" class="level2">
 <h2 class="anchored" data-anchor-id="key-components-of-rag-retriever-and-generator">Key Components of RAG: Retriever and Generator</h2>
-<p>Retrieval-augmented generation (RAG) is a powerful approach that combines the strengths of information retrieval and generative models to produce more accurate and contextually relevant outputs. At its core, RAG consists of two main components: the retriever and the generator. Each plays a critical role in the overall process, working together to enhance the capabilities of AI systems in tasks such as question answering, summarization, and more.</p>
-<p>The retriever is responsible for fetching relevant information from a large corpus of documents or a knowledge base. This component is crucial because it ensures that the generative model has access to up-to-date and contextually appropriate information. Traditional generative models, which rely solely on the data they were trained on, can often produce outdated or incorrect information. By contrast, a RAG system can dynamically look up the latest information, making its outputs more reliable.</p>
-<p>Typically, the retriever uses sophisticated search algorithms to identify and rank the most relevant documents based on the input query. These search algorithms can be based on traditional information retrieval techniques, such as TF-IDF or BM25, or more advanced methods like dense retrieval using neural embeddings. Dense retrieval involves encoding both the query and documents into a high-dimensional vector space, allowing for more nuanced similarity comparisons.</p>
-<div id="ae1f5dc7" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentence_transformers <span class="im">import</span> SentenceTransformer, util</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a pre-trained model for dense retrieval</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SentenceTransformer(<span class="st">'all-MiniLM-L6-v2'</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Example documents</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> [</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The capital of France is Paris."</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Artificial Intelligence is transforming industries."</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python is a popular programming language."</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Encode documents to vectors</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>document_embeddings <span class="op">=</span> model.encode(documents, convert_to_tensor<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Query</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"What is the capital of France?"</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Encode query to vector</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>query_embedding <span class="op">=</span> model.encode(query, convert_to_tensor<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cosine similarities</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>cosine_scores <span class="op">=</span> util.pytorch_cos_sim(query_embedding, document_embeddings)</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the highest scoring document</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>most_relevant_index <span class="op">=</span> cosine_scores.argmax()</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Most relevant document: </span><span class="sc">{</span>documents[most_relevant_index]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The retriever is responsible for fetching relevant information from a large corpus of documents or a knowledge base. Typically, the retriever uses sophisticated search algorithms to identify and rank the most relevant documents based on the input query. These search algorithms can be based on traditional information retrieval techniques, such as TF-IDF or BM25 (which find word matches), or more advanced methods like dense retrieval using neural embeddings (which find semantic matches). Dense retrieval involves encoding both the query and documents into a high-dimensional vector space, allowing for more nuanced similarity comparisons.</p>
+<p>Example of deep retrieval:</p>
+<div id="364c5570" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentence_transformers <span class="im">import</span> SentenceTransformer, util</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a pre-trained model for dense retrieval</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SentenceTransformer(<span class="st">'all-MiniLM-L6-v2'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Example documents</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> [</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"The capital of France is Paris."</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Artificial Intelligence is transforming industries."</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Python is a popular programming language."</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Encode documents to vectors</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>document_embeddings <span class="op">=</span> model.encode(documents, convert_to_tensor<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Query</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"What is the capital of France?"</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Encode query to vector</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>query_embedding <span class="op">=</span> model.encode(query, convert_to_tensor<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cosine similarities</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>cosine_scores <span class="op">=</span> util.pytorch_cos_sim(query_embedding, document_embeddings)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the highest scoring document</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>most_relevant_index <span class="op">=</span> cosine_scores.argmax()</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Most relevant document: </span><span class="sc">{</span>documents[most_relevant_index]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this example, we use a pre-trained SentenceTransformer model to perform dense retrieval. The model encodes both the query and the documents into vectors, and we compute cosine similarity to identify the most relevant document. This approach allows the retriever to efficiently find pertinent information that can be passed to the generator.</p>
 <p>Once the retriever has identified relevant documents, the generator takes over. The generator is typically a large language model, such as GPT (Generative Pre-trained Transformer), which is fine-tuned to integrate the retrieved information into coherent and contextually appropriate responses. The generator uses the retrieved documents as additional context, effectively ‘grounding’ its outputs in specific, relevant, and often factual data.</p>
-<p>The integration of retrieval and generation allows RAG models to produce responses that are not only fluent and human-like but also factually accurate and context-aware. This is particularly useful in applications where precision and up-to-date information are crucial, such as in personalized customer support or dynamic content creation.</p>
-<div id="7c3e57a7" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a text generation pipeline</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>generator <span class="op">=</span> pipeline(<span class="st">'text-generation'</span>, model<span class="op">=</span><span class="st">'gpt2'</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieved context (from the previous retrieval step)</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>context <span class="op">=</span> <span class="st">"The capital of France is Paris."</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Input prompt for the generator</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="ss">f"Based on the information that </span><span class="sc">{</span>context<span class="sc">}</span><span class="ss">, what is the capital of France?"</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a response</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> generator(prompt, max_length<span class="op">=</span><span class="dv">50</span>, num_return_sequences<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Generated Response: </span><span class="sc">{</span>response[<span class="dv">0</span>][<span class="st">'generated_text'</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Example of generation:</p>
+<div id="90570123" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a text generation pipeline</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>generator <span class="op">=</span> pipeline(<span class="st">'text-generation'</span>, model<span class="op">=</span><span class="st">'gpt2'</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieved context (from the previous retrieval step)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>context <span class="op">=</span> <span class="st">"The capital of France is Paris."</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Input prompt for the generator</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="ss">f"Based on the information that </span><span class="sc">{</span>context<span class="sc">}</span><span class="ss">, what is the capital of France?"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a response</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> generator(prompt, max_length<span class="op">=</span><span class="dv">50</span>, num_return_sequences<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Generated Response: </span><span class="sc">{</span>response[<span class="dv">0</span>][<span class="st">'generated_text'</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this code snippet, we use a text generation pipeline with a GPT-2 model to generate a response based on the retrieved context. The generator receives a prompt that includes the relevant information retrieved earlier, enabling it to produce an informed and accurate answer. This synergy between the retriever and generator in RAG models is what sets them apart from traditional generative models, providing a robust framework for building strategic AI solutions.</p>
 </section>
 <section id="integrating-retrieval-and-generation-workflow-and-architecture" class="level2">
 <h2 class="anchored" data-anchor-id="integrating-retrieval-and-generation-workflow-and-architecture">Integrating Retrieval and Generation: Workflow and Architecture</h2>
-<p>In this section, we will explore how to seamlessly integrate retrieval and generation components to create a Retrieval-augmented Generation (RAG) system. The RAG architecture combines the strengths of information retrieval and natural language generation to produce answers that are both contextually relevant and informed by specific, external data sources. This approach is particularly useful in scenarios where the knowledge required to generate a response is not contained within the model itself, such as when answering domain-specific questions or providing up-to-date information.</p>
-<p>The RAG workflow typically involves two main stages: retrieval and generation. In the retrieval stage, the system uses a retriever to search a large corpus of documents or a knowledge base to find relevant information based on a given query. The retrieved documents or data passages serve as context for the generation stage, where a language model generates a coherent and contextually appropriate response. This architecture ensures that the generated output is grounded in factual information, enhancing the reliability and accuracy of the responses.</p>
-<p>Let’s consider a practical example where a RAG system is used to answer questions about a specific scientific domain, such as climate change research. The retriever component might use a vector search method, like dense passage retrieval, to identify relevant articles from a database of scientific papers. These articles are then passed to the generator, which could be a transformer-based model like GPT, to produce a well-informed answer grounded in the retrieved context.</p>
-<div id="74c80095" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a simple RAG pipeline implementation</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline, DPRQuestionEncoder, DPRContextEncoder, GPT2LMHeadModel, GPT2Tokenizer</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the retriever components</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>question_encoder <span class="op">=</span> DPRQuestionEncoder.from_pretrained(<span class="st">'facebook/dpr-question_encoder-single-nq-base'</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>context_encoder <span class="op">=</span> DPRContextEncoder.from_pretrained(<span class="st">'facebook/dpr-ctx_encoder-single-nq-base'</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the generator components</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>generator_model <span class="op">=</span> GPT2LMHeadModel.from_pretrained(<span class="st">'gpt2'</span>)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>generator_tokenizer <span class="op">=</span> GPT2Tokenizer.from_pretrained(<span class="st">'gpt2'</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to simulate the retrieval process</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> retrieve_documents(query, documents):</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Encode the query and documents</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    query_embedding <span class="op">=</span> question_encoder(query)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    document_embeddings <span class="op">=</span> [context_encoder(doc) <span class="cf">for</span> doc <span class="kw">in</span> documents]</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find the most relevant document (simplified similarity search)</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    similarities <span class="op">=</span> [torch.dot(query_embedding, doc_emb) <span class="cf">for</span> doc_emb <span class="kw">in</span> document_embeddings]</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    most_relevant_index <span class="op">=</span> similarities.index(<span class="bu">max</span>(similarities))</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> documents[most_relevant_index]</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function for generating a response</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_response(context, query):</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    input_text <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>context<span class="sc">}</span><span class="ss"> </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>query<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    input_ids <span class="op">=</span> generator_tokenizer.encode(input_text, return_tensors<span class="op">=</span><span class="st">'pt'</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> generator_model.generate(input_ids, max_length<span class="op">=</span><span class="dv">150</span>)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> generator_tokenizer.decode(output[<span class="dv">0</span>], skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"What are the recent findings on climate change?"</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> [<span class="st">"Document 1: Climate change is accelerating."</span>, <span class="st">"Document 2: New studies show increased temperatures."</span>]</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve the most relevant document</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>context <span class="op">=</span> retrieve_documents(query, documents)</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a response using the retrieved context</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>generated_response <span class="op">=</span> generate_response(context, query)</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(generated_response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In the provided code example, we implement a simplified RAG pipeline using pre-trained models from the Hugging Face Transformers library. The retriever leverages Dense Passage Retrieval (DPR) models to find the most relevant document from a list based on a similarity score. The generator uses a GPT-2 model to generate a response, incorporating the retrieved document as context. This approach demonstrates the RAG workflow, where retrieval and generation are tightly integrated to produce responses informed by external data.</p>
-<p>While this example provides a basic demonstration, real-world applications of RAG systems can be significantly more complex. They might involve more sophisticated retrieval mechanisms, such as those utilizing large-scale search indices, and generation models fine-tuned on specific datasets for improved performance. Additionally, advanced RAG architectures may incorporate feedback loops to iteratively refine retrieval and generation processes, ensuring the system continuously improves its accuracy and relevance over time.</p>
+<p>In this section, we will explore how to integrate retrieval and generation components to create a Retrieval-augmented Generation (RAG) system.</p>
 </section>
-<section id="benefits-and-challenges-of-using-rag" class="level2">
-<h2 class="anchored" data-anchor-id="benefits-and-challenges-of-using-rag">Benefits and Challenges of Using RAG</h2>
-<p>Retrieval-augmented generation (RAG) is a powerful technique that combines the strengths of information retrieval and language generation models. This hybrid approach is particularly beneficial in scenarios where a knowledge base is too vast or dynamic for a language model to memorize effectively. By leveraging retrieval mechanisms, RAG systems can access up-to-date information and generate more accurate and contextually relevant responses. This section will explore the benefits and challenges of using RAG, providing insights into why this approach is gaining traction in AI solutions.</p>
-<p>One of the primary benefits of RAG is its ability to enhance the factual accuracy of generated content. Traditional language models, even those trained on extensive datasets, are limited by the static nature of their training data. In contrast, RAG models can dynamically retrieve information from external databases or knowledge sources, ensuring that the generated output reflects the most current data. For example, a RAG system could access a live database of scientific articles to provide up-to-date insights on recent research findings, which would be invaluable in fields like medicine or technology.</p>
-<p>Another advantage of RAG is its ability to handle rare or niche topics more effectively than standard generative models. By retrieving relevant documents or snippets from a specialized corpus, a RAG system can generate content that is both coherent and contextually rich, even for topics that are not well-represented in its training data. This capability is particularly useful for applications like customer support, where users might ask about specific product details or troubleshooting steps.</p>
-<div id="874b5b15" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> RagTokenizer, RagRetriever, RagTokenForGeneration</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the tokenizer and retriever for a RAG model</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> RagTokenizer.from_pretrained(<span class="st">'facebook/rag-token-nq'</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>retriever <span class="op">=</span> RagRetriever.from_pretrained(<span class="st">'facebook/rag-token-nq'</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                                         index_name<span class="op">=</span><span class="st">'exact'</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                                         passages_path<span class="op">=</span><span class="st">'path/to/your/passages'</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the RAG model</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> RagTokenForGeneration.from_pretrained(<span class="st">'facebook/rag-token-nq'</span>, retriever<span class="op">=</span>retriever)</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Example input question</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>tokenized_input <span class="op">=</span> tokenizer(<span class="st">"What are the latest advancements in AI research?"</span>, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a response using RAG</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(<span class="op">**</span>tokenized_input)</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> tokenizer.decode(outputs[<span class="dv">0</span>], skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Response:"</span>, response)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<section id="challenges-of-rag" class="level2">
+<h2 class="anchored" data-anchor-id="challenges-of-rag">Challenges of RAG</h2>
 <p>While RAG offers significant advantages, it also presents several challenges. One of the main challenges is the computational complexity involved in retrieving and processing large volumes of data. The retrieval step requires efficient indexing and querying mechanisms to ensure that the system can quickly access relevant information. Additionally, the integration of retrieval and generation components must be carefully managed to maintain system performance and scalability.</p>
 <p>Another challenge is ensuring the quality and relevance of the retrieved data. The retrieval process must be precise enough to filter out irrelevant or low-quality information, which could negatively impact the generated content. This requires sophisticated ranking algorithms and relevance feedback mechanisms to continuously refine the retrieval process. Moreover, developers must consider the potential biases present in both the retrieval corpus and the language model, as these can influence the final output.</p>
 <p>Finally, RAG systems must address the challenge of maintaining coherence between retrieved information and generated text. The model must effectively integrate disparate pieces of information into a cohesive narrative, which can be difficult when dealing with complex or contradictory data. Techniques such as context-aware generation and fine-tuning on domain-specific tasks can help mitigate these issues, but they require careful design and implementation.</p>
@@ -578,43 +423,43 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <h2 class="anchored" data-anchor-id="use-cases-and-applications-of-rag">Use Cases and Applications of RAG</h2>
 <p>Retrieval-augmented generation (RAG) is a powerful technique that combines the strengths of information retrieval and natural language generation. This approach is particularly useful in situations where a model needs to generate text based on a large corpus of external data. By integrating retrieval mechanisms, RAG models can access and incorporate up-to-date and specialized information that might not be present in the model’s training data. This makes RAG highly applicable in various domains, including customer support, content creation, and personalized recommendations.</p>
 <p>One prominent use case of RAG is in the field of customer support. Traditional chatbots often struggle to provide accurate and contextually relevant responses due to limitations in their training data. By employing a RAG approach, these systems can retrieve relevant documents or knowledge base articles in real-time, allowing them to generate responses that are both informed and precise. For instance, if a customer inquires about a specific product feature, a RAG-based system can retrieve the latest product documentation and generate a detailed response.</p>
-<div id="177af6df" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> RagTokenizer, RagRetriever, RagTokenForGeneration</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the tokenizer, retriever, and model</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">"facebook/rag-token-base"</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> RagTokenizer.from_pretrained(model_name)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>retriever <span class="op">=</span> RagRetriever.from_pretrained(model_name, index_name<span class="op">=</span><span class="st">"exact"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> RagTokenForGeneration.from_pretrained(model_name)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Example query from a customer</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"Can you tell me more about the battery life of the new XYZ smartphone?"</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the input query</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> tokenizer(query, return_tensors<span class="op">=</span><span class="st">"pt"</span>).input_ids</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve relevant documents and generate a response</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(input_ids, num_return_sequences<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> tokenizer.batch_decode(outputs, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Generated Response:"</span>, response[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="546f3fdb" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> RagTokenizer, RagRetriever, RagTokenForGeneration</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the tokenizer, retriever, and model</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">"facebook/rag-token-base"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> RagTokenizer.from_pretrained(model_name)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>retriever <span class="op">=</span> RagRetriever.from_pretrained(model_name, index_name<span class="op">=</span><span class="st">"exact"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> RagTokenForGeneration.from_pretrained(model_name)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Example query from a customer</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"Can you tell me more about the battery life of the new XYZ smartphone?"</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the input query</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> tokenizer(query, return_tensors<span class="op">=</span><span class="st">"pt"</span>).input_ids</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve relevant documents and generate a response</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(input_ids, num_return_sequences<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> tokenizer.batch_decode(outputs, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Generated Response:"</span>, response[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In addition to customer support, RAG can be leveraged for content creation, particularly in areas requiring up-to-date information. For example, journalists or content creators can use RAG models to draft articles that incorporate the latest news or scientific research. By retrieving the most recent publications or reports, RAG systems can ensure that the generated content is both relevant and accurate. This capability is especially valuable in fast-paced industries where information rapidly evolves.</p>
 <p>Another compelling application of RAG is in personalized recommendations and decision support systems. By retrieving and synthesizing information tailored to a user’s specific context or preferences, RAG models can provide highly customized advice or suggestions. For instance, in the healthcare sector, a RAG-based system could assist doctors by retrieving the latest medical research relevant to a patient’s condition, thus supporting more informed decision-making.</p>
 <p>The adaptability of RAG models also extends to educational tools, where they can enhance learning experiences by providing students with explanations or examples sourced from a wide range of educational materials. This can help in creating interactive study aids that adjust to the learner’s pace and knowledge level, offering personalized guidance and supplementary resources.</p>
-<div id="5e6556f3" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Using RAG for educational purposes</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Query about a complex topic</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>topic_query <span class="op">=</span> <span class="st">"Explain the concept of quantum entanglement in simple terms."</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the input query</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> tokenizer(topic_query, return_tensors<span class="op">=</span><span class="st">"pt"</span>).input_ids</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve relevant documents and generate an educational response</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(input_ids, num_return_sequences<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>educational_response <span class="op">=</span> tokenizer.batch_decode(outputs, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Educational Response:"</span>, educational_response[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="72541c05" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Using RAG for educational purposes</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Query about a complex topic</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>topic_query <span class="op">=</span> <span class="st">"Explain the concept of quantum entanglement in simple terms."</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the input query</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>input_ids <span class="op">=</span> tokenizer(topic_query, return_tensors<span class="op">=</span><span class="st">"pt"</span>).input_ids</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieve relevant documents and generate an educational response</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> model.generate(input_ids, num_return_sequences<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>educational_response <span class="op">=</span> tokenizer.batch_decode(outputs, skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Educational Response:"</span>, educational_response[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In conclusion, RAG models offer a versatile and robust framework for generating contextually enriched responses across various applications. By dynamically integrating retrieval with generation, these models are well-suited to tasks that require both creativity and accuracy, making them invaluable in domains ranging from customer service to education and beyond.</p>
 </section>
@@ -622,77 +467,46 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <h2 class="anchored" data-anchor-id="evaluating-the-performance-of-rag-systems">Evaluating the Performance of RAG Systems</h2>
 <p>Evaluating the performance of Retrieval-augmented Generation (RAG) systems is crucial to ensure their effectiveness and reliability in real-world applications. RAG systems combine information retrieval techniques with generative models to produce answers that are both relevant and contextually appropriate. Given the dual nature of these systems, their evaluation involves assessing both the retrieval and generation components.</p>
 <p>The retrieval component of a RAG system is typically evaluated using metrics common in information retrieval, such as Precision, Recall, and F1-score. Precision measures the proportion of relevant documents retrieved among all retrieved documents, while Recall measures the proportion of relevant documents retrieved out of all relevant documents available. F1-score provides a balance between Precision and Recall. These metrics help determine how well the system is retrieving useful information to support the generative model.</p>
-<div id="f9d2017a" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_score, recall_score, f1_score</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_retrieval(true_labels, predicted_labels):</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    precision <span class="op">=</span> precision_score(true_labels, predicted_labels, average<span class="op">=</span><span class="st">'binary'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    recall <span class="op">=</span> recall_score(true_labels, predicted_labels, average<span class="op">=</span><span class="st">'binary'</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    f1 <span class="op">=</span> f1_score(true_labels, predicted_labels, average<span class="op">=</span><span class="st">'binary'</span>)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> precision, recall, f1</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>true_labels <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>]</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>retrieved_labels <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>precision, recall, f1 <span class="op">=</span> evaluate_retrieval(true_labels, retrieved_labels)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision<span class="sc">}</span><span class="ss">, Recall: </span><span class="sc">{</span>recall<span class="sc">}</span><span class="ss">, F1-score: </span><span class="sc">{</span>f1<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="55a6cca0" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_score, recall_score, f1_score</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_retrieval(true_labels, predicted_labels):</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    precision <span class="op">=</span> precision_score(true_labels, predicted_labels, average<span class="op">=</span><span class="st">'binary'</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    recall <span class="op">=</span> recall_score(true_labels, predicted_labels, average<span class="op">=</span><span class="st">'binary'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    f1 <span class="op">=</span> f1_score(true_labels, predicted_labels, average<span class="op">=</span><span class="st">'binary'</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> precision, recall, f1</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>true_labels <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>]</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>retrieved_labels <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>precision, recall, f1 <span class="op">=</span> evaluate_retrieval(true_labels, retrieved_labels)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision<span class="sc">}</span><span class="ss">, Recall: </span><span class="sc">{</span>recall<span class="sc">}</span><span class="ss">, F1-score: </span><span class="sc">{</span>f1<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For the generative component, evaluation often involves metrics used in natural language processing (NLP), such as BLEU, ROUGE, and METEOR scores. These metrics compare the generated text against a set of reference texts to assess the quality and relevance of the output. BLEU (Bilingual Evaluation Understudy) measures n-gram overlap between the generated text and reference texts, while ROUGE (Recall-Oriented Understudy for Gisting Evaluation) focuses on recall-based overlap. METEOR (Metric for Evaluation of Translation with Explicit ORdering) considers synonyms and stemming, providing a more nuanced evaluation.</p>
-<div id="cb775cd0" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.translate.bleu_score <span class="im">import</span> sentence_bleu</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rouge <span class="im">import</span> Rouge</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_generation(reference_texts, generated_text):</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># BLEU score</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    bleu_score <span class="op">=</span> sentence_bleu([ref.split() <span class="cf">for</span> ref <span class="kw">in</span> reference_texts], generated_text.split())</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ROUGE score</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    rouge <span class="op">=</span> Rouge()</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    rouge_scores <span class="op">=</span> rouge.get_scores(generated_text, reference_texts, avg<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> bleu_score, rouge_scores</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>reference_texts <span class="op">=</span> [<span class="st">"The cat sat on the mat."</span>, <span class="st">"A cat was sitting on the mat."</span>]</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>generated_text <span class="op">=</span> <span class="st">"The cat is sitting on the mat."</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>bleu, rouge <span class="op">=</span> evaluate_generation(reference_texts, generated_text)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"BLEU score: </span><span class="sc">{</span>bleu<span class="sc">}</span><span class="ch">\n</span><span class="ss">ROUGE scores: </span><span class="sc">{</span>rouge<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="147a7638" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.translate.bleu_score <span class="im">import</span> sentence_bleu</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rouge <span class="im">import</span> Rouge</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_generation(reference_texts, generated_text):</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># BLEU score</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    bleu_score <span class="op">=</span> sentence_bleu([ref.split() <span class="cf">for</span> ref <span class="kw">in</span> reference_texts], generated_text.split())</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ROUGE score</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    rouge <span class="op">=</span> Rouge()</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    rouge_scores <span class="op">=</span> rouge.get_scores(generated_text, reference_texts, avg<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> bleu_score, rouge_scores</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>reference_texts <span class="op">=</span> [<span class="st">"The cat sat on the mat."</span>, <span class="st">"A cat was sitting on the mat."</span>]</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>generated_text <span class="op">=</span> <span class="st">"The cat is sitting on the mat."</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>bleu, rouge <span class="op">=</span> evaluate_generation(reference_texts, generated_text)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"BLEU score: </span><span class="sc">{</span>bleu<span class="sc">}</span><span class="ch">\n</span><span class="ss">ROUGE scores: </span><span class="sc">{</span>rouge<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Beyond these traditional metrics, user satisfaction and task success rates are also vital in evaluating RAG systems, especially in interactive applications. User studies can provide insights into how well the system meets user needs and expectations. Additionally, task-specific metrics can be designed to assess how effectively a RAG system contributes to achieving specific goals, such as answering customer queries or providing technical support.</p>
 <p>In summary, evaluating RAG systems involves a comprehensive approach that considers both the retrieval and generative capabilities. By using a combination of traditional metrics and user-centered evaluations, we can gain a thorough understanding of a RAG system’s performance and its potential impact in practical applications.</p>
-</section>
-<section id="future-trends-and-developments-in-retrieval-augmented-generation" class="level2">
-<h2 class="anchored" data-anchor-id="future-trends-and-developments-in-retrieval-augmented-generation">Future Trends and Developments in Retrieval-Augmented Generation</h2>
-<p>As we look towards the future of Retrieval-Augmented Generation (RAG) systems, several exciting trends and developments emerge, promising to enhance the capabilities, efficiency, and applicability of these systems. RAG, which combines the strengths of retrieval-based methods and generative models, is poised to evolve significantly, driven by advancements in machine learning, computational power, and data availability.</p>
-<p>One key trend is the integration of more sophisticated retrieval mechanisms. Traditional retrieval methods often rely on keyword matching or basic semantic similarity. However, future RAG systems are likely to incorporate advanced retrieval models that leverage deep learning techniques, such as dense vector embeddings and transformer-based architectures, to better understand and match the context and nuances of both queries and documents. This will result in more accurate and contextually relevant retrievals, enhancing the overall quality of generated responses.</p>
-<div id="238ef7ec" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of using a transformer-based retrieval model</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> retrieve_documents(query, corpus, model):</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Retrieve documents using a transformer-based model."""</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert query and documents to embeddings</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    query_embedding <span class="op">=</span> model.encode(query)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    corpus_embeddings <span class="op">=</span> model.encode(corpus)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute similarities between query and corpus</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    similarities <span class="op">=</span> cosine_similarity([query_embedding], corpus_embeddings)</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort and retrieve the most relevant documents</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    most_relevant_docs <span class="op">=</span> <span class="bu">sorted</span>(<span class="bu">zip</span>(corpus, similarities[<span class="dv">0</span>]), key<span class="op">=</span><span class="kw">lambda</span> x: x[<span class="dv">1</span>], reverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [doc <span class="cf">for</span> doc, _ <span class="kw">in</span> most_relevant_docs[:<span class="dv">5</span>]]  <span class="co"># Return top 5 documents</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentence_transformers <span class="im">import</span> SentenceTransformer</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics.pairwise <span class="im">import</span> cosine_similarity</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> SentenceTransformer(<span class="st">'all-MiniLM-L6-v2'</span>)</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>corpus <span class="op">=</span> [<span class="st">"Document 1 text..."</span>, <span class="st">"Document 2 text..."</span>, <span class="st">"Document 3 text..."</span>]</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"What is the future of RAG systems?"</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>relevant_docs <span class="op">=</span> retrieve_documents(query, corpus, model)</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(relevant_docs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Another promising development is the refinement of the generative components of RAG systems. As generative models like GPT, BERT, and their successors continue to improve, they will become more adept at producing coherent, contextually appropriate, and informative text. Future RAG systems might employ adaptive generation techniques that tailor outputs based on user feedback or interaction history, leading to more personalized and user-centric experiences.</p>
-<p>Moreover, the scalability of RAG systems will be a critical area of focus. As the volume of data grows, the ability to efficiently retrieve and generate information at scale will be paramount. Techniques such as distributed computing, parallel processing, and the use of specialized hardware like GPUs and TPUs will be essential to handle the computational demands of large-scale RAG applications. Additionally, innovations in model compression and optimization will ensure that RAG systems remain accessible and efficient even on resource-constrained devices.</p>
+<p>##The Future of RAG</p>
+<p>The scalability of RAG systems will be a critical area of focus. As the volume of data grows, the ability to efficiently retrieve and generate information at scale will be paramount. Techniques such as distributed computing, parallel processing, and the use of specialized hardware like GPUs and TPUs will be essential to handle the computational demands of large-scale RAG applications. Additionally, innovations in model compression and optimization will ensure that RAG systems remain accessible and efficient even on resource-constrained devices.</p>
 <p>Ethical considerations and bias mitigation will also play a significant role in the future of RAG systems. As these systems become more prevalent in decision-making processes and information dissemination, ensuring that they operate fairly and without bias is crucial. Future research will likely focus on developing techniques to detect and mitigate biases in both the retrieval and generation phases, ensuring that RAG systems provide equitable and accurate information to all users.</p>
 <p>In summary, the future of Retrieval-Augmented Generation is bright, with numerous advancements on the horizon that promise to enhance the accuracy, efficiency, and ethical operation of these systems. By leveraging cutting-edge retrieval methods, improving generative capabilities, ensuring scalability, and addressing ethical concerns, RAG systems will continue to evolve and play an increasingly vital role in the AI landscape.</p>
 
