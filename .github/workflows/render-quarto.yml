@@ -26,6 +26,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install jupyter pyyaml
 
+      - name: Skip if last commit was from github-actions
+        run: |
+          AUTHOR=$(git log -1 --pretty=format:'%an')
+          if [ "$AUTHOR" = "github-actions" ]; then
+            echo "🛑 Last commit was from github-actions. Skipping to avoid loop."
+            exit 0
+          fi
+
       - name: Clean docs folder
         run: |
           rm -rf docs/*
@@ -44,3 +52,4 @@ jobs:
           else
             git commit -m "Auto-rendered Quarto book"
             git push
+          fi
