@@ -4,7 +4,7 @@ description: "All course assignments with detailed instructions."
 format: html
 ---
 
-## Home Work 1 – Prompt Engineering
+## Homework 1 – Prompt Engineering
 
 ## Overview
 
