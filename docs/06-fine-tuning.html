@@ -305,41 +305,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="cell" data-layout-align="default">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>flowchart LR</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    n4["Raw Text Data"] --&gt; n6["Pre-training"]</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    n6 --&gt; n3["Base LLM"]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    n3 --&gt; n7["Fine-tuning"]</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    n7 --&gt; n5["Fine-Tuned LLM"]</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    n1["Org/Domain Specific Dataset"] --&gt; n7</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    %% Class assignments</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    class n4,n6 Pine;</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    class n3,n5 Aqua;</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    class n7 Ash;</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    class n1 Sky;</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    %% Style definitions</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    classDef Sky stroke-width:1px, stroke:#374D7C, fill:#E2EBFF, color:#374D7C;</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    classDef Ash stroke-width:1px, stroke:#999999, fill:#EEEEEE, color:#000000;</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    classDef Pine stroke-width:1px, stroke:#254336, fill:#27654A, color:#FFFFFF;</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    classDef Aqua stroke-width:1px, stroke:#46EDC8, fill:#DEFFF8, color:#378E7A;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
 <section id="introduction-to-model-fine-tuning" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-to-model-fine-tuning">Introduction to Model Fine-Tuning</h2>
 <section id="what-is-fine-tuning" class="level3">
 <h3 class="anchored" data-anchor-id="what-is-fine-tuning">What is Fine-Tuning?</h3>
 <p><strong>Fine-tuning</strong> is the process of taking a pre-trained AI model (one already trained on broad data) and training it further on a smaller, task-specific dataset to adapt it to a particular use case. Instead of training a large language model (LLM) from scratch (which would require billions of tokens and enormous compute), fine-tuning starts with an existing model that has general knowledge and calibrates it to perform optimally for your needs.</p>
 <p><strong>Pre-training</strong> (or base training) refers to the original training of a model on a very large corpus of general data (e.g.&nbsp;crawling the web, books, Wikipedia). This teaches the model broad patterns of language and world knowledge but not any one task in particular. Fine-tuning, in contrast, begins with those pre-trained weights and further trains the model on a much smaller, specialized dataset. Pre-training starts from scratch (random weights) and requires vast data and time, whereas fine-tuning starts from a knowledgeable model and is relatively fast and cost-effective.</p>
+<div class="cell" data-eval="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A(["Raw Text Data 
+    (Web, Books, Wikipedia)"]) -.-&gt; B{{Pre-training}}
+    B --&gt; C((Base LLM))
+    D(["Domain-Specific Dataset"]) -.-&gt; E{{Fine-tuning}}
+    C --&gt; E
+    E --&gt; F((Fine-Tuned LLM))
+
+    %% Style assignments
+    class A,D Sky;
+    class B,E Ash;
+    class C,F Aqua;
+
+    %% Style definitions
+    classDef Sky stroke-width:1px, stroke:#374D7C, fill:#E2EBFF, color:#374D7C;
+    classDef Ash stroke-width:1px, stroke:#999999, fill:#EEEEEE, color:#000000;
+    classDef Aqua stroke-width:1px, stroke:#46EDC8, fill:#DEFFF8, color:#378E7A;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <p>A useful analogy is training a college graduate for a new job. Pre-training is like sending someone through years of general education: they learn how to think, write, and analyze problems across many subjects. They graduate with broad knowledge but no experience in your specific company or domain.</p>
 <p>Fine-tuning is like giving that graduate a few weeks of onboarding and role-specific training. You teach them your tools, your customers, your terminology. You don’t need to re-teach the fundamentals—they already have them. You’re simply refining their knowledge so they can do your job well.</p>
 <hr>
@@ -662,12 +661,136 @@ Begin training, monitor the loss, validate the model, and adjust as needed. Use 
 </section>
 <section id="data-preparation-for-fine-tuning" class="level2">
 <h2 class="anchored" data-anchor-id="data-preparation-for-fine-tuning">2) Data Preparation for Fine-Tuning</h2>
-<p>In the realm of building strategic AI solutions, fine-tuning a pre-trained model is a powerful technique to adapt a model to specific tasks. However, the success of fine-tuning heavily relies on the quality and preparation of the data used. Proper data preparation ensures that the model can learn the relevant patterns and nuances required for the task at hand. In this section, we will explore the critical steps involved in preparing data for fine-tuning, which include data collection, data cleaning, data labeling, and data augmentation.</p>
-<p>The first step in data preparation is data collection. It’s crucial to gather a dataset that is representative of the task you want the model to perform. For instance, if you are fine-tuning a model for sentiment analysis on movie reviews, your dataset should include a diverse set of reviews from different genres and styles. The quality of the dataset is paramount; it should be large enough to capture the variability of the task but also balanced to avoid bias.</p>
-<p>Once the data is collected, the next step is data cleaning. This involves removing or correcting any errors or inconsistencies in the data. For text data, this might mean removing duplicates, correcting spelling errors, and handling missing values. For numerical data, it might involve handling outliers or normalizing the data. Data cleaning ensures that the model is not learning from noise, which can degrade its performance.</p>
-<p>Data labeling is another crucial aspect, especially for supervised learning tasks. It involves assigning labels to the dataset that the model can learn from. For example, in a sentiment analysis task, each review must be labeled as ‘positive’, ‘negative’, or ‘neutral’. Manual labeling can be time-consuming but is often necessary to ensure accuracy. In some cases, automated or semi-automated labeling techniques can be used, but they should be validated for accuracy.</p>
-<p>Data augmentation is a technique used to increase the diversity of the training data without actually collecting new data. This is particularly useful in scenarios where data is limited. For image data, common augmentation techniques include rotating, flipping, or scaling images. For text data, augmentation might involve synonym replacement, random insertion, or back-translation. These techniques help the model become more robust and generalize better to unseen data.</p>
-<p>In summary, data preparation for fine-tuning is a multi-step process that requires careful attention to detail. By ensuring the data is clean, well-labeled, and sufficiently diverse, you set the foundation for a model that can learn effectively and perform well on the specific task. Each step, from collection to augmentation, plays a critical role in the success of fine-tuning, ultimately leading to more strategic and effective AI solutions.</p>
+<p>Fine-tuning is fundamentally a form of supervised learning—teaching a model by showing it many examples of inputs paired with ideal outputs so it learns to replicate those patterns. This section walks through the three core stages of data preparation: <strong>sourcing</strong>, <strong>cleaning</strong>, and <strong>formatting</strong>.</p>
+<hr>
+<section id="data-sourcing" class="level4">
+<h4 class="anchored" data-anchor-id="data-sourcing"><strong>Data Sourcing</strong></h4>
+<p>The first step is identifying where your task-specific data will come from. Common sources include:</p>
+<ul>
+<li><strong>Internal logs</strong> – e.g., customer support transcripts, chatbot conversations, or form submissions<br>
+</li>
+<li><strong>Public datasets</strong> – from platforms like <a href="https://huggingface.co/datasets?sort=trending">Hugging Face Datasets</a>, Kaggle, or academic benchmarks<br>
+</li>
+<li><strong>Manual generation</strong> – examples written or annotated by domain experts<br>
+</li>
+<li><strong>Synthetic generation</strong> – data generated by a base model and later reviewed or edited for quality</li>
+</ul>
+<p>Each data source offers trade-offs between <strong>volume</strong>, <strong>quality</strong>, and <strong>domain relevance</strong>.</p>
+<blockquote class="blockquote">
+<p>Fine-tuning doesn’t require massive datasets. What matters is that each example is correct, relevant, and representative. A few hundred high-quality examples often outperform thousands of noisy ones.</p>
+</blockquote>
+<hr>
+</section>
+<section id="data-cleaning" class="level4">
+<h4 class="anchored" data-anchor-id="data-cleaning"><strong>Data Cleaning</strong></h4>
+<p>Raw examples often need cleaning before they’re ready for training. This step focuses on eliminating noise and inconsistencies. Common cleaning tasks include:</p>
+<ul>
+<li>Removing incomplete or corrupted entries<br>
+</li>
+<li>Fixing typos, inconsistent punctuation, or formatting issues<br>
+</li>
+<li>Standardizing casing, spacing, or syntax<br>
+</li>
+<li>Removing sensitive or personally identifiable information (PII)</li>
+</ul>
+<p>Clean data helps ensure the model learns meaningful patterns—not accidental ones.</p>
+<blockquote class="blockquote">
+<p>The single most important factor in fine-tuning success is data quality. A strong model trained on poor data will still perform poorly.</p>
+</blockquote>
+<hr>
+</section>
+<section id="data-formatting" class="level4">
+<h4 class="anchored" data-anchor-id="data-formatting"><strong>Data Formatting</strong></h4>
+<p>Regardless of the task, all fine-tuning datasets must include:</p>
+<blockquote class="blockquote">
+<p><strong>A clear prompt (or context) and a desired response.</strong></p>
+</blockquote>
+<p>However, the <strong>format</strong> of this information depends on the model architecture and training history. For example:</p>
+<ul>
+<li><strong>Instruction-tuned models</strong> expect fields like <code>instruction</code>, <code>input</code>, and <code>output</code>.</li>
+<li><strong>Chat models</strong> expect lists of user/assistant messages.</li>
+<li><strong>Base models</strong> expect a simple prompt followed by a response.</li>
+</ul>
+<p>Data is usually stored in <strong>JSON</strong> or <strong>JSON Lines (JSONL)</strong> formats.</p>
+<section id="common-data-format-types" class="level5">
+<h5 class="anchored" data-anchor-id="common-data-format-types">Common Data Format Types</h5>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Instruction Format (<code>instruction → input → output</code>)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Best for</strong>: task-specific fine-tuning (e.g., summarization, classification, QA)<br>
+<strong>Model types</strong>: FLAN-T5, Alpaca, LLaMA Factory-compatible models</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"instruction"</span><span class="fu">:</span> <span class="st">"Translate this sentence to Spanish."</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="st">"How are you?"</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"output"</span><span class="fu">:</span> <span class="st">"¿Cómo estás?"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Chat Format (<code>messages</code> list)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Best for</strong>: assistant-style or multi-turn dialogue training<br>
+<strong>Model types</strong>: ChatML, OpenChat, LLaMA 2-Chat, Zephyr</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"messages"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"role"</span><span class="fu">:</span> <span class="st">"user"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"What's 2 + 2?"</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"role"</span><span class="fu">:</span> <span class="st">"assistant"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"2 + 2 equals 4."</span><span class="fu">}</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Prompt-Completion Format (<code>prompt → response</code>)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Best for</strong>: creative writing, open-ended completions<br>
+<strong>Model types</strong>: base models, GPT-style architectures</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"prompt"</span><span class="fu">:</span> <span class="st">"Write a tagline for a fitness app:"</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"response"</span><span class="fu">:</span> <span class="st">"Train smart. Live strong."</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="summary" class="level4">
+<h4 class="anchored" data-anchor-id="summary"><strong>Summary</strong></h4>
+<p>High-quality fine-tuning is less about <strong>how much</strong> data you have and more about <strong>how useful</strong> each example is.</p>
+<blockquote class="blockquote">
+<p><strong>Garbage in, garbage out</strong>: If your examples are messy, inconsistent, or unclear, the model will learn those patterns too.</p>
+</blockquote>
+<p>Always match your data format to the <strong>type of base model</strong> you’re fine-tuning. For example, a chat model expects conversation history, while an instruction-tuned model needs structured tasks and responses.</p>
+</section>
 </section>
 <section id="techniques-for-fine-tuning" class="level2">
 <h2 class="anchored" data-anchor-id="techniques-for-fine-tuning">3) Techniques for Fine-Tuning</h2>
