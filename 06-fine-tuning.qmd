@@ -5,28 +5,6 @@ format:
     mermaid: {}
 jupyter: python3
 ---
-
-```{mermaid}
-flowchart LR
-    n4["Raw Text Data"] --> n6["Pre-training"]
-    n6 --> n3["Base LLM"]
-    n3 --> n7["Fine-tuning"]
-    n7 --> n5["Fine-Tuned LLM"]
-    n1["Org/Domain Specific Dataset"] --> n7
-
-    %% Class assignments
-    class n4,n6 Pine;
-    class n3,n5 Aqua;
-    class n7 Ash;
-    class n1 Sky;
-
-    %% Style definitions
-    classDef Sky stroke-width:1px, stroke:#374D7C, fill:#E2EBFF, color:#374D7C;
-    classDef Ash stroke-width:1px, stroke:#999999, fill:#EEEEEE, color:#000000;
-    classDef Pine stroke-width:1px, stroke:#254336, fill:#27654A, color:#FFFFFF;
-    classDef Aqua stroke-width:1px, stroke:#46EDC8, fill:#DEFFF8, color:#378E7A;
-```
-
 ## Introduction to Model Fine-Tuning
 
 ### What is Fine-Tuning?
@@ -34,6 +12,28 @@ flowchart LR
 **Fine-tuning** is the process of taking a pre-trained AI model (one already trained on broad data) and training it further on a smaller, task-specific dataset to adapt it to a particular use case. Instead of training a large language model (LLM) from scratch (which would require billions of tokens and enormous compute), fine-tuning starts with an existing model that has general knowledge and calibrates it to perform optimally for your needs.  
 
 **Pre-training** (or base training) refers to the original training of a model on a very large corpus of general data (e.g. crawling the web, books, Wikipedia). This teaches the model broad patterns of language and world knowledge but not any one task in particular. Fine-tuning, in contrast, begins with those pre-trained weights and further trains the model on a much smaller, specialized dataset. Pre-training starts from scratch (random weights) and requires vast data and time, whereas fine-tuning starts from a knowledgeable model and is relatively fast and cost-effective. 
+
+```{mermaid}
+%%| echo: false
+%%| eval: true
+flowchart LR
+    A(["Raw Text Data 
+    (Web, Books, Wikipedia)"]) -.-> B{{Pre-training}}
+    B --> C((Base LLM))
+    D(["Domain-Specific Dataset"]) -.-> E{{Fine-tuning}}
+    C --> E
+    E --> F((Fine-Tuned LLM))
+
+    %% Style assignments
+    class A,D Sky;
+    class B,E Ash;
+    class C,F Aqua;
+
+    %% Style definitions
+    classDef Sky stroke-width:1px, stroke:#374D7C, fill:#E2EBFF, color:#374D7C;
+    classDef Ash stroke-width:1px, stroke:#999999, fill:#EEEEEE, color:#000000;
+    classDef Aqua stroke-width:1px, stroke:#46EDC8, fill:#DEFFF8, color:#378E7A;
+```
 
 A useful analogy is training a college graduate for a new job. Pre-training is like sending someone through years of general education: they learn how to think, write, and analyze problems across many subjects. They graduate with broad knowledge but no experience in your specific company or domain. 
 
@@ -283,23 +283,113 @@ Together, these form a kind of alignment: the better your tools, data, and train
 
 >Think of it like matching an phone to a charger. Some models “plug in” easily to popular fine-tuning frameworks and formats. Others require adapters or workarounds. 
 
-In the next sections, we’ll walk through how to prepare aligned data for your model and choose the training method that best fits your use case and enhances training speed and efficiency.  
+In the next sections, we’ll walk through how to prepare aligned data for your model and choose the training method that best fits your use case and enhances training speed and efficiency.
 
 ## 2) Data Preparation for Fine-Tuning
 
-In the realm of building strategic AI solutions, fine-tuning a pre-trained model is a powerful technique to adapt a model to specific tasks. However, the success of fine-tuning heavily relies on the quality and preparation of the data used. Proper data preparation ensures that the model can learn the relevant patterns and nuances required for the task at hand. In this section, we will explore the critical steps involved in preparing data for fine-tuning, which include data collection, data cleaning, data labeling, and data augmentation.
+Fine-tuning is fundamentally a form of supervised learning—teaching a model by showing it many examples of inputs paired with ideal outputs so it learns to replicate those patterns. This section walks through the three core stages of data preparation: **sourcing**, **cleaning**, and **formatting**.
 
-The first step in data preparation is data collection. It's crucial to gather a dataset that is representative of the task you want the model to perform. For instance, if you are fine-tuning a model for sentiment analysis on movie reviews, your dataset should include a diverse set of reviews from different genres and styles. The quality of the dataset is paramount; it should be large enough to capture the variability of the task but also balanced to avoid bias.
+---
 
-Once the data is collected, the next step is data cleaning. This involves removing or correcting any errors or inconsistencies in the data. For text data, this might mean removing duplicates, correcting spelling errors, and handling missing values. For numerical data, it might involve handling outliers or normalizing the data. Data cleaning ensures that the model is not learning from noise, which can degrade its performance.
+#### **Data Sourcing**
 
+The first step is identifying where your task-specific data will come from. Common sources include:
 
-Data labeling is another crucial aspect, especially for supervised learning tasks. It involves assigning labels to the dataset that the model can learn from. For example, in a sentiment analysis task, each review must be labeled as 'positive', 'negative', or 'neutral'. Manual labeling can be time-consuming but is often necessary to ensure accuracy. In some cases, automated or semi-automated labeling techniques can be used, but they should be validated for accuracy.
+- **Internal logs** – e.g., customer support transcripts, chatbot conversations, or form submissions  
+- **Public datasets** – from platforms like [Hugging Face Datasets](https://huggingface.co/datasets?sort=trending), Kaggle, or academic benchmarks  
+- **Manual generation** – examples written or annotated by domain experts  
+- **Synthetic generation** – data generated by a base model and later reviewed or edited for quality  
 
-Data augmentation is a technique used to increase the diversity of the training data without actually collecting new data. This is particularly useful in scenarios where data is limited. For image data, common augmentation techniques include rotating, flipping, or scaling images. For text data, augmentation might involve synonym replacement, random insertion, or back-translation. These techniques help the model become more robust and generalize better to unseen data.
+Each data source offers trade-offs between **volume**, **quality**, and **domain relevance**.
 
+> Fine-tuning doesn’t require massive datasets. What matters is that each example is correct, relevant, and representative. A few hundred high-quality examples often outperform thousands of noisy ones.
 
-In summary, data preparation for fine-tuning is a multi-step process that requires careful attention to detail. By ensuring the data is clean, well-labeled, and sufficiently diverse, you set the foundation for a model that can learn effectively and perform well on the specific task. Each step, from collection to augmentation, plays a critical role in the success of fine-tuning, ultimately leading to more strategic and effective AI solutions.
+---
+
+#### **Data Cleaning**
+
+Raw examples often need cleaning before they're ready for training. This step focuses on eliminating noise and inconsistencies. Common cleaning tasks include:
+
+- Removing incomplete or corrupted entries  
+- Fixing typos, inconsistent punctuation, or formatting issues  
+- Standardizing casing, spacing, or syntax  
+- Removing sensitive or personally identifiable information (PII)  
+
+Clean data helps ensure the model learns meaningful patterns—not accidental ones.
+
+> The single most important factor in fine-tuning success is data quality. A strong model trained on poor data will still perform poorly.
+
+---
+
+#### **Data Formatting**
+
+Regardless of the task, all fine-tuning datasets must include:
+
+> **A clear prompt (or context) and a desired response.**
+
+However, the **format** of this information depends on the model architecture and training history. For example:
+
+- **Instruction-tuned models** expect fields like `instruction`, `input`, and `output`.
+- **Chat models** expect lists of user/assistant messages.
+- **Base models** expect a simple prompt followed by a response.
+
+Data is usually stored in **JSON** or **JSON Lines (JSONL)** formats.
+
+##### Common Data Format Types
+
+::: {.callout-note collapse=true}
+###### Instruction Format (`instruction → input → output`)
+
+**Best for**: task-specific fine-tuning (e.g., summarization, classification, QA)  
+**Model types**: FLAN-T5, Alpaca, LLaMA Factory-compatible models
+
+```json
+{
+  "instruction": "Translate this sentence to Spanish.",
+  "input": "How are you?",
+  "output": "¿Cómo estás?"
+}
+```
+:::
+
+::: {.callout-note collapse=true}
+###### Chat Format (`messages` list)
+
+**Best for**: assistant-style or multi-turn dialogue training  
+**Model types**: ChatML, OpenChat, LLaMA 2-Chat, Zephyr
+
+```json
+{
+  "messages": [
+    {"role": "user", "content": "What's 2 + 2?"},
+    {"role": "assistant", "content": "2 + 2 equals 4."}
+  ]
+}
+```
+:::
+
+::: {.callout-note collapse=true}
+###### Prompt-Completion Format (`prompt → response`)
+
+**Best for**: creative writing, open-ended completions  
+**Model types**: base models, GPT-style architectures
+
+```json
+{
+  "prompt": "Write a tagline for a fitness app:",
+  "response": "Train smart. Live strong."
+}
+```
+:::
+---
+
+#### **Summary**
+
+High-quality fine-tuning is less about **how much** data you have and more about **how useful** each example is.
+
+> **Garbage in, garbage out**: If your examples are messy, inconsistent, or unclear, the model will learn those patterns too.
+
+Always match your data format to the **type of base model** you're fine-tuning. For example, a chat model expects conversation history, while an instruction-tuned model needs structured tasks and responses.
 
 ## 3) Techniques for Fine-Tuning
 
