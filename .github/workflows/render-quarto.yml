@@ -27,7 +27,7 @@ jobs:
           pip install jupyter pyyaml
 
       - name: Render book
-        run: quarto render
+        run: quarto render --output-dir docs --execute
 
       - name: Commit rendered HTML
         run: |
