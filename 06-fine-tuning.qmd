@@ -393,21 +393,166 @@ Always match your data format to the **type of base model** you're fine-tuning. 
 
 ## 3) Techniques for Fine-Tuning
 
-Fine-tuning is a crucial step in developing strategic AI solutions, as it allows us to adapt pre-trained models to specific tasks or domains. The process involves adjusting the parameters of a model that has already been trained on a large dataset, to better suit a new, often smaller, dataset. This technique is particularly useful when computational resources are limited or when there is insufficient data to train a model from scratch. Fine-tuning leverages the knowledge learned from the original training phase, making it a powerful tool for improving model performance on specific tasks.
+In this section, we’ll explore a curated set of fine-tuning strategies that are shaping the way modern AI solutions are built. While there are many ways to adapt language models, we’ll focus on a small set of methods that are most widely used today. These include parameter-efficient methods (PEFT) such as LoRA and QLoRA. We’ll also touch on preference tuning through Direct Preference Optimization (DPO). Together, these techniques form the essential toolkit for anyone looking to build or deploy customized AI systems. 
 
-One common approach to fine-tuning is to start with a pre-trained model and modify its final layers. This is because the early layers of deep learning models often capture general features that are useful across different tasks, such as edges or textures in image data. By freezing these layers, we can retain their learned representations and focus on training the later layers that are more task-specific. This technique reduces the risk of overfitting, as the model does not need to relearn features that are already well-represented.
+### Parameter Efficient Fine-Tuning (PEFT)
 
+When you train a model, you’re adjusting numbers inside it—called weights—so that the model improves its predictions. This usually happens in three steps: 
 
-In the code example above, we utilize the VGG16 model, which is pre-trained on the ImageNet dataset, a large dataset containing millions of images across thousands of categories. By setting `include_top=False`, we exclude the fully connected layers at the top of the network, allowing us to add our own layers tailored to the specific classification task at hand. The base model's layers are frozen to prevent them from being updated during training, preserving the learned features. We then append a flattening layer followed by two dense layers. The final layer uses a softmax activation function, suitable for multi-class classification tasks.
+ 1. The model makes a guess (prediction). 
+ 2. It compares that guess to the correct answer. 
+ 3. It slightly adjusts its weights to reduce the error. 
 
-Another fine-tuning technique involves unfreezing some of the layers closer to the output and retraining them along with the newly added layers. This approach can be beneficial when the new dataset has some similarities with the original dataset used for pre-training, but also possesses unique characteristics that require adaptation. It allows the model to adjust its representations slightly to better fit the new data while still leveraging the robust feature extraction capabilities of the earlier layers.
+In **full fine-tuning**, every single weight in the model can be adjusted. As language models have grown in size—often with billions of parameters—fully fine-tuning all of those weights has become expensive and impractical for most teams. That’s where Parameter-Efficient Fine-Tuning (PEFT) comes in. 
 
+Instead of updating the entire model, **PEFT** methods allow you to train a small number of new parameters while keeping the original model frozen. This makes fine-tuning much faster, cheaper, and easier to run on smaller hardware (like consumer GPUs or even Google Colab). 
 
-In this adjusted code snippet, we unfreeze the last four layers of the VGG16 base model. This allows these layers to be fine-tuned alongside the custom layers we added. The choice of how many layers to unfreeze can vary depending on the similarity between the original and new datasets, as well as the complexity of the task. Recompiling the model is necessary to apply these changes, ensuring that the optimizer is aware of which parameters should be updated during training.
+PEFT is an umbrella term for many different techniques. In the next sections, we’ll look at two of the most popular and widely adopted PEFT methods: LoRA and QLoRA 
 
-Fine-tuning is not limited to image classification tasks. It is also widely used in natural language processing (NLP), where models like BERT or GPT are fine-tuned for tasks such as sentiment analysis or text summarization. The principles remain the same: leveraging pre-trained models to save time and resources while achieving superior performance on specific tasks. By understanding and applying fine-tuning techniques, you can build strategic AI solutions that are both efficient and effective, tailored to the unique requirements of your application domain.
+![Overview of PEFT Methods](images/peft-methods.png){#fig-peft-methods fig-align="center" width="80%"}
+
+---
+#### Low Rank Adaptation (LoRA)
+LoRA targets the attention layers (a core component of transformer models like GPT or LLaMA). These layers contain big weight matrices, like Wq and Wv, which help the model decide what to pay attention to in a sentence. 
+
+Instead of changing these matrices directly, LoRA: 
+
+- Adds two small matrices, called A and B 
+- Multiplies them together to form a low-rank approximation 
+
+Adds this result to the original frozen matrix during training and inference 
+
+#### Quantized Low Rank Adaptation (QLoRA)
+While LoRA dramatically reduces the number of parameters you need to train, the base model (like LLaMA or Mistral) still takes up a lot of memory. That’s where QLoRA (Quantized LoRA) comes in.
+
+QLoRA keeps everything that makes LoRA efficient—but adds quantization to reduce the memory footprint of the base model itself. This makes it possible to fine-tune large models even on laptops or free Colab GPUs.
+
+::: {.callout-note collapse="true"}
+### What is Quantization?
+Quantization is a way of making a model smaller by storing its weights using **fewer bits**.
+
+Most models use **16-bit or 32-bit floats** to store numbers.  
+**QLoRA** uses **4-bit integers**, which are much smaller.
+
+This doesn’t change the model’s structure—it just changes how the numbers are stored in memory.
+
+It’s like switching from a high-resolution video to a compressed version that still looks good—but takes up less space.
+:::
+
+### Preference Tuning and DPO
+
+Most fine-tuning methods rely on giving the model a specific input and the exact output we want it to produce. But sometimes, there’s no single "correct" answer—just answers that are better or worse in the eyes of a human.
+
+For example:
+
+| Prompt | Output A | Output B |
+|--------|----------|----------|
+| "What’s a polite way to say no?" | “No, thank you.” | “I’m not doing that.” |
+
+Both are technically valid, but one is clearly more helpful and respectful. In these cases, we can use **preference tuning**—a way of training models based on what humans prefer, not just what's factually correct.
+
+#### What Is Preference Tuning?
+
+**Preference tuning** is about improving a model's behavior by showing it which responses are preferred in side-by-side comparisons. This is especially useful when:
+
+- There isn’t one right answer
+- You want to improve tone, helpfulness, safety, or clarity
+- You're aligning the model with human values or user expectations
+
+This process is sometimes called **alignment**—making sure the model behaves the way people want.
+
+#### DPO: Direct Preference Optimization
+
+**Direct Preference Optimization (DPO)** is a newer, simpler approach to preference tuning. Instead of building a complex reward model (as in older methods like PPO), DPO trains the model directly on pairs of outputs where one is preferred over the other.
+
+##### How DPO Works
+
+1. You collect prompt + response pairs where a human chose one response over another.
+2. The model is trained to assign higher probability to the preferred response.
+3. That’s it—no reward model, no reinforcement learning loop.
+
+> Analogy: It’s like teaching someone by showing two possible emails and saying, “This one sounds better.” Over time, they learn the patterns you prefer.
+
+#### Why DPO Matters
+
+| Feature            | Benefit                                      |
+|--------------------|----------------------------------------------|
+| Simpler than PPO   | No need for reward models or RL algorithms   |
+| Aligns with human values | Trains on what people actually prefer |
+| Easy to scale      | Works well with modern fine-tuning libraries |
+
+#### Summary
+
+- Preference tuning is used when there’s no single right answer, just better ones.
+- DPO is the most accessible and efficient method for this today.
+- It’s especially useful for tuning how a chatbot sounds, how safely it answers questions, or how clearly it communicates.
 
 ## 4) Training Arguments and Hyperparameter Optimization
+
+When you fine-tune a language model, you have to decide **how** the training process will work. These decisions are controlled by something called **training arguments** or **hyperparameters**.
+
+Hyperparameters are like **settings or dials** that you tune before training begins. They define how the model learns, how fast it learns, how long it trains, and how much data it sees at a time. Choosing the right hyperparameters is critical to getting good results.
+
+
+### Key Hyperparameters and What They Do
+
+| Hyperparameter                | What It Controls                                  | Why It Matters                                               |
+|------------------------------|---------------------------------------------------|--------------------------------------------------------------|
+| `learning_rate`              | How quickly the model updates its weights         | Too high: unstable training; too low: slow or no learning    |
+| `num_train_epochs`           | How many times the model sees the full dataset    | More epochs = more learning, but also risk of overfitting    |
+| `per_device_train_batch_size`| How many examples the model processes at once     | Larger batches are faster but use more memory                |
+| `gradient_accumulation_steps`| Simulates larger batches over multiple steps      | Useful when memory is limited                                |
+| `cutoff_len`                 | Maximum number of tokens per example              | Truncates long inputs; controls memory usage                 |
+| `val_size`                   | Portion of data used for validation (e.g., 0.1)   | Helps track performance on unseen data                      |
+| `lr_scheduler_type`          | How the learning rate changes over time           | Controls whether training slows down or stays steady         |
+| `max_samples`                | Maximum number of training examples to use        | Useful for quick experiments or debugging                    |
+
+
+### A Few Examples
+
+#### Learning Rate
+
+The **learning rate** controls how big each step is during training. If it’s too big, the model may bounce around and never converge. If it’s too small, it may take forever to learn—or not learn at all.
+
+- Typical values: `2e-5`, `5e-5`, `1e-4`
+- For LoRA or QLoRA, `2e-4` is a good starting point
+
+#### Batch Size and Gradient Accumulation
+
+If your GPU can only fit 2 examples at a time (`batch_size=2`), but you want to simulate a batch size of 8, you can use:
+
+```python
+per_device_train_batch_size = 2
+gradient_accumulation_steps = 4
+```
+
+This tells the model to accumulate gradients for 4 steps before updating weights—just like having a batch of 8.
+
+
+### Choosing Good Defaults
+
+If you’re just getting started, here’s a simple configuration that works well for small LoRA fine-tuning:
+
+```yaml
+learning_rate: 2e-4
+num_train_epochs: 3
+per_device_train_batch_size: 2
+gradient_accumulation_steps: 4
+cutoff_len: 512
+val_size: 0.1
+lr_scheduler_type: cosine
+max_samples: 10000
+```
+
+This setup is designed to balance learning quality with resource efficiency.
+
+
+### Summary
+
+- Hyperparameters are not learned—they're chosen by you.
+- The right values depend on your model, dataset size, hardware, and goals.
+- You don’t have to guess—start with reasonable defaults and adjust based on the results.
+
 
 Hyperparameter optimization is a critical step in the process of fine-tuning machine learning models. While model parameters are learned from the data during training, hyperparameters are set before the learning process begins and control the behavior of the training algorithm. Examples of hyperparameters include learning rate, batch size, number of epochs, and architecture-specific settings like the number of layers in a neural network.
 
