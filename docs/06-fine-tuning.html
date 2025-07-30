@@ -265,29 +265,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#what-is-fine-tuning" id="toc-what-is-fine-tuning" class="nav-link" data-scroll-target="#what-is-fine-tuning">What is Fine-Tuning?</a></li>
   <li><a href="#benefits-and-uses-of-fine-tuning" id="toc-benefits-and-uses-of-fine-tuning" class="nav-link" data-scroll-target="#benefits-and-uses-of-fine-tuning">Benefits and Uses of Fine-Tuning</a></li>
+  <li><a href="#challenges-and-limitations-of-fine-tuning" id="toc-challenges-and-limitations-of-fine-tuning" class="nav-link" data-scroll-target="#challenges-and-limitations-of-fine-tuning">Challenges and Limitations of Fine-Tuning</a></li>
   <li><a href="#how-fine-tuning-works-a-roadmap" id="toc-how-fine-tuning-works-a-roadmap" class="nav-link" data-scroll-target="#how-fine-tuning-works-a-roadmap">How Fine-Tuning Works: A Roadmap</a></li>
   </ul></li>
-  <li><a href="#choose-a-base-model" id="toc-choose-a-base-model" class="nav-link" data-scroll-target="#choose-a-base-model">1) Choose a Base Model</a></li>
-  <li><a href="#data-preparation-for-fine-tuning" id="toc-data-preparation-for-fine-tuning" class="nav-link" data-scroll-target="#data-preparation-for-fine-tuning">2) Data Preparation for Fine-Tuning</a></li>
-  <li><a href="#techniques-for-fine-tuning" id="toc-techniques-for-fine-tuning" class="nav-link" data-scroll-target="#techniques-for-fine-tuning">3) Techniques for Fine-Tuning</a>
+  <li><a href="#choose-a-base-model" id="toc-choose-a-base-model" class="nav-link" data-scroll-target="#choose-a-base-model">1) Choose a Base Model</a>
   <ul class="collapse">
-  <li><a href="#parameter-efficient-fine-tuning-peft" id="toc-parameter-efficient-fine-tuning-peft" class="nav-link" data-scroll-target="#parameter-efficient-fine-tuning-peft">Parameter Efficient Fine-Tuning (PEFT)</a></li>
-  <li><a href="#preference-tuning-and-dpo" id="toc-preference-tuning-and-dpo" class="nav-link" data-scroll-target="#preference-tuning-and-dpo">Preference Tuning and DPO</a></li>
+  <li><a href="#model-size-number-of-parameters" id="toc-model-size-number-of-parameters" class="nav-link" data-scroll-target="#model-size-number-of-parameters"><strong>Model Size (Number of Parameters)</strong></a></li>
+  <li><a href="#pre-trained-vs-instruction-tuned" id="toc-pre-trained-vs-instruction-tuned" class="nav-link" data-scroll-target="#pre-trained-vs-instruction-tuned"><strong>Pre-Trained vs Instruction Tuned</strong></a></li>
+  <li><a href="#licensing-and-commercial-use" id="toc-licensing-and-commercial-use" class="nav-link" data-scroll-target="#licensing-and-commercial-use"><strong>Licensing and Commercial Use</strong></a></li>
+  <li><a href="#model-compatibility-and-alignment" id="toc-model-compatibility-and-alignment" class="nav-link" data-scroll-target="#model-compatibility-and-alignment"><strong>Model Compatibility and Alignment</strong></a></li>
+  </ul></li>
+  <li><a href="#data-preparation-for-fine-tuning" id="toc-data-preparation-for-fine-tuning" class="nav-link" data-scroll-target="#data-preparation-for-fine-tuning">2) Data Preparation for Fine-Tuning</a>
+  <ul class="collapse">
+  <li><a href="#data-sourcing" id="toc-data-sourcing" class="nav-link" data-scroll-target="#data-sourcing"><strong>Data Sourcing</strong></a></li>
+  <li><a href="#data-cleaning" id="toc-data-cleaning" class="nav-link" data-scroll-target="#data-cleaning"><strong>Data Cleaning</strong></a></li>
+  <li><a href="#data-formatting" id="toc-data-formatting" class="nav-link" data-scroll-target="#data-formatting"><strong>Data Formatting</strong></a></li>
+  </ul></li>
+  <li><a href="#techniques-and-tools-for-fine-tuning" id="toc-techniques-and-tools-for-fine-tuning" class="nav-link" data-scroll-target="#techniques-and-tools-for-fine-tuning">3) Techniques and Tools for Fine-Tuning</a>
+  <ul class="collapse">
+  <li><a href="#fine-tuning-techniques" id="toc-fine-tuning-techniques" class="nav-link" data-scroll-target="#fine-tuning-techniques"><strong>Fine-Tuning Techniques</strong></a></li>
+  <li><a href="#fine-tuning-tools-frameworks" id="toc-fine-tuning-tools-frameworks" class="nav-link" data-scroll-target="#fine-tuning-tools-frameworks"><strong>Fine-Tuning Tools / Frameworks </strong></a></li>
   </ul></li>
   <li><a href="#training-arguments-and-hyperparameter-optimization" id="toc-training-arguments-and-hyperparameter-optimization" class="nav-link" data-scroll-target="#training-arguments-and-hyperparameter-optimization">4) Training Arguments and Hyperparameter Optimization</a>
   <ul class="collapse">
   <li><a href="#key-hyperparameters-and-what-they-do" id="toc-key-hyperparameters-and-what-they-do" class="nav-link" data-scroll-target="#key-hyperparameters-and-what-they-do">Key Hyperparameters and What They Do</a></li>
   <li><a href="#a-few-examples" id="toc-a-few-examples" class="nav-link" data-scroll-target="#a-few-examples">A Few Examples</a></li>
   <li><a href="#choosing-good-defaults" id="toc-choosing-good-defaults" class="nav-link" data-scroll-target="#choosing-good-defaults">Choosing Good Defaults</a></li>
-  <li><a href="#summary-2" id="toc-summary-2" class="nav-link" data-scroll-target="#summary-2">Summary</a></li>
+  <li><a href="#summary-1" id="toc-summary-1" class="nav-link" data-scroll-target="#summary-1">Summary</a></li>
   </ul></li>
-  <li><a href="#evaluating-fine-tuned-models" id="toc-evaluating-fine-tuned-models" class="nav-link" data-scroll-target="#evaluating-fine-tuned-models">5) Evaluating Fine-Tuned Models</a></li>
-  <li><a href="#challenges-and-limitations-of-fine-tuning" id="toc-challenges-and-limitations-of-fine-tuning" class="nav-link" data-scroll-target="#challenges-and-limitations-of-fine-tuning">Challenges and Limitations of Fine-Tuning</a></li>
-  <li><a href="#case-studies-of-successful-fine-tuning" id="toc-case-studies-of-successful-fine-tuning" class="nav-link" data-scroll-target="#case-studies-of-successful-fine-tuning">Case Studies of Successful Fine-Tuning</a>
+  <li><a href="#evaluating-your-fine-tuned-model" id="toc-evaluating-your-fine-tuned-model" class="nav-link" data-scroll-target="#evaluating-your-fine-tuned-model">5) Evaluating Your Fine-Tuned Model</a>
   <ul class="collapse">
-  <li><a href="#case-study-1-fine-tuning-bert-for-sentiment-analysis" id="toc-case-study-1-fine-tuning-bert-for-sentiment-analysis" class="nav-link" data-scroll-target="#case-study-1-fine-tuning-bert-for-sentiment-analysis">Case Study 1: Fine-Tuning BERT for Sentiment Analysis</a></li>
-  <li><a href="#case-study-2-fine-tuning-gpt-3-for-custom-text-generation" id="toc-case-study-2-fine-tuning-gpt-3-for-custom-text-generation" class="nav-link" data-scroll-target="#case-study-2-fine-tuning-gpt-3-for-custom-text-generation">Case Study 2: Fine-Tuning GPT-3 for Custom Text Generation</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#human-evaluation-manual-prompt-testing" id="toc-human-evaluation-manual-prompt-testing" class="nav-link" data-scroll-target="#human-evaluation-manual-prompt-testing">1. Human Evaluation (Manual Prompt Testing)</a></li>
+  <li><a href="#loss-curve-inspection" id="toc-loss-curve-inspection" class="nav-link" data-scroll-target="#loss-curve-inspection">2. Loss Curve Inspection</a></li>
+  <li><a href="#brief-note-on-industry-evaluation-standards" id="toc-brief-note-on-industry-evaluation-standards" class="nav-link" data-scroll-target="#brief-note-on-industry-evaluation-standards">3. Brief Note on Industry Evaluation Standards</a></li>
+  <li><a href="#summary-2" id="toc-summary-2" class="nav-link" data-scroll-target="#summary-2">Summary</a></li>
   </ul></li>
   <li><a href="#future-trends-in-fine-tuning" id="toc-future-trends-in-fine-tuning" class="nav-link" data-scroll-target="#future-trends-in-fine-tuning">Future Trends in Fine-Tuning</a></li>
   </ul>
@@ -319,8 +330,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="introduction-to-model-fine-tuning">Introduction to Model Fine-Tuning</h2>
 <section id="what-is-fine-tuning" class="level3">
 <h3 class="anchored" data-anchor-id="what-is-fine-tuning">What is Fine-Tuning?</h3>
-<p><strong>Fine-tuning</strong> is the process of taking a pre-trained AI model (one already trained on broad data) and training it further on a smaller, task-specific dataset to adapt it to a particular use case. Instead of training a large language model (LLM) from scratch (which would require billions of tokens and enormous compute), fine-tuning starts with an existing model that has general knowledge and calibrates it to perform optimally for your needs.</p>
-<p><strong>Pre-training</strong> (or base training) refers to the original training of a model on a very large corpus of general data (e.g.&nbsp;crawling the web, books, Wikipedia). This teaches the model broad patterns of language and world knowledge but not any one task in particular. Fine-tuning, in contrast, begins with those pre-trained weights and further trains the model on a much smaller, specialized dataset. Pre-training starts from scratch (random weights) and requires vast data and time, whereas fine-tuning starts from a knowledgeable model and is relatively fast and cost-effective.</p>
+<p>To understand fine-tuning, it helps to first understand the lifecycle of large language models (LLMs). Most LLMs begin with a stage called <strong>pre-training</strong>, where the model is trained from scratch—starting with random weights—on massive datasets that include internet text, books, Wikipedia, and other publicly available sources. This stage is incredibly compute-intensive, often requiring billions of tokens and weeks or months of training time. The goal of pre-training is to help the model learn general language patterns, reasoning skills, and world knowledge—but not to specialize in any particular task.</p>
+<p>Once pre-training is complete, the result is a general-purpose model (often called a <strong>base model</strong> or <strong>foundation model</strong>) that understands language broadly but lacks domain-specific expertise or task-level optimization. This is where fine-tuning comes in.</p>
+<p><strong>Fine-tuning</strong> is the process of taking this pre-trained model and training it further on a much smaller, specialized dataset tailored to a particular use case. This could include customer support transcripts, legal documents, or medical notes—whatever matches the target application. Instead of learning from scratch, the model starts with a strong foundation and simply adjusts its weights to better perform in your desired domain or task.</p>
+<p>Compared to pre-training, fine-tuning is faster, more affordable, and highly targeted. It allows organizations to unlock the power of large models without the immense cost of building them from the ground up.</p>
 <div class="cell" data-eval="true" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -464,8 +477,45 @@ What are the key differences between pretraining and fine-tuning?
 <li><strong>Enables informed generation</strong> using non-public or confidential information</li>
 </ul>
 <p>This is critical for applications in healthcare, finance, government, and enterprise, where data privacy and compliance are essential.</p>
+</section>
+<section id="challenges-and-limitations-of-fine-tuning" class="level3">
+<h3 class="anchored" data-anchor-id="challenges-and-limitations-of-fine-tuning">Challenges and Limitations of Fine-Tuning</h3>
+<p>While fine-tuning can unlock powerful performance gains and customizations, it also comes with tradeoffs. Before deciding to fine-tune, teams should consider the limitations, risks, and operational challenges involved:</p>
+<p><strong>1. Requires Technical Expertise and Infrastructure</strong></p>
+<p>Fine-tuning is not as plug-and-play as prompt engineering or API-based solutions. It requires:</p>
+<ul>
+<li>Knowledge of machine learning workflows and frameworks (e.g., Hugging Face, LLaMA Factory)<br>
+</li>
+<li>Access to GPUs or specialized infrastructure<br>
+</li>
+<li>Ability to preprocess data, manage training loops, and troubleshoot errors</li>
+</ul>
+<p>This complexity can be a barrier for teams without dedicated ML or MLOps support.</p>
+<p><strong>2. Maintenance and Drift</strong></p>
+<p>Once you fine-tune a model, <strong>you own the lifecycle</strong>—including:</p>
+<ul>
+<li>Monitoring for performance drift as real-world data changes<br>
+</li>
+<li>Updating the model with new examples or edge cases<br>
+</li>
+<li>Managing versioning, rollback, and deployment</li>
+</ul>
+<p>This adds long-term operational overhead compared to hosted APIs that automatically improve over time.</p>
+<p><strong>3. Data Collection and Labeling Cost</strong></p>
+<p>High-quality fine-tuning depends on <strong>well-labeled, task-specific data</strong>. But collecting this data can be:</p>
+<ul>
+<li>Expensive (e.g., hiring annotators)<br>
+</li>
+<li>Time-consuming (especially for edge cases or nuanced outputs)<br>
+</li>
+<li>Inconsistent (if labeling guidelines aren’t followed strictly)</li>
+</ul>
+<p>Small datasets can still be effective, but their quality matters more than their size.</p>
+<p><strong>4. Limited Transferability</strong></p>
+<p>A model fine-tuned for one domain or task may not generalize well to others. Unlike prompt-based approaches that can reuse the same model across many tasks, fine-tuned models tend to be <strong>narrowly specialized</strong>.</p>
+<p>This can require maintaining multiple models or fine-tuning different variants for each use case, adding complexity to your AI stack.</p>
 <hr>
-<p><strong>In summary</strong>, fine-tuning is a critical technique for developing strategic AI solutions because it bridges the gap between general-purpose language models and real-world applications. It enables organizations to adapt powerful pretrained models to their specific domains, workflows, and privacy constraints—without the cost of training from scratch. Whether optimizing performance, reducing latency, enforcing brand voice, or securing sensitive data, fine-tuning is how AI becomes truly useful, usable, and aligned with business goals.</p>
+<p><strong>In summary</strong>, fine-tuning is a critical technique for turning general-purpose language models into strategic AI solutions. It allows organizations to adapt pretrained models to their specific domains, tasks, and privacy constraints—enabling cost savings, improved performance, brand consistency, and secure handling of proprietary data. This makes fine-tuning especially valuable for teams that need deeper customization beyond what prompt engineering or retrieval-based methods can provide. However, it comes with meaningful tradeoffs: fine-tuning requires technical expertise, high-quality labeled data, and long-term model maintenance. When used thoughtfully, fine-tuning offers powerful returns—but should be weighed against its complexity and cost relative to lighter-weight alternatives.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -576,8 +626,7 @@ Comparison: Prompt Engineering vs RAG vs Fine-Tuning
 Select a pre-trained model that aligns with your task needs (e.g.&nbsp;LLaMA, Mistral, Falcon).</p></li>
 <li><p><strong>Prepare a Specialized Dataset</strong><br>
 Gather and format examples specific to your domain or task. The quality of this data will directly shape the model’s behavior.</p></li>
-<li><p><strong>Select a Fine-Tuning Strategy</strong><br>
-Decide whether to fully fine-tune the model or use a parameter-efficient method like LoRA, QLoRA, or adapters.</p></li>
+<li><p><strong>Choose a Fine-Tuning Approach: Technique + Framework</strong> Decide whether to fully fine-tune the model or use a parameter-efficient method like LoRA, QLoRA, or adapters.</p></li>
 <li><p><strong>Set Training Arguments (Hyperparameters)</strong><br>
 Choose your learning rate, batch size, number of epochs, and other settings that influence how the model learns.</p></li>
 <li><p><strong>Train, Iterate, and Evaluate</strong><br>
@@ -591,90 +640,109 @@ Begin training, monitor the loss, validate the model, and adjust as needed. Use 
 <section id="choose-a-base-model" class="level2">
 <h2 class="anchored" data-anchor-id="choose-a-base-model">1) Choose a Base Model</h2>
 <p>The first decision in any fine-tuning project is selecting a base model—the pre-trained large language model (LLM) you will adapt for your task. Your choice here impacts everything downstream: performance, cost, deployment complexity, techniques/frameworks, and even data formatting.</p>
-<p>A base model is a language model that has already been pre-trained on general-purpose data (e.g.&nbsp;books, web pages, Wikipedia). It has learned the structure of language, grammar, reasoning patterns, and world knowledge—but it’s not yet tailored to your specific use case.</p>
 <p>There is no one-size-fits-all answer. Here are the main criteria to guide your decision:</p>
-<section id="model-size-number-of-parameters" class="level4">
-<h4 class="anchored" data-anchor-id="model-size-number-of-parameters"><strong>Model Size (Number of Parameters)</strong></h4>
-<p>Larger models can capture more complex relationships and perform better on a wide range of tasks. But they also require more compute, memory, and fine-tuning time.</p>
-<p>Smaller models (1–3B) can fine-tune quickly on consumer hardware. They train faster and are easier to deploy locally. Consider your dataset size, GPU availability, and target use case.</p>
+<section id="model-size-number-of-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="model-size-number-of-parameters"><strong>Model Size (Number of Parameters)</strong></h3>
+<p>One of the first and most fundamental choices when selecting a base model is its size—typically measured by the number of parameters it contains.</p>
+<p><strong>Larger models</strong> (typically &gt;7B parameters) can capture more complex language patterns, reason more deeply, and perform better across a wide range of tasks. However, this power comes at a cost: they require significantly more compute, memory, and training time. They are best suited for high-stakes tasks or enterprise-grade applications with strong infrastructure.</p>
+<p><strong>Smaller models</strong> (typically 1–3B parameters) are much easier to fine-tune on consumer-grade hardware. They train faster, cost less to deploy, and are ideal for lightweight or domain-specific use cases—like customer service chatbots, internal tools, or embedded AI assistants.</p>
+<blockquote class="blockquote">
+<p><strong>Rule of thumb:</strong><br>
+Choose the smallest model that can still meet your task’s performance needs. For many real-world applications—especially in narrow domains—small and medium models can be surprisingly capable when fine-tuned correctly.</p>
+</blockquote>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 20%">
-<col style="width: 40%">
-<col style="width: 38%">
+<col style="width: 18%">
+<col style="width: 21%">
+<col style="width: 60%">
 </colgroup>
 <thead>
 <tr class="header">
-<th><strong>Model Size</strong></th>
-<th><strong>Pros</strong></th>
-<th><strong>Cons</strong></th>
+<th>Model Size</th>
+<th>Parameter Range</th>
+<th>Use Case Fit</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>&lt; 3B parameters</strong></td>
-<td>Fast, cheap, runs on small devices</td>
-<td>Limited reasoning ability</td>
+<td>Small</td>
+<td>~1B–3B</td>
+<td>Fast prototyping, edge devices, low-latency apps</td>
 </tr>
 <tr class="even">
-<td><strong>7–13B parameters</strong></td>
-<td>Strong balance of power &amp; performance</td>
-<td>Needs a good GPU for fine-tuning</td>
+<td>Medium</td>
+<td>~3B–7B</td>
+<td>Balanced performance vs.&nbsp;compute cost</td>
 </tr>
 <tr class="odd">
-<td><strong>&gt; 30B parameters</strong></td>
-<td>State-of-the-art results</td>
-<td>Expensive and hard to deploy</td>
+<td>Large</td>
+<td>&gt;7B</td>
+<td>High accuracy, broader generalization</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="pre-trained-vs-instruction-tuned" class="level4">
-<h4 class="anchored" data-anchor-id="pre-trained-vs-instruction-tuned"><strong>Pre-Trained vs Instruction Tuned</strong></h4>
-<p>Base models come in two main types:</p>
-<ul>
-<li><p>Pre-trained models: models that are trained to predict the next word/token on general text data.</p></li>
-<li><p>Instruction-tuned models: pretrained models that have already been finetuned once to follow human instructions (e.g., respond to prompts like a chatbot or assistant).</p></li>
-</ul>
-<p>Instruction-tuned models are typically the best choice when building on top of a model for a real-world use case like chat, summarization, or customer support. They require less effort and data to fine-tune effectively. Pre-trained models, on the other hand, offer more flexibility but require more work to format data, define tasks, and teach the model how to respond appropriately.</p>
+<section id="pre-trained-vs-instruction-tuned" class="level3">
+<h3 class="anchored" data-anchor-id="pre-trained-vs-instruction-tuned"><strong>Pre-Trained vs Instruction Tuned</strong></h3>
+<p>The process of fine-tuning often happens in stages. You don’t always need to start from a raw, base model. Some models have already gone through a form of fine-tuning specifically designed to help them follow human instructions—this is called <strong>instruction tuning</strong>. The result is an <strong>instruction-tuned model</strong>, which is better suited for tasks like responding to prompts in a chatbot or assistant-like manner.</p>
+<p>Instruction-tuned models are typically the best choice when building for real-world use cases like chat, summarization, or customer support. Because they already understand how to follow instructions, they require less effort and data to fine-tune effectively. Base (pretrained) models, on the other hand, offer more flexibility and control, but require more work—such as formatting data carefully, defining tasks explicitly, and teaching the model how to respond appropriately from scratch.</p>
 </section>
-<section id="licensing-and-commercial-use" class="level4">
-<h4 class="anchored" data-anchor-id="licensing-and-commercial-use"><strong>Licensing and Commercial Use</strong></h4>
+<section id="licensing-and-commercial-use" class="level3">
+<h3 class="anchored" data-anchor-id="licensing-and-commercial-use"><strong>Licensing and Commercial Use</strong></h3>
 <p>One of the most overlooked—but critical—factors when selecting a base model is its <strong>license</strong>. Not all open-source models are truly open for commercial use.</p>
-<p>Some models, like <strong>Meta’s LLaMA 2</strong>, are released under <strong>non-commercial research licenses</strong>, meaning you can experiment, research, and fine-tune—but you cannot deploy them in a commercial product without explicit permission. On the other hand, models like <strong>Mistral</strong> or <strong>Qwen</strong> use more permissive licenses (e.g.&nbsp;<strong>Apache 2.0</strong>), allowing full commercial use, redistribution, and modification.</p>
-<p>Licensing directly affects your go-to-market options:</p>
+<p>Some models, like <strong>Meta’s LLaMA 2</strong>, are released under <strong>non-commercial research licenses</strong>. This means you can experiment, research, and even fine-tune them—but you cannot deploy them in a commercial product without explicit permission. In contrast, models like <strong>Mistral</strong>, <strong>Qwen</strong>, or <strong>Falcon</strong> often use more permissive licenses (e.g., <strong>Apache 2.0</strong>), allowing full commercial use, redistribution, and modification.</p>
+<p>Licensing directly impacts your go-to-market options:</p>
 <ul>
-<li>If you’re prototyping an internal tool or doing academic research, a research license may be fine.<br>
+<li>If you’re prototyping an internal tool or doing academic research, a research-only license may be acceptable.<br>
 </li>
-<li>But if you’re building a product, deploying to clients, or embedding the model in commercial software, using a commercially restricted model could put you at <strong>legal risk</strong>.</li>
+<li>But if you’re building a product, deploying to customers, or embedding the model in a commercial offering, using a model with commercial restrictions could put you at <strong>legal risk</strong>.</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Always check the model’s license</strong> (on Hugging Face or GitHub) before starting fine-tuning. Legal restrictions can vary by use case and may also apply to derivatives of the model.</p>
+<p><strong>Always check the model’s license</strong> (typically found on Hugging Face or GitHub) before beginning fine-tuning. Licensing restrictions often apply not just to the base model but also to any fine-tuned derivatives.</p>
 </blockquote>
 </section>
-<section id="model-compatibility-and-alignment" class="level4">
-<h4 class="anchored" data-anchor-id="model-compatibility-and-alignment"><strong>Model Compatibility and Alignment</strong></h4>
-<p>The base model you choose doesn’t just define its capabilities — it also shapes what your fine-tuning process will look like.</p>
-<p>Each model has its own:</p>
-<ul>
-<li>Tokenizer (how it splits up words into tokens)</li>
-<li>Preferred data format (e.g.&nbsp;instruction-output, ChatML, ShareGPT-style)</li>
-<li>Supported frameworks (like Hugging Face, LLaMA Factory, or Axolotl)</li>
-<li>Compatible techniques (like LoRA, QLoRA, or full fine-tuning)</li>
-</ul>
-<p>Together, these form a kind of alignment: the better your tools, data, and training method match the structure and expectations of the model, the smoother your fine-tuning process will be—and the better your results.</p>
+<section id="model-compatibility-and-alignment" class="level3">
+<h3 class="anchored" data-anchor-id="model-compatibility-and-alignment"><strong>Model Compatibility and Alignment</strong></h3>
+<p>Choosing a base model isn’t just about performance — it determines how you’ll train, fine-tune, and work with the model going forward. Each model family (like LLaMA or Mistral) comes with its own expectations and requirements, which will shape every step of your fine-tuning pipeline.</p>
 <blockquote class="blockquote">
-<p>Think of it like matching an phone to a charger. Some models “plug in” easily to popular fine-tuning frameworks and formats. Others require adapters or workarounds.</p>
+<p>Choosing a model is like choosing a device with a specific charging port. Once you commit, all your cables, adapters, and accessories need to match. Some models work seamlessly with common tools—others may need extra setup or won’t be compatible at all</p>
 </blockquote>
+<p>Here are four key things your model choice affects. These topics will be covered more in-depth later in this chapter:</p>
+<p><strong>1. Tokenizer</strong><br>
+Every model processes text using a tokenizer — a way of breaking sentences into chunks (called <em>tokens</em>) that the model understands. Each model family has its own tokenizer, and they aren’t interchangeable. Once you pick a model, you’re locked into its tokenizer for both training and inference.</p>
+<p><strong>2. Data Format</strong><br>
+Different models expect training data (input and output pairs) to follow specific formats. If your data format doesn’t match what the model expects, it won’t learn effectively.</p>
+<p><strong>3. Frameworks</strong><br>
+Frameworks are the tools you use to fine-tune a model. Examples include <strong>LLaMA Factory</strong>, <strong>Hugging Face Trainer</strong>, and <strong>Axolotl</strong>. Each framework only supports certain model types, file structures, and features. If your chosen model isn’t supported by your preferred framework, you’ll either have to switch tools or make significant customizations.</p>
+<p><strong>4. Techniques</strong><br>
+Fine-tuning techniques—like <strong>LoRA</strong>, <strong>QLoRA</strong>, and <strong>full fine-tuning</strong>—vary in how they update the model’s weights and how much compute they require. Some models are optimized for lightweight, efficient techniques like LoRA; others may require full fine-tuning to see meaningful improvements. Your model choice can limit or enable which approaches are available.</p>
+<p>Together, these form a kind of alignment: the better your tools, data, and training method match the structure and expectations of the model, the smoother your fine-tuning process will be—and the better your results.</p>
 <p>In the next sections, we’ll walk through how to prepare aligned data for your model and choose the training method that best fits your use case and enhances training speed and efficiency.</p>
 </section>
 </section>
 <section id="data-preparation-for-fine-tuning" class="level2">
 <h2 class="anchored" data-anchor-id="data-preparation-for-fine-tuning">2) Data Preparation for Fine-Tuning</h2>
-<p>Fine-tuning is fundamentally a form of supervised learning—teaching a model by showing it many examples of inputs paired with ideal outputs so it learns to replicate those patterns. This section walks through the three core stages of data preparation: <strong>sourcing</strong>, <strong>cleaning</strong>, and <strong>formatting</strong>.</p>
-<hr>
-<section id="data-sourcing" class="level4">
-<h4 class="anchored" data-anchor-id="data-sourcing"><strong>Data Sourcing</strong></h4>
+<p>Fine-tuning is fundamentally a form of supervised learning — teaching a model by showing it many examples of inputs paired with ideal outputs so it learns to replicate those patterns. This section walks through the three core stages of data preparation: <strong>sourcing</strong>, <strong>cleaning</strong>, and <strong>formatting</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Supervised vs. Self-Supervised Learning">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Supervised vs.&nbsp;Self-Supervised Learning
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Pre-training uses <strong>self-supervised learning</strong>, where the model learns from raw text by predicting missing parts—no labeled answers are provided.</p>
+<p>Fine-tuning uses <strong>supervised learning</strong>, where each example has a clearly defined input and target output. This means your data must be formatted with both parts: what the model should see, and what it should generate.</p>
+<p>The structure of your dataset—input → output—is what makes fine-tuning supervised.</p>
+</div>
+</div>
+</div>
+<section id="data-sourcing" class="level3">
+<h3 class="anchored" data-anchor-id="data-sourcing"><strong>Data Sourcing</strong></h3>
 <p>The first step is identifying where your task-specific data will come from. Common sources include:</p>
 <ul>
 <li><strong>Internal logs</strong> – e.g., customer support transcripts, chatbot conversations, or form submissions<br>
@@ -683,16 +751,13 @@ Begin training, monitor the loss, validate the model, and adjust as needed. Use 
 </li>
 <li><strong>Manual generation</strong> – examples written or annotated by domain experts<br>
 </li>
-<li><strong>Synthetic generation</strong> – data generated by a base model and later reviewed or edited for quality</li>
+<li><strong>Synthetic generation</strong> – data generated by an LLM and later reviewed or edited for quality</li>
 </ul>
-<p>Each data source offers trade-offs between <strong>volume</strong>, <strong>quality</strong>, and <strong>domain relevance</strong>.</p>
-<blockquote class="blockquote">
 <p>Fine-tuning doesn’t require massive datasets. What matters is that each example is correct, relevant, and representative. A few hundred high-quality examples often outperform thousands of noisy ones.</p>
-</blockquote>
-<hr>
+<p>The most important thing is that the data reflects the <strong>task and tone</strong> you want the model to learn. If you’re building a customer support assistant, use examples from real interactions. If you’re building a tutor, use educational prompts and responses.</p>
 </section>
-<section id="data-cleaning" class="level4">
-<h4 class="anchored" data-anchor-id="data-cleaning"><strong>Data Cleaning</strong></h4>
+<section id="data-cleaning" class="level3">
+<h3 class="anchored" data-anchor-id="data-cleaning"><strong>Data Cleaning</strong></h3>
 <p>Raw examples often need cleaning before they’re ready for training. This step focuses on eliminating noise and inconsistencies. Common cleaning tasks include:</p>
 <ul>
 <li>Removing incomplete or corrupted entries<br>
@@ -704,28 +769,16 @@ Begin training, monitor the loss, validate the model, and adjust as needed. Use 
 <li>Removing sensitive or personally identifiable information (PII)</li>
 </ul>
 <p>Clean data helps ensure the model learns meaningful patterns—not accidental ones.</p>
-<blockquote class="blockquote">
-<p>The single most important factor in fine-tuning success is data quality. A strong model trained on poor data will still perform poorly.</p>
-</blockquote>
-<hr>
 </section>
-<section id="data-formatting" class="level4">
-<h4 class="anchored" data-anchor-id="data-formatting"><strong>Data Formatting</strong></h4>
-<p>Regardless of the task, all fine-tuning datasets must include:</p>
-<blockquote class="blockquote">
-<p><strong>A clear prompt (or context) and a desired response.</strong></p>
-</blockquote>
-<p>However, the <strong>format</strong> of this information depends on the model architecture and training history. For example:</p>
-<ul>
-<li><strong>Instruction-tuned models</strong> expect fields like <code>instruction</code>, <code>input</code>, and <code>output</code>.</li>
-<li><strong>Chat models</strong> expect lists of user/assistant messages.</li>
-<li><strong>Base models</strong> expect a simple prompt followed by a response.</li>
-</ul>
+<section id="data-formatting" class="level3">
+<h3 class="anchored" data-anchor-id="data-formatting"><strong>Data Formatting</strong></h3>
+<p>Regardless of the task, all fine-tuning datasets must include a clear prompt (or context) and a desired response. However, the <strong>format</strong> of this information depends on the model architecture and training history.</p>
+<p>Below are the most common and important formats in modern fine-tuning workflows—each suited to different use cases.</p>
 <p>Data is usually stored in <strong>JSON</strong> or <strong>JSON Lines (JSONL)</strong> formats.</p>
-<section id="common-data-format-types" class="level5">
-<h5 class="anchored" data-anchor-id="common-data-format-types">Common Data Format Types</h5>
+<section id="common-data-formats" class="level4">
+<h4 class="anchored" data-anchor-id="common-data-formats">Common Data Formats</h4>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -734,10 +787,9 @@ Instruction Format (<code>instruction → input → output</code>)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Best for</strong>: task-specific fine-tuning (e.g., summarization, classification, QA)<br>
-<strong>Model types</strong>: FLAN-T5, Alpaca, LLaMA Factory-compatible models</p>
+<p><strong>Best for:</strong> Task-specific fine-tuning like summarization, translation, classification, and question answering <strong>Model types</strong>: FLAN-T5, Alpaca, LLaMA Factory-compatible models</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"instruction"</span><span class="fu">:</span> <span class="st">"Translate this sentence to Spanish."</span><span class="fu">,</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="st">"How are you?"</span><span class="fu">,</span></span>
@@ -747,7 +799,7 @@ Instruction Format (<code>instruction → input → output</code>)
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -756,21 +808,23 @@ Chat Format (<code>messages</code> list)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Best for</strong>: assistant-style or multi-turn dialogue training<br>
-<strong>Model types</strong>: ChatML, OpenChat, LLaMA 2-Chat, Zephyr</p>
+<p>This format simulates a conversation between a user and an assistant over multiple dialogue turns. Useful for fine-tuning chat-style models that require conversational memory and role-awareness.</p>
+<p><strong>Best for</strong>: Best for: Chatbots, AI assistants, and multi-turn conversational agents <strong>Model types</strong>: LLaMA-2-Chat, Mistral-Instruct, OpenChat, ShareGPT-style models</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"messages"</span><span class="fu">:</span> <span class="ot">[</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"role"</span><span class="fu">:</span> <span class="st">"user"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"What's 2 + 2?"</span><span class="fu">}</span><span class="ot">,</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span><span class="dt">"role"</span><span class="fu">:</span> <span class="st">"assistant"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"2 + 2 equals 4."</span><span class="fu">}</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"conversations"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"role"</span><span class="fu">:</span> <span class="st">"user"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"How do I reset my password?"</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"role"</span><span class="fu">:</span> <span class="st">"assistant"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Go to Settings &gt; Account &gt; Reset Password and follow the instructions."</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"role"</span><span class="fu">:</span> <span class="st">"user"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"Thanks!"</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">"role"</span><span class="fu">:</span> <span class="st">"assistant"</span><span class="fu">,</span> <span class="dt">"content"</span><span class="fu">:</span> <span class="st">"You're welcome!"</span> <span class="fu">}</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -779,10 +833,10 @@ Prompt-Completion Format (<code>prompt → response</code>)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>Best for</strong>: creative writing, open-ended completions<br>
-<strong>Model types</strong>: base models, GPT-style architectures</p>
+<p><strong>Best for</strong>: Simple, single-turn generation tasks like content generation, Q&amp;A, or creative writing<br>
+<strong>Model types</strong>: GPT-2, Mistral (base), Falcon, and other decoder-only models</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"prompt"</span><span class="fu">:</span> <span class="st">"Write a tagline for a fitness app:"</span><span class="fu">,</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"response"</span><span class="fu">:</span> <span class="st">"Train smart. Live strong."</span></span>
@@ -790,32 +844,64 @@ Prompt-Completion Format (<code>prompt → response</code>)
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Classification Format (<code>text → label</code>)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Best for</strong>: Sentiment analysis, topic detection, intent classification, and other labeling tasks<br>
+<strong>Model types</strong>: BERT-style models, RoBERTa, and decoder models fine-tuned for classification</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"text"</span><span class="fu">:</span> <span class="st">"The interface was slow and hard to use."</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"label"</span><span class="fu">:</span> <span class="st">"negative"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
 <hr>
-</section>
 </section>
 <section id="summary" class="level4">
 <h4 class="anchored" data-anchor-id="summary"><strong>Summary</strong></h4>
-<p>High-quality fine-tuning is less about <strong>how much</strong> data you have and more about <strong>how useful</strong> each example is.</p>
-<blockquote class="blockquote">
-<p><strong>Garbage in, garbage out</strong>: If your examples are messy, inconsistent, or unclear, the model will learn those patterns too.</p>
-</blockquote>
-<p>Always match your data format to the <strong>type of base model</strong> you’re fine-tuning. For example, a chat model expects conversation history, while an instruction-tuned model needs structured tasks and responses.</p>
+<p>The format of your dataset is just as important as its content. A model can only learn effectively if examples are structured in a way it understands. Fine-tuning isn’t just about feeding the model data—it’s about providing clear, consistent demonstrations of the behavior you want it to learn. Whether you’re training a chatbot, an instruction-follower, or a classifier, you need to choose a format that aligns with your model’s architecture and training history. Clean formatting ensures the model can focus on learning patterns—instead of being confused by structure.</p>
 </section>
 </section>
-<section id="techniques-for-fine-tuning" class="level2">
-<h2 class="anchored" data-anchor-id="techniques-for-fine-tuning">3) Techniques for Fine-Tuning</h2>
-<p>In this section, we’ll explore a curated set of fine-tuning strategies that are shaping the way modern AI solutions are built. While there are many ways to adapt language models, we’ll focus on a small set of methods that are most widely used today. These include parameter-efficient methods (PEFT) such as LoRA and QLoRA. We’ll also touch on preference tuning through Direct Preference Optimization (DPO). Together, these techniques form the essential toolkit for anyone looking to build or deploy customized AI systems.</p>
-<section id="parameter-efficient-fine-tuning-peft" class="level3">
-<h3 class="anchored" data-anchor-id="parameter-efficient-fine-tuning-peft">Parameter Efficient Fine-Tuning (PEFT)</h3>
-<p>When you train a model, you’re adjusting numbers inside it—called weights—so that the model improves its predictions. This usually happens in three steps:</p>
-<ol type="1">
-<li>The model makes a guess (prediction).</li>
-<li>It compares that guess to the correct answer.</li>
-<li>It slightly adjusts its weights to reduce the error.</li>
-</ol>
-<p>In <strong>full fine-tuning</strong>, every single weight in the model can be adjusted. As language models have grown in size—often with billions of parameters—fully fine-tuning all of those weights has become expensive and impractical for most teams. That’s where Parameter-Efficient Fine-Tuning (PEFT) comes in.</p>
-<p>Instead of updating the entire model, <strong>PEFT</strong> methods allow you to train a small number of new parameters while keeping the original model frozen. This makes fine-tuning much faster, cheaper, and easier to run on smaller hardware (like consumer GPUs or even Google Colab).</p>
-<p>PEFT is an umbrella term for many different techniques. In the next sections, we’ll look at two of the most popular and widely adopted PEFT methods: LoRA and QLoRA</p>
+</section>
+<section id="techniques-and-tools-for-fine-tuning" class="level2">
+<h2 class="anchored" data-anchor-id="techniques-and-tools-for-fine-tuning">3) Techniques and Tools for Fine-Tuning</h2>
+<p>Once you’ve chosen your base model and prepared your dataset, the next step is deciding <strong>how</strong> you’ll fine-tune it. This involves two key decisions:</p>
+<ul>
+<li><strong>Technique</strong> — <em>What kind of fine-tuning method will you use?</em> (e.g., full fine-tuning, LoRA)</li>
+<li><strong>Tools (Frameworks)</strong> — <em>Which tool or codebase will you use to apply that method?</em> (e.g., LLaMA Factory, Hugging Face)</li>
+</ul>
+<p>Both choices depend on your goals, model size, and available compute.</p>
+<section id="fine-tuning-techniques" class="level3">
+<h3 class="anchored" data-anchor-id="fine-tuning-techniques"><strong>Fine-Tuning Techniques</strong></h3>
+<p>Fine-tuning techniques define <strong>how much of the model gets updated</strong> during training—and how efficiently that update process can be done.</p>
+<p>There are many emerging strategies in this space, and the field continues to evolve rapidly. For the scope of this course, we’ll focus primarily on <strong>full parameter fine-tuning</strong> and <strong>PEFT methods (LoRA and QLoRA)</strong>.</p>
+<section id="full-parameter-fine-tuning" class="level4">
+<h4 class="anchored" data-anchor-id="full-parameter-fine-tuning"><strong>Full Parameter Fine-Tuning</strong></h4>
+<p>Full parameter fine-tuning involves updating <strong>all of the weights</strong> in the model during training. This gives you maximum control and flexibility—you can adapt the model deeply to a new domain or task.</p>
+<p>However, it comes at a cost: full fine-tuning is <strong>compute-intensive</strong>, <strong>memory-heavy</strong>, and often requires <strong>high-end GPUs</strong>. It also risks overfitting if your dataset is small.</p>
+<p>Because of these tradeoffs, full fine-tuning is typically used when:</p>
+<ul>
+<li>You have access to strong infrastructure (e.g., multi-GPU or cloud clusters)</li>
+<li>You’re working with a small model (e.g., under 1B parameters)</li>
+<li>You need to significantly change the model’s behavior</li>
+</ul>
+<p>For most use cases, <strong>PEFT methods</strong> offer similar performance with far fewer resources.</p>
+</section>
+<section id="parameter-efficient-fine-tuning-peft" class="level4">
+<h4 class="anchored" data-anchor-id="parameter-efficient-fine-tuning-peft"><strong>Parameter Efficient Fine-Tuning (PEFT)</strong></h4>
+<p>PEFT is an umbrella term for many techniques allow you to fine-tune large models by updating <strong>only a small number of parameters</strong>, rather than the entire model. This makes training much faster, less memory-intensive, and possible on consumer-grade hardware.</p>
+<p>Instead of modifying all the weights, PEFT methods freeze the original model and train <strong>small, added components</strong>—like adapter layers or low-rank matrices—that learn task-specific behavior.</p>
+<p>In this course, we’ll focus on one of the most widely used PEFT techniques: <strong>LoRA (Low-Rank Adaptation)</strong>, which uses lightweight matrix updates to adapt the model efficiently while keeping the original weights frozen.</p>
 <div id="fig-peft-methods" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-peft-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -827,6 +913,7 @@ Figure&nbsp;8.1: Overview of PEFT Methods
 </figure>
 </div>
 <hr>
+</section>
 <section id="low-rank-adaptation-lora" class="level4">
 <h4 class="anchored" data-anchor-id="low-rank-adaptation-lora">Low Rank Adaptation (LoRA)</h4>
 <p>LoRA targets the attention layers (a core component of transformer models like GPT or LLaMA). These layers contain big weight matrices, like Wq and Wv, which help the model decide what to pay attention to in a sentence.</p>
@@ -842,7 +929,7 @@ Figure&nbsp;8.1: Overview of PEFT Methods
 <p>While LoRA dramatically reduces the number of parameters you need to train, the base model (like LLaMA or Mistral) still takes up a lot of memory. That’s where QLoRA (Quantized LoRA) comes in.</p>
 <p>QLoRA keeps everything that makes LoRA efficient—but adds quantization to reduce the memory footprint of the base model itself. This makes it possible to fine-tune large models even on laptops or free Colab GPUs.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -851,7 +938,7 @@ What is Quantization?
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Quantization is a way of making a model smaller by storing its weights using <strong>fewer bits</strong>.</p>
 <p>Most models use <strong>16-bit or 32-bit floats</strong> to store numbers.<br>
@@ -863,94 +950,15 @@ What is Quantization?
 </div>
 </section>
 </section>
-<section id="preference-tuning-and-dpo" class="level3">
-<h3 class="anchored" data-anchor-id="preference-tuning-and-dpo">Preference Tuning and DPO</h3>
-<p>Most fine-tuning methods rely on giving the model a specific input and the exact output we want it to produce. But sometimes, there’s no single “correct” answer—just answers that are better or worse in the eyes of a human.</p>
-<p>For example:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 28%">
-<col style="width: 35%">
-<col style="width: 35%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Prompt</th>
-<th>Output A</th>
-<th>Output B</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>“What’s a polite way to say no?”</td>
-<td>“No, thank you.”</td>
-<td>“I’m not doing that.”</td>
-</tr>
-</tbody>
-</table>
-<p>Both are technically valid, but one is clearly more helpful and respectful. In these cases, we can use <strong>preference tuning</strong>—a way of training models based on what humans prefer, not just what’s factually correct.</p>
-<section id="what-is-preference-tuning" class="level4">
-<h4 class="anchored" data-anchor-id="what-is-preference-tuning">What Is Preference Tuning?</h4>
-<p><strong>Preference tuning</strong> is about improving a model’s behavior by showing it which responses are preferred in side-by-side comparisons. This is especially useful when:</p>
-<ul>
-<li>There isn’t one right answer</li>
-<li>You want to improve tone, helpfulness, safety, or clarity</li>
-<li>You’re aligning the model with human values or user expectations</li>
-</ul>
-<p>This process is sometimes called <strong>alignment</strong>—making sure the model behaves the way people want.</p>
-</section>
-<section id="dpo-direct-preference-optimization" class="level4">
-<h4 class="anchored" data-anchor-id="dpo-direct-preference-optimization">DPO: Direct Preference Optimization</h4>
-<p><strong>Direct Preference Optimization (DPO)</strong> is a newer, simpler approach to preference tuning. Instead of building a complex reward model (as in older methods like PPO), DPO trains the model directly on pairs of outputs where one is preferred over the other.</p>
-<section id="how-dpo-works" class="level5">
-<h5 class="anchored" data-anchor-id="how-dpo-works">How DPO Works</h5>
-<ol type="1">
-<li>You collect prompt + response pairs where a human chose one response over another.</li>
-<li>The model is trained to assign higher probability to the preferred response.</li>
-<li>That’s it—no reward model, no reinforcement learning loop.</li>
-</ol>
-<blockquote class="blockquote">
-<p>Analogy: It’s like teaching someone by showing two possible emails and saying, “This one sounds better.” Over time, they learn the patterns you prefer.</p>
-</blockquote>
-</section>
-</section>
-<section id="why-dpo-matters" class="level4">
-<h4 class="anchored" data-anchor-id="why-dpo-matters">Why DPO Matters</h4>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Feature</th>
-<th>Benefit</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Simpler than PPO</td>
-<td>No need for reward models or RL algorithms</td>
-</tr>
-<tr class="even">
-<td>Aligns with human values</td>
-<td>Trains on what people actually prefer</td>
-</tr>
-<tr class="odd">
-<td>Easy to scale</td>
-<td>Works well with modern fine-tuning libraries</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="summary-1" class="level4">
-<h4 class="anchored" data-anchor-id="summary-1">Summary</h4>
-<ul>
-<li>Preference tuning is used when there’s no single right answer, just better ones.</li>
-<li>DPO is the most accessible and efficient method for this today.</li>
-<li>It’s especially useful for tuning how a chatbot sounds, how safely it answers questions, or how clearly it communicates.</li>
-</ul>
-</section>
+<section id="fine-tuning-tools-frameworks" class="level3">
+<h3 class="anchored" data-anchor-id="fine-tuning-tools-frameworks"><strong>Fine-Tuning Tools / Frameworks </strong></h3>
 </section>
 </section>
 <section id="training-arguments-and-hyperparameter-optimization" class="level2">
 <h2 class="anchored" data-anchor-id="training-arguments-and-hyperparameter-optimization">4) Training Arguments and Hyperparameter Optimization</h2>
+<p>Hyperparameter optimization is a critical step in the process of fine-tuning machine learning models. While model parameters are learned from the data during training, hyperparameters are set before the learning process begins and control the behavior of the training algorithm. Examples of hyperparameters include learning rate, batch size, number of epochs, and architecture-specific settings like the number of layers in a neural network.</p>
+<p>Choosing the right hyperparameters can significantly affect the performance of a model. Poorly chosen hyperparameters can lead to underfitting, where the model fails to capture the underlying trends in the data, or overfitting, where the model captures noise instead of the signal. Thus, hyperparameter optimization involves systematically searching for the best set of hyperparameters that minimize a predefined loss function on a validation set.</p>
+<p>There are several techniques for hyperparameter optimization, including grid search, random search, and more advanced methods like Bayesian optimization.</p>
 <p>When you fine-tune a language model, you have to decide <strong>how</strong> the training process will work. These decisions are controlled by something called <strong>training arguments</strong> or <strong>hyperparameters</strong>.</p>
 <p>Hyperparameters are like <strong>settings or dials</strong> that you tune before training begins. They define how the model learns, how fast it learns, how long it trains, and how much data it sees at a time. Choosing the right hyperparameters is critical to getting good results.</p>
 <section id="key-hyperparameters-and-what-they-do" class="level3">
@@ -1025,74 +1033,68 @@ What is Quantization?
 <section id="batch-size-and-gradient-accumulation" class="level4">
 <h4 class="anchored" data-anchor-id="batch-size-and-gradient-accumulation">Batch Size and Gradient Accumulation</h4>
 <p>If your GPU can only fit 2 examples at a time (<code>batch_size=2</code>), but you want to simulate a batch size of 8, you can use:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>per_device_train_batch_size <span class="op">=</span> <span class="dv">2</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gradient_accumulation_steps <span class="op">=</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>per_device_train_batch_size <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gradient_accumulation_steps <span class="op">=</span> <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This tells the model to accumulate gradients for 4 steps before updating weights—just like having a batch of 8.</p>
 </section>
 </section>
 <section id="choosing-good-defaults" class="level3">
 <h3 class="anchored" data-anchor-id="choosing-good-defaults">Choosing Good Defaults</h3>
 <p>If you’re just getting started, here’s a simple configuration that works well for small LoRA fine-tuning:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">learning_rate</span><span class="kw">:</span><span class="at"> </span><span class="fl">2e-4</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">num_train_epochs</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">per_device_train_batch_size</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gradient_accumulation_steps</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cutoff_len</span><span class="kw">:</span><span class="at"> </span><span class="dv">512</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">val_size</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.1</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lr_scheduler_type</span><span class="kw">:</span><span class="at"> cosine</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">max_samples</span><span class="kw">:</span><span class="at"> </span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">learning_rate</span><span class="kw">:</span><span class="at"> </span><span class="fl">2e-4</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">num_train_epochs</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">per_device_train_batch_size</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gradient_accumulation_steps</span><span class="kw">:</span><span class="at"> </span><span class="dv">4</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cutoff_len</span><span class="kw">:</span><span class="at"> </span><span class="dv">512</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">val_size</span><span class="kw">:</span><span class="at"> </span><span class="fl">0.1</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lr_scheduler_type</span><span class="kw">:</span><span class="at"> cosine</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">max_samples</span><span class="kw">:</span><span class="at"> </span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This setup is designed to balance learning quality with resource efficiency.</p>
 </section>
-<section id="summary-2" class="level3">
-<h3 class="anchored" data-anchor-id="summary-2">Summary</h3>
+<section id="summary-1" class="level3">
+<h3 class="anchored" data-anchor-id="summary-1">Summary</h3>
 <ul>
 <li>Hyperparameters are not learned—they’re chosen by you.</li>
 <li>The right values depend on your model, dataset size, hardware, and goals.</li>
 <li>You don’t have to guess—start with reasonable defaults and adjust based on the results.</li>
 </ul>
-<p>Hyperparameter optimization is a critical step in the process of fine-tuning machine learning models. While model parameters are learned from the data during training, hyperparameters are set before the learning process begins and control the behavior of the training algorithm. Examples of hyperparameters include learning rate, batch size, number of epochs, and architecture-specific settings like the number of layers in a neural network.</p>
-<p>Choosing the right hyperparameters can significantly affect the performance of a model. Poorly chosen hyperparameters can lead to underfitting, where the model fails to capture the underlying trends in the data, or overfitting, where the model captures noise instead of the signal. Thus, hyperparameter optimization involves systematically searching for the best set of hyperparameters that minimize a predefined loss function on a validation set.</p>
-<p>There are several techniques for hyperparameter optimization, including grid search, random search, and more advanced methods like Bayesian optimization. Grid search involves specifying a set of possible values for each hyperparameter and evaluating every possible combination. While exhaustive, this method can be computationally expensive, especially with a large number of hyperparameters. Random search, on the other hand, samples random combinations of hyperparameter values and can be more efficient by covering the hyperparameter space more broadly.</p>
-<p>In the code example above, we use GridSearchCV from the scikit-learn library to perform grid search on a RandomForestClassifier. We define a parameter grid that specifies the values to be tested for each hyperparameter. GridSearchCV evaluates the model’s performance using cross-validation and selects the hyperparameters that yield the highest accuracy. The <code>best_params_</code> attribute reveals the optimal settings found.</p>
-<p>Random search is another popular method for hyperparameter optimization. It randomly selects combinations of hyperparameters to test. This approach can be more efficient than grid search, especially when some hyperparameters have negligible impact on performance or when the search space is large. Random search is often used in conjunction with domain knowledge to set reasonable ranges for hyperparameters.</p>
-<p>In this code snippet, we use RandomizedSearchCV to perform random search. We specify a distribution for hyperparameters and set <code>n_iter</code> to control how many different combinations to test. This method is advantageous when computational resources are limited, as it allows for a broad exploration of the hyperparameter space without testing every possible combination.</p>
-<p>More sophisticated techniques, such as Bayesian optimization, use probabilistic models to predict the performance of hyperparameter settings and select the most promising options to evaluate next. This method can be more efficient than both grid and random search, as it uses past evaluations to inform future choices, effectively balancing exploration and exploitation.</p>
-<p>In conclusion, selecting the right hyperparameter optimization technique depends on various factors, including the complexity of the model, the size of the dataset, and the computational resources available. Understanding the strengths and limitations of each method allows practitioners to make informed decisions and build more effective AI solutions.</p>
 </section>
 </section>
-<section id="evaluating-fine-tuned-models" class="level2">
-<h2 class="anchored" data-anchor-id="evaluating-fine-tuned-models">5) Evaluating Fine-Tuned Models</h2>
-<p>After fine-tuning a machine learning model, it is crucial to evaluate its performance to ensure that the adjustments have led to improvements. Evaluating fine-tuned models involves several steps, including selecting appropriate evaluation metrics, conducting thorough testing, and analyzing results to make informed decisions about the model’s deployment. This process ensures that the model not only performs well on the training data but also generalizes effectively to unseen data.</p>
-<p>The first step is selecting the right evaluation metrics, which depend on the task at hand. For classification tasks, metrics like accuracy, precision, recall, F1-score, and AUC-ROC are commonly used. For regression tasks, metrics such as Mean Absolute Error (MAE), Mean Squared Error (MSE), and R-squared are appropriate. It’s important to choose metrics that align with the specific goals of your model, as different metrics can highlight different aspects of performance.</p>
-<p>Once the metrics are selected, the next step is to test the model on a validation set that was not used during the training process. This helps assess the model’s ability to generalize. Additionally, performing cross-validation can provide a more reliable estimate of the model’s performance by averaging results over multiple folds. This technique helps mitigate the risk of overfitting, which occurs when a model learns the training data too well but fails to perform on new data.</p>
-<p>In addition to traditional metrics, it is beneficial to conduct error analysis to understand where the model performs poorly. This involves examining cases where the model’s predictions differ significantly from the actual outcomes. By identifying patterns in these errors, you can gain insights into potential model improvements or data quality issues. Visual tools such as confusion matrices for classification tasks can be particularly helpful in this analysis.</p>
-<p>Finally, it’s important to consider the model’s performance in the context of its deployment environment. This includes evaluating the model’s inference time, resource consumption, and scalability. For instance, a model that performs well in terms of accuracy but requires excessive computational resources may not be suitable for real-time applications. Thus, balancing performance metrics with practical deployment considerations is key to building strategic AI solutions.</p>
+<section id="evaluating-your-fine-tuned-model" class="level2">
+<h2 class="anchored" data-anchor-id="evaluating-your-fine-tuned-model">5) Evaluating Your Fine-Tuned Model</h2>
+<p>Once you’ve fine-tuned your model, the next step is to evaluate whether it actually improved. For student projects using LLaMA Factory, the most practical and meaningful evaluation methods are <strong>manual (human) testing</strong> and <strong>inspecting the training loss curve</strong>. These methods give immediate insight into how well your fine-tuning worked — without needing complex infrastructure.</p>
+<section id="human-evaluation-manual-prompt-testing" class="level3">
+<h3 class="anchored" data-anchor-id="human-evaluation-manual-prompt-testing">1. Human Evaluation (Manual Prompt Testing)</h3>
+<p>The most intuitive way to evaluate your model is to test it yourself:</p>
+<ul>
+<li>Create a short set of prompts related to your task.</li>
+<li>Run these prompts through both the <strong>pretrained base model</strong> and your <strong>fine-tuned version</strong>.</li>
+<li>Compare the outputs directly.</li>
+</ul>
+<p>Ask: - Does the fine-tuned model follow instructions better? - Are the responses more accurate, helpful, or aligned with your desired tone? - Does the model fail in new or surprising ways?</p>
+<p>This <strong>side-by-side comparison</strong> is especially useful for instruction-following or customer support use cases. If you fine-tuned on a small, custom dataset, human feedback is often the most reliable signal of success.</p>
 </section>
-<section id="challenges-and-limitations-of-fine-tuning" class="level2">
-<h2 class="anchored" data-anchor-id="challenges-and-limitations-of-fine-tuning">Challenges and Limitations of Fine-Tuning</h2>
-<p>Fine-tuning pre-trained models is a powerful technique that enables the adaptation of general-purpose models to specific tasks. However, it comes with a set of challenges and limitations that practitioners must navigate carefully. Understanding these challenges is crucial for effectively applying fine-tuning techniques in building strategic AI solutions.</p>
-<p>One of the primary challenges of fine-tuning is the risk of overfitting. When a model is fine-tuned on a small dataset, it may learn patterns that are specific to the training data but do not generalize well to new, unseen data. This is particularly problematic in domains where labeled data is scarce. To mitigate overfitting, techniques such as data augmentation, dropout, and early stopping can be employed. Data augmentation artificially increases the size of the training dataset by creating modified versions of the existing data, while dropout randomly sets a portion of the neurons to zero during training to prevent co-adaptation.</p>
-<p>Another limitation is the computational cost associated with fine-tuning. Pre-trained models, especially those based on deep learning architectures like transformers or convolutional neural networks, can be large and require significant computational resources for training. This can be a barrier for organizations with limited access to high-performance computing resources. Techniques such as model pruning, quantization, and knowledge distillation can help reduce the computational burden by simplifying the model or transferring knowledge to a smaller model.</p>
-<p>Fine-tuning also requires careful consideration of the learning rate. If the learning rate is too high, the model may diverge from a good solution; if too low, the model may converge too slowly or get stuck in a local minimum. A common approach is to use a smaller learning rate for the pre-trained layers and a larger one for the newly added layers, as the pre-trained layers likely already contain useful features that should not be disrupted excessively.</p>
-<p>Finally, domain shift poses a significant challenge in fine-tuning. The pre-trained model may have been trained on data that is significantly different from the target domain, leading to suboptimal performance. This is especially relevant in fields like medical imaging, where pre-trained models might have been developed on general object datasets but need to be applied to specific medical images. Transfer learning strategies, such as domain adaptation techniques, can help bridge this gap by aligning the feature distributions between the source and target domains.</p>
+<section id="loss-curve-inspection" class="level3">
+<h3 class="anchored" data-anchor-id="loss-curve-inspection">2. Loss Curve Inspection</h3>
+<p>Another helpful tool is your model’s <strong>loss curve</strong> — a graph of how the training loss changes over time (per step or per epoch). You can find this in the training logs or visualize it using tools like <strong>Weights &amp; Biases</strong> (W&amp;B).</p>
+<p>A healthy loss curve typically shows: - A <strong>downward trend</strong> over time → the model is learning. - <strong>Plateaus</strong> near zero → the model may have finished learning. - <strong>Spikes or instability</strong> → possible issues with data quality, learning rate, or batch size. - <strong>Divergence late in training</strong> → potential overfitting if validation loss increases.</p>
+<p>Even without formal metrics, this curve helps you understand how training behaved.</p>
 </section>
-<section id="case-studies-of-successful-fine-tuning" class="level2">
-<h2 class="anchored" data-anchor-id="case-studies-of-successful-fine-tuning">Case Studies of Successful Fine-Tuning</h2>
-<p>In the previous section, we explored the challenges and limitations associated with fine-tuning AI models, such as overfitting, data scarcity, and computational costs. In this section, we will delve into case studies that highlight successful applications of fine-tuning techniques across various domains. These examples will illustrate how strategic fine-tuning can significantly enhance model performance, adapt solutions to specific tasks, and overcome some of the challenges previously discussed.</p>
-<section id="case-study-1-fine-tuning-bert-for-sentiment-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="case-study-1-fine-tuning-bert-for-sentiment-analysis">Case Study 1: Fine-Tuning BERT for Sentiment Analysis</h3>
-<p>The Bidirectional Encoder Representations from Transformers (BERT) model has become a cornerstone in natural language processing (NLP) tasks due to its ability to understand context in text. However, when applied to a specific task like sentiment analysis, BERT requires fine-tuning to deliver optimal results. In this case study, we explore how fine-tuning BERT on a sentiment analysis dataset, such as the IMDb reviews dataset, can improve its ability to classify text as positive or negative.</p>
-<p>In the code example above, we demonstrate the process of fine-tuning a BERT model for sentiment analysis. We define a custom dataset class to handle text and label pairs, tokenize the input text, and set up a Trainer from the <code>transformers</code> library to manage the training process. This fine-tuning allows BERT to adjust its parameters specifically for sentiment analysis, thereby enhancing its predictive accuracy on this task.</p>
+<section id="brief-note-on-industry-evaluation-standards" class="level3">
+<h3 class="anchored" data-anchor-id="brief-note-on-industry-evaluation-standards">3. Brief Note on Industry Evaluation Standards</h3>
+<p>In production and research settings, AI developers use more advanced evaluation techniques to measure model quality and alignment at scale, including:</p>
+<ul>
+<li><strong>Automated metrics</strong> like BLEU, ROUGE, and exact match</li>
+<li><strong>Human preference scoring</strong> across ranked outputs</li>
+<li><strong>LLM-as-a-judge</strong> frameworks (e.g., using GPT-4 to evaluate outputs)</li>
+<li><strong>Adversarial testing</strong> and robustness checks</li>
+</ul>
+<p>These methods require larger datasets, infrastructure, or teams — and we’ll explore them in depth in the <a href="#">Evaluation &amp; Alignment chapter</a> later in the course.</p>
 </section>
-<section id="case-study-2-fine-tuning-gpt-3-for-custom-text-generation" class="level3">
-<h3 class="anchored" data-anchor-id="case-study-2-fine-tuning-gpt-3-for-custom-text-generation">Case Study 2: Fine-Tuning GPT-3 for Custom Text Generation</h3>
-<p>Generative Pre-trained Transformer 3 (GPT-3) is renowned for its ability to generate human-like text. However, when tasked with generating text in a specific domain, such as legal or medical documents, fine-tuning becomes essential. This case study explores how fine-tuning GPT-3 on a specialized corpus can tailor its outputs to meet domain-specific requirements.</p>
-<p>Fine-tuning GPT-3 involves using a smaller, domain-specific dataset to adjust the model weights subtly, ensuring that the generated text aligns with the desired style and content. For example, a legal firm might fine-tune GPT-3 using a corpus of legal documents to generate drafts of contracts or legal summaries. This process involves using techniques like few-shot learning, where only a small number of examples are needed to guide the model’s output effectively.</p>
-<p>The pseudo-code above outlines the process of fine-tuning GPT-3 using the OpenAI API. By providing a set of examples and specifying the task, users can guide the model to produce text that closely follows the desired format and content style. This approach highlights the flexibility and power of fine-tuning in customizing AI models to fit specific use cases.</p>
-</section>
-<section id="conclusion" class="level3">
-<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
-<p>These case studies underscore the importance and effectiveness of fine-tuning in adapting pre-trained models to specific tasks and domains. By strategically addressing the challenges of fine-tuning, such as selecting appropriate datasets and managing training parameters, organizations can harness the full potential of AI models to deliver tailored, high-performance solutions.</p>
+<section id="summary-2" class="level3">
+<h3 class="anchored" data-anchor-id="summary-2">Summary</h3>
+<p>For now, focus on: - <strong>Manual prompt testing</strong> to compare output quality before and after fine-tuning - <strong>Loss curve inspection</strong> to confirm that your training was stable and effective</p>
+<p>These methods are simple, powerful, and enough to validate that your fine-tuning is working as expected.</p>
 </section>
 </section>
 <section id="future-trends-in-fine-tuning" class="level2">
