@@ -9,9 +9,13 @@ jupyter: python3
 
 ### What is Fine-Tuning?
 
-**Fine-tuning** is the process of taking a pre-trained AI model (one already trained on broad data) and training it further on a smaller, task-specific dataset to adapt it to a particular use case. Instead of training a large language model (LLM) from scratch (which would require billions of tokens and enormous compute), fine-tuning starts with an existing model that has general knowledge and calibrates it to perform optimally for your needs.  
+To understand fine-tuning, it helps to first understand the lifecycle of large language models (LLMs). Most LLMs begin with a stage called **pre-training**, where the model is trained from scratch—starting with random weights—on massive datasets that include internet text, books, Wikipedia, and other publicly available sources. This stage is incredibly compute-intensive, often requiring billions of tokens and weeks or months of training time. The goal of pre-training is to help the model learn general language patterns, reasoning skills, and world knowledge—but not to specialize in any particular task.
 
-**Pre-training** (or base training) refers to the original training of a model on a very large corpus of general data (e.g. crawling the web, books, Wikipedia). This teaches the model broad patterns of language and world knowledge but not any one task in particular. Fine-tuning, in contrast, begins with those pre-trained weights and further trains the model on a much smaller, specialized dataset. Pre-training starts from scratch (random weights) and requires vast data and time, whereas fine-tuning starts from a knowledgeable model and is relatively fast and cost-effective. 
+Once pre-training is complete, the result is a general-purpose model (often called a **base model** or **foundation model**) that understands language broadly but lacks domain-specific expertise or task-level optimization. This is where fine-tuning comes in.
+
+**Fine-tuning** is the process of taking this pre-trained model and training it further on a much smaller, specialized dataset tailored to a particular use case. This could include customer support transcripts, legal documents, or medical notes—whatever matches the target application. Instead of learning from scratch, the model starts with a strong foundation and simply adjusts its weights to better perform in your desired domain or task.
+
+Compared to pre-training, fine-tuning is faster, more affordable, and highly targeted. It allows organizations to unlock the power of large models without the immense cost of building them from the ground up.
 
 ```{mermaid}
 %%| echo: false
@@ -115,9 +119,49 @@ Key benefits include:
 
 This is critical for applications in healthcare, finance, government, and enterprise, where data privacy and compliance are essential.
 
+### Challenges and Limitations of Fine-Tuning
+
+While fine-tuning can unlock powerful performance gains and customizations, it also comes with tradeoffs. Before deciding to fine-tune, teams should consider the limitations, risks, and operational challenges involved:
+
+**1. Requires Technical Expertise and Infrastructure**
+
+Fine-tuning is not as plug-and-play as prompt engineering or API-based solutions. It requires:
+
+- Knowledge of machine learning workflows and frameworks (e.g., Hugging Face, LLaMA Factory)  
+- Access to GPUs or specialized infrastructure  
+- Ability to preprocess data, manage training loops, and troubleshoot errors  
+
+This complexity can be a barrier for teams without dedicated ML or MLOps support.
+
+**2. Maintenance and Drift**
+
+Once you fine-tune a model, **you own the lifecycle**—including:
+
+- Monitoring for performance drift as real-world data changes  
+- Updating the model with new examples or edge cases  
+- Managing versioning, rollback, and deployment  
+
+This adds long-term operational overhead compared to hosted APIs that automatically improve over time.
+
+**3. Data Collection and Labeling Cost**
+
+High-quality fine-tuning depends on **well-labeled, task-specific data**. But collecting this data can be:
+
+- Expensive (e.g., hiring annotators)  
+- Time-consuming (especially for edge cases or nuanced outputs)  
+- Inconsistent (if labeling guidelines aren’t followed strictly)  
+
+Small datasets can still be effective, but their quality matters more than their size.
+
+**4. Limited Transferability**
+
+A model fine-tuned for one domain or task may not generalize well to others. Unlike prompt-based approaches that can reuse the same model across many tasks, fine-tuned models tend to be **narrowly specialized**.
+
+This can require maintaining multiple models or fine-tuning different variants for each use case, adding complexity to your AI stack.
+
 ------------------------------------------------------------------------
 
-**In summary**, fine-tuning is a critical technique for developing strategic AI solutions because it bridges the gap between general-purpose language models and real-world applications. It enables organizations to adapt powerful pretrained models to their specific domains, workflows, and privacy constraints—without the cost of training from scratch. Whether optimizing performance, reducing latency, enforcing brand voice, or securing sensitive data, fine-tuning is how AI becomes truly useful, usable, and aligned with business goals.
+**In summary**, fine-tuning is a critical technique for turning general-purpose language models into strategic AI solutions. It allows organizations to adapt pretrained models to their specific domains, tasks, and privacy constraints—enabling cost savings, improved performance, brand consistency, and secure handling of proprietary data. This makes fine-tuning especially valuable for teams that need deeper customization beyond what prompt engineering or retrieval-based methods can provide. However, it comes with meaningful tradeoffs: fine-tuning requires technical expertise, high-quality labeled data, and long-term model maintenance. When used thoughtfully, fine-tuning offers powerful returns—but should be weighed against its complexity and cost relative to lighter-weight alternatives.
 
 ::: {.callout-note collapse="true"}
 ### Comparison: Prompt Engineering vs RAG vs Fine-Tuning
@@ -171,7 +215,7 @@ In order to fine-tune our own language model, we will walk through the following
 2. **Prepare a Specialized Dataset**  
    Gather and format examples specific to your domain or task. The quality of this data will directly shape the model’s behavior.
 
-3. **Select a Fine-Tuning Strategy**  
+3. **Choose a Fine-Tuning Approach: Technique + Framework**
    Decide whether to fully fine-tune the model or use a parameter-efficient method like LoRA, QLoRA, or adapters.
 
 4. **Set Training Arguments (Hyperparameters)**  
@@ -185,15 +229,24 @@ In order to fine-tune our own language model, we will walk through the following
 ## 1) Choose a Base Model
 The first decision in any fine-tuning project is selecting a base model—the pre-trained large language model (LLM) you will adapt for your task. Your choice here impacts everything downstream: performance, cost, deployment complexity, techniques/frameworks, and even data formatting. 
 
-A base model is a language model that has already been pre-trained on general-purpose data (e.g. books, web pages, Wikipedia). It has learned the structure of language, grammar, reasoning patterns, and world knowledge—but it’s not yet tailored to your specific use case. 
-
 There is no one-size-fits-all answer. Here are the main criteria to guide your decision: 
 
-#### **Model Size (Number of Parameters)**
+### **Model Size (Number of Parameters)**
 
-Larger models can capture more complex relationships and perform better on a wide range of tasks. But they also require more compute, memory, and fine-tuning time. 
+One of the first and most fundamental choices when selecting a base model is its size—typically measured by the number of parameters it contains.
 
-Smaller models (1–3B) can fine-tune quickly on consumer hardware. They train faster and are easier to deploy locally. Consider your dataset size, GPU availability, and target use case. 
+**Larger models** (typically >7B parameters) can capture more complex language patterns, reason more deeply, and perform better across a wide range of tasks. However, this power comes at a cost: they require significantly more compute, memory, and training time. They are best suited for high-stakes tasks or enterprise-grade applications with strong infrastructure.
+
+**Smaller models** (typically 1–3B parameters) are much easier to fine-tune on consumer-grade hardware. They train faster, cost less to deploy, and are ideal for lightweight or domain-specific use cases—like customer service chatbots, internal tools, or embedded AI assistants.
+
+> **Rule of thumb:**  
+> Choose the smallest model that can still meet your task’s performance needs. For many real-world applications—especially in narrow domains—small and medium models can be surprisingly capable when fine-tuned correctly.
+
+| Model Size    | Parameter Range | Use Case Fit                                      |
+|---------------|------------------|--------------------------------------------------|
+| Small         | ~1B–3B           | Fast prototyping, edge devices, low-latency apps |
+| Medium        | ~3B–7B           | Balanced performance vs. compute cost            |
+| Large         | >7B              | High accuracy, broader generalization            |
 
 ```{python}
 #| echo: false
@@ -240,73 +293,77 @@ plt.tight_layout()
 plt.show()
 ```
 
-| **Model Size**     | **Pros**                              | **Cons**                             |
-|--------------------|----------------------------------------|--------------------------------------|
-| **< 3B parameters** | Fast, cheap, runs on small devices     | Limited reasoning ability            |
-| **7–13B parameters**| Strong balance of power & performance  | Needs a good GPU for fine-tuning     |
-| **> 30B parameters**| State-of-the-art results               | Expensive and hard to deploy         |
 
-#### **Pre-Trained vs Instruction Tuned**
+### **Pre-Trained vs Instruction Tuned**
 
-Base models come in two main types: 
+The process of fine-tuning often happens in stages. You don’t always need to start from a raw, base model. Some models have already gone through a form of fine-tuning specifically designed to help them follow human instructions—this is called **instruction tuning**. The result is an **instruction-tuned model**, which is better suited for tasks like responding to prompts in a chatbot or assistant-like manner.
 
- - Pre-trained models: models that are trained to predict the next word/token on general text data. 
+Instruction-tuned models are typically the best choice when building for real-world use cases like chat, summarization, or customer support. Because they already understand how to follow instructions, they require less effort and data to fine-tune effectively. Base (pretrained) models, on the other hand, offer more flexibility and control, but require more work—such as formatting data carefully, defining tasks explicitly, and teaching the model how to respond appropriately from scratch.
 
- - Instruction-tuned models: pretrained models that have already been finetuned once to follow human instructions (e.g., respond to prompts like a chatbot or assistant).  
+### **Licensing and Commercial Use**
 
-Instruction-tuned models are typically the best choice when building on top of a model for a real-world use case like chat, summarization, or customer support. They require less effort and data to fine-tune effectively. Pre-trained models, on the other hand, offer more flexibility but require more work to format data, define tasks, and teach the model how to respond appropriately. 
-
-#### **Licensing and Commercial Use**
 One of the most overlooked—but critical—factors when selecting a base model is its **license**. Not all open-source models are truly open for commercial use.
 
-Some models, like **Meta’s LLaMA 2**, are released under **non-commercial research licenses**, meaning you can experiment, research, and fine-tune—but you cannot deploy them in a commercial product without explicit permission. On the other hand, models like **Mistral** or **Qwen** use more permissive licenses (e.g. **Apache 2.0**), allowing full commercial use, redistribution, and modification.
+Some models, like **Meta’s LLaMA 2**, are released under **non-commercial research licenses**. This means you can experiment, research, and even fine-tune them—but you cannot deploy them in a commercial product without explicit permission. In contrast, models like **Mistral**, **Qwen**, or **Falcon** often use more permissive licenses (e.g., **Apache 2.0**), allowing full commercial use, redistribution, and modification.
 
-Licensing directly affects your go-to-market options:
+Licensing directly impacts your go-to-market options:
 
-- If you’re prototyping an internal tool or doing academic research, a research license may be fine.  
-- But if you're building a product, deploying to clients, or embedding the model in commercial software, using a commercially restricted model could put you at **legal risk**.
+- If you’re prototyping an internal tool or doing academic research, a research-only license may be acceptable.  
+- But if you're building a product, deploying to customers, or embedding the model in a commercial offering, using a model with commercial restrictions could put you at **legal risk**.
 
-> **Always check the model’s license** (on Hugging Face or GitHub) before starting fine-tuning. Legal restrictions can vary by use case and may also apply to derivatives of the model.
+> **Always check the model’s license** (typically found on Hugging Face or GitHub) before beginning fine-tuning. Licensing restrictions often apply not just to the base model but also to any fine-tuned derivatives.
 
-#### **Model Compatibility and Alignment**
+### **Model Compatibility and Alignment**
 
-The base model you choose doesn’t just define its capabilities — it also shapes what your fine-tuning process will look like. 
+Choosing a base model isn’t just about performance — it determines how you’ll train, fine-tune, and work with the model going forward. Each model family (like LLaMA or Mistral) comes with its own expectations and requirements, which will shape every step of your fine-tuning pipeline.
 
-Each model has its own: 
+> Choosing a model is like choosing a device with a specific charging port. Once you commit, all your cables, adapters, and accessories need to match. Some models work seamlessly with common tools—others may need extra setup or won’t be compatible at all 
 
- - Tokenizer (how it splits up words into tokens) 
- - Preferred data format (e.g. instruction-output, ChatML, ShareGPT-style) 
- - Supported frameworks (like Hugging Face, LLaMA Factory, or Axolotl) 
- - Compatible techniques (like LoRA, QLoRA, or full fine-tuning) 
+Here are four key things your model choice affects. These topics will be covered more in-depth later in this chapter:
+
+**1. Tokenizer**  
+Every model processes text using a tokenizer — a way of breaking sentences into chunks (called *tokens*) that the model understands. Each model family has its own tokenizer, and they aren’t interchangeable. Once you pick a model, you’re locked into its tokenizer for both training and inference.
+
+**2. Data Format**  
+Different models expect training data (input and output pairs) to follow specific formats. If your data format doesn’t match what the model expects, it won’t learn effectively.
+
+**3. Frameworks**  
+Frameworks are the tools you use to fine-tune a model. Examples include **LLaMA Factory**, **Hugging Face Trainer**, and **Axolotl**. Each framework only supports certain model types, file structures, and features. If your chosen model isn’t supported by your preferred framework, you’ll either have to switch tools or make significant customizations.
+
+**4. Techniques**  
+Fine-tuning techniques—like **LoRA**, **QLoRA**, and **full fine-tuning**—vary in how they update the model’s weights and how much compute they require. Some models are optimized for lightweight, efficient techniques like LoRA; others may require full fine-tuning to see meaningful improvements. Your model choice can limit or enable which approaches are available.
 
 Together, these form a kind of alignment: the better your tools, data, and training method match the structure and expectations of the model, the smoother your fine-tuning process will be—and the better your results. 
-
->Think of it like matching an phone to a charger. Some models “plug in” easily to popular fine-tuning frameworks and formats. Others require adapters or workarounds. 
 
 In the next sections, we’ll walk through how to prepare aligned data for your model and choose the training method that best fits your use case and enhances training speed and efficiency.
 
 ## 2) Data Preparation for Fine-Tuning
 
-Fine-tuning is fundamentally a form of supervised learning—teaching a model by showing it many examples of inputs paired with ideal outputs so it learns to replicate those patterns. This section walks through the three core stages of data preparation: **sourcing**, **cleaning**, and **formatting**.
+Fine-tuning is fundamentally a form of supervised learning — teaching a model by showing it many examples of inputs paired with ideal outputs so it learns to replicate those patterns. This section walks through the three core stages of data preparation: **sourcing**, **cleaning**, and **formatting**.
 
----
+::: {.callout-note title="Supervised vs. Self-Supervised Learning" collapse=true}
 
-#### **Data Sourcing**
+Pre-training uses **self-supervised learning**, where the model learns from raw text by predicting missing parts—no labeled answers are provided.
+
+Fine-tuning uses **supervised learning**, where each example has a clearly defined input and target output. This means your data must be formatted with both parts: what the model should see, and what it should generate.
+
+The structure of your dataset—input → output—is what makes fine-tuning supervised.
+:::
+
+### **Data Sourcing**
 
 The first step is identifying where your task-specific data will come from. Common sources include:
 
 - **Internal logs** – e.g., customer support transcripts, chatbot conversations, or form submissions  
 - **Public datasets** – from platforms like [Hugging Face Datasets](https://huggingface.co/datasets?sort=trending), Kaggle, or academic benchmarks  
 - **Manual generation** – examples written or annotated by domain experts  
-- **Synthetic generation** – data generated by a base model and later reviewed or edited for quality  
+- **Synthetic generation** – data generated by an LLM and later reviewed or edited for quality  
 
-Each data source offers trade-offs between **volume**, **quality**, and **domain relevance**.
+Fine-tuning doesn’t require massive datasets. What matters is that each example is correct, relevant, and representative. A few hundred high-quality examples often outperform thousands of noisy ones.
 
-> Fine-tuning doesn’t require massive datasets. What matters is that each example is correct, relevant, and representative. A few hundred high-quality examples often outperform thousands of noisy ones.
+The most important thing is that the data reflects the **task and tone** you want the model to learn. If you're building a customer support assistant, use examples from real interactions. If you're building a tutor, use educational prompts and responses.
 
----
-
-#### **Data Cleaning**
+### **Data Cleaning**
 
 Raw examples often need cleaning before they're ready for training. This step focuses on eliminating noise and inconsistencies. Common cleaning tasks include:
 
@@ -317,30 +374,20 @@ Raw examples often need cleaning before they're ready for training. This step fo
 
 Clean data helps ensure the model learns meaningful patterns—not accidental ones.
 
-> The single most important factor in fine-tuning success is data quality. A strong model trained on poor data will still perform poorly.
+### **Data Formatting**
 
----
+Regardless of the task, all fine-tuning datasets must include a clear prompt (or context) and a desired response. However, the **format** of this information depends on the model architecture and training history. 
 
-#### **Data Formatting**
-
-Regardless of the task, all fine-tuning datasets must include:
-
-> **A clear prompt (or context) and a desired response.**
-
-However, the **format** of this information depends on the model architecture and training history. For example:
-
-- **Instruction-tuned models** expect fields like `instruction`, `input`, and `output`.
-- **Chat models** expect lists of user/assistant messages.
-- **Base models** expect a simple prompt followed by a response.
+Below are the most common and important formats in modern fine-tuning workflows—each suited to different use cases.
 
 Data is usually stored in **JSON** or **JSON Lines (JSONL)** formats.
 
-##### Common Data Format Types
+#### Common Data Formats
 
 ::: {.callout-note collapse=true}
-###### Instruction Format (`instruction → input → output`)
+##### Instruction Format (`instruction → input → output`)
 
-**Best for**: task-specific fine-tuning (e.g., summarization, classification, QA)  
+**Best for:** Task-specific fine-tuning like summarization, translation, classification, and question answering
 **Model types**: FLAN-T5, Alpaca, LLaMA Factory-compatible models
 
 ```json
@@ -353,26 +400,30 @@ Data is usually stored in **JSON** or **JSON Lines (JSONL)** formats.
 :::
 
 ::: {.callout-note collapse=true}
-###### Chat Format (`messages` list)
+##### Chat Format (`messages` list)
 
-**Best for**: assistant-style or multi-turn dialogue training  
-**Model types**: ChatML, OpenChat, LLaMA 2-Chat, Zephyr
+This format simulates a conversation between a user and an assistant over multiple dialogue turns. Useful for fine-tuning chat-style models that require conversational memory and role-awareness.
+
+**Best for**: Best for: Chatbots, AI assistants, and multi-turn conversational agents 
+**Model types**: LLaMA-2-Chat, Mistral-Instruct, OpenChat, ShareGPT-style models
 
 ```json
 {
-  "messages": [
-    {"role": "user", "content": "What's 2 + 2?"},
-    {"role": "assistant", "content": "2 + 2 equals 4."}
+  "conversations": [
+    { "role": "user", "content": "How do I reset my password?" },
+    { "role": "assistant", "content": "Go to Settings > Account > Reset Password and follow the instructions." },
+    { "role": "user", "content": "Thanks!" },
+    { "role": "assistant", "content": "You're welcome!" }
   ]
 }
 ```
 :::
 
 ::: {.callout-note collapse=true}
-###### Prompt-Completion Format (`prompt → response`)
+##### Prompt-Completion Format (`prompt → response`)
 
-**Best for**: creative writing, open-ended completions  
-**Model types**: base models, GPT-style architectures
+**Best for**: Simple, single-turn generation tasks like content generation, Q&A, or creative writing  
+**Model types**: GPT-2, Mistral (base), Falcon, and other decoder-only models
 
 ```json
 {
@@ -381,33 +432,62 @@ Data is usually stored in **JSON** or **JSON Lines (JSONL)** formats.
 }
 ```
 :::
+
+::: {.callout-note collapse=true}
+##### Classification Format (`text → label`)
+
+**Best for**: Sentiment analysis, topic detection, intent classification, and other labeling tasks  
+**Model types**: BERT-style models, RoBERTa, and decoder models fine-tuned for classification
+
+```json
+{
+  "text": "The interface was slow and hard to use.",
+  "label": "negative"
+}
+```
+:::
 ---
 
 #### **Summary**
 
-High-quality fine-tuning is less about **how much** data you have and more about **how useful** each example is.
+The format of your dataset is just as important as its content. A model can only learn effectively if examples are structured in a way it understands. Fine-tuning isn’t just about feeding the model data—it’s about providing clear, consistent demonstrations of the behavior you want it to learn. Whether you're training a chatbot, an instruction-follower, or a classifier, you need to choose a format that aligns with your model’s architecture and training history. Clean formatting ensures the model can focus on learning patterns—instead of being confused by structure.
 
-> **Garbage in, garbage out**: If your examples are messy, inconsistent, or unclear, the model will learn those patterns too.
+## 3) Techniques and Tools for Fine-Tuning
 
-Always match your data format to the **type of base model** you're fine-tuning. For example, a chat model expects conversation history, while an instruction-tuned model needs structured tasks and responses.
+Once you've chosen your base model and prepared your dataset, the next step is deciding **how** you'll fine-tune it. This involves two key decisions:
 
-## 3) Techniques for Fine-Tuning
+- **Technique** — *What kind of fine-tuning method will you use?* (e.g., full fine-tuning, LoRA)
+- **Tools (Frameworks)** — *Which tool or codebase will you use to apply that method?* (e.g., LLaMA Factory, Hugging Face)
 
-In this section, we’ll explore a curated set of fine-tuning strategies that are shaping the way modern AI solutions are built. While there are many ways to adapt language models, we’ll focus on a small set of methods that are most widely used today. These include parameter-efficient methods (PEFT) such as LoRA and QLoRA. We’ll also touch on preference tuning through Direct Preference Optimization (DPO). Together, these techniques form the essential toolkit for anyone looking to build or deploy customized AI systems. 
+Both choices depend on your goals, model size, and available compute. 
 
-### Parameter Efficient Fine-Tuning (PEFT)
+### **Fine-Tuning Techniques**
 
-When you train a model, you’re adjusting numbers inside it—called weights—so that the model improves its predictions. This usually happens in three steps: 
+Fine-tuning techniques define **how much of the model gets updated** during training—and how efficiently that update process can be done.
 
- 1. The model makes a guess (prediction). 
- 2. It compares that guess to the correct answer. 
- 3. It slightly adjusts its weights to reduce the error. 
+There are many emerging strategies in this space, and the field continues to evolve rapidly. For the scope of this course, we’ll focus primarily on **full parameter fine-tuning** and **PEFT methods (LoRA and QLoRA)**. 
 
-In **full fine-tuning**, every single weight in the model can be adjusted. As language models have grown in size—often with billions of parameters—fully fine-tuning all of those weights has become expensive and impractical for most teams. That’s where Parameter-Efficient Fine-Tuning (PEFT) comes in. 
+#### **Full Parameter Fine-Tuning**
 
-Instead of updating the entire model, **PEFT** methods allow you to train a small number of new parameters while keeping the original model frozen. This makes fine-tuning much faster, cheaper, and easier to run on smaller hardware (like consumer GPUs or even Google Colab). 
+Full parameter fine-tuning involves updating **all of the weights** in the model during training. This gives you maximum control and flexibility—you can adapt the model deeply to a new domain or task.
 
-PEFT is an umbrella term for many different techniques. In the next sections, we’ll look at two of the most popular and widely adopted PEFT methods: LoRA and QLoRA 
+However, it comes at a cost: full fine-tuning is **compute-intensive**, **memory-heavy**, and often requires **high-end GPUs**. It also risks overfitting if your dataset is small.
+
+Because of these tradeoffs, full fine-tuning is typically used when:
+
+- You have access to strong infrastructure (e.g., multi-GPU or cloud clusters)
+- You're working with a small model (e.g., under 1B parameters)
+- You need to significantly change the model’s behavior
+
+For most use cases, **PEFT methods** offer similar performance with far fewer resources.
+
+#### **Parameter Efficient Fine-Tuning (PEFT)**
+
+PEFT is an umbrella term for many techniques allow you to fine-tune large models by updating **only a small number of parameters**, rather than the entire model. This makes training much faster, less memory-intensive, and possible on consumer-grade hardware.
+
+Instead of modifying all the weights, PEFT methods freeze the original model and train **small, added components**—like adapter layers or low-rank matrices—that learn task-specific behavior.
+
+In this course, we’ll focus on one of the most widely used PEFT techniques: **LoRA (Low-Rank Adaptation)**, which uses lightweight matrix updates to adapt the model efficiently while keeping the original weights frozen.
 
 ![Overview of PEFT Methods](images/peft-methods.png){#fig-peft-methods fig-align="center" width="80%"}
 
@@ -439,55 +519,15 @@ This doesn’t change the model’s structure—it just changes how the numbers 
 It’s like switching from a high-resolution video to a compressed version that still looks good—but takes up less space.
 :::
 
-### Preference Tuning and DPO
-
-Most fine-tuning methods rely on giving the model a specific input and the exact output we want it to produce. But sometimes, there’s no single "correct" answer—just answers that are better or worse in the eyes of a human.
-
-For example:
-
-| Prompt | Output A | Output B |
-|--------|----------|----------|
-| "What’s a polite way to say no?" | “No, thank you.” | “I’m not doing that.” |
-
-Both are technically valid, but one is clearly more helpful and respectful. In these cases, we can use **preference tuning**—a way of training models based on what humans prefer, not just what's factually correct.
-
-#### What Is Preference Tuning?
-
-**Preference tuning** is about improving a model's behavior by showing it which responses are preferred in side-by-side comparisons. This is especially useful when:
-
-- There isn’t one right answer
-- You want to improve tone, helpfulness, safety, or clarity
-- You're aligning the model with human values or user expectations
-
-This process is sometimes called **alignment**—making sure the model behaves the way people want.
-
-#### DPO: Direct Preference Optimization
-
-**Direct Preference Optimization (DPO)** is a newer, simpler approach to preference tuning. Instead of building a complex reward model (as in older methods like PPO), DPO trains the model directly on pairs of outputs where one is preferred over the other.
-
-##### How DPO Works
-
-1. You collect prompt + response pairs where a human chose one response over another.
-2. The model is trained to assign higher probability to the preferred response.
-3. That’s it—no reward model, no reinforcement learning loop.
-
-> Analogy: It’s like teaching someone by showing two possible emails and saying, “This one sounds better.” Over time, they learn the patterns you prefer.
-
-#### Why DPO Matters
-
-| Feature            | Benefit                                      |
-|--------------------|----------------------------------------------|
-| Simpler than PPO   | No need for reward models or RL algorithms   |
-| Aligns with human values | Trains on what people actually prefer |
-| Easy to scale      | Works well with modern fine-tuning libraries |
-
-#### Summary
-
-- Preference tuning is used when there’s no single right answer, just better ones.
-- DPO is the most accessible and efficient method for this today.
-- It’s especially useful for tuning how a chatbot sounds, how safely it answers questions, or how clearly it communicates.
+### **Fine-Tuning Tools / Frameworks **
 
 ## 4) Training Arguments and Hyperparameter Optimization
+
+Hyperparameter optimization is a critical step in the process of fine-tuning machine learning models. While model parameters are learned from the data during training, hyperparameters are set before the learning process begins and control the behavior of the training algorithm. Examples of hyperparameters include learning rate, batch size, number of epochs, and architecture-specific settings like the number of layers in a neural network.
+
+Choosing the right hyperparameters can significantly affect the performance of a model. Poorly chosen hyperparameters can lead to underfitting, where the model fails to capture the underlying trends in the data, or overfitting, where the model captures noise instead of the signal. Thus, hyperparameter optimization involves systematically searching for the best set of hyperparameters that minimize a predefined loss function on a validation set.
+
+There are several techniques for hyperparameter optimization, including grid search, random search, and more advanced methods like Bayesian optimization.
 
 When you fine-tune a language model, you have to decide **how** the training process will work. These decisions are controlled by something called **training arguments** or **hyperparameters**.
 
@@ -554,85 +594,61 @@ This setup is designed to balance learning quality with resource efficiency.
 - You don’t have to guess—start with reasonable defaults and adjust based on the results.
 
 
-Hyperparameter optimization is a critical step in the process of fine-tuning machine learning models. While model parameters are learned from the data during training, hyperparameters are set before the learning process begins and control the behavior of the training algorithm. Examples of hyperparameters include learning rate, batch size, number of epochs, and architecture-specific settings like the number of layers in a neural network.
+## 5) Evaluating Your Fine-Tuned Model
 
-Choosing the right hyperparameters can significantly affect the performance of a model. Poorly chosen hyperparameters can lead to underfitting, where the model fails to capture the underlying trends in the data, or overfitting, where the model captures noise instead of the signal. Thus, hyperparameter optimization involves systematically searching for the best set of hyperparameters that minimize a predefined loss function on a validation set.
+Once you’ve fine-tuned your model, the next step is to evaluate whether it actually improved. For student projects using LLaMA Factory, the most practical and meaningful evaluation methods are **manual (human) testing** and **inspecting the training loss curve**. These methods give immediate insight into how well your fine-tuning worked — without needing complex infrastructure.
 
-There are several techniques for hyperparameter optimization, including grid search, random search, and more advanced methods like Bayesian optimization. Grid search involves specifying a set of possible values for each hyperparameter and evaluating every possible combination. While exhaustive, this method can be computationally expensive, especially with a large number of hyperparameters. Random search, on the other hand, samples random combinations of hyperparameter values and can be more efficient by covering the hyperparameter space more broadly.
+### 1. Human Evaluation (Manual Prompt Testing)
 
+The most intuitive way to evaluate your model is to test it yourself:
 
-In the code example above, we use GridSearchCV from the scikit-learn library to perform grid search on a RandomForestClassifier. We define a parameter grid that specifies the values to be tested for each hyperparameter. GridSearchCV evaluates the model's performance using cross-validation and selects the hyperparameters that yield the highest accuracy. The `best_params_` attribute reveals the optimal settings found.
+- Create a short set of prompts related to your task.
+- Run these prompts through both the **pretrained base model** and your **fine-tuned version**.
+- Compare the outputs directly.
 
-Random search is another popular method for hyperparameter optimization. It randomly selects combinations of hyperparameters to test. This approach can be more efficient than grid search, especially when some hyperparameters have negligible impact on performance or when the search space is large. Random search is often used in conjunction with domain knowledge to set reasonable ranges for hyperparameters.
+Ask:
+- Does the fine-tuned model follow instructions better?
+- Are the responses more accurate, helpful, or aligned with your desired tone?
+- Does the model fail in new or surprising ways?
 
+This **side-by-side comparison** is especially useful for instruction-following or customer support use cases. If you fine-tuned on a small, custom dataset, human feedback is often the most reliable signal of success.
 
-In this code snippet, we use RandomizedSearchCV to perform random search. We specify a distribution for hyperparameters and set `n_iter` to control how many different combinations to test. This method is advantageous when computational resources are limited, as it allows for a broad exploration of the hyperparameter space without testing every possible combination.
+### 2. Loss Curve Inspection
 
-More sophisticated techniques, such as Bayesian optimization, use probabilistic models to predict the performance of hyperparameter settings and select the most promising options to evaluate next. This method can be more efficient than both grid and random search, as it uses past evaluations to inform future choices, effectively balancing exploration and exploitation.
+Another helpful tool is your model’s **loss curve** — a graph of how the training loss changes over time (per step or per epoch). You can find this in the training logs or visualize it using tools like **Weights & Biases** (W&B).
 
-In conclusion, selecting the right hyperparameter optimization technique depends on various factors, including the complexity of the model, the size of the dataset, and the computational resources available. Understanding the strengths and limitations of each method allows practitioners to make informed decisions and build more effective AI solutions.
+A healthy loss curve typically shows:
+- A **downward trend** over time → the model is learning.
+- **Plateaus** near zero → the model may have finished learning.
+- **Spikes or instability** → possible issues with data quality, learning rate, or batch size.
+- **Divergence late in training** → potential overfitting if validation loss increases.
 
-## 5) Evaluating Fine-Tuned Models
+Even without formal metrics, this curve helps you understand how training behaved.
 
-After fine-tuning a machine learning model, it is crucial to evaluate its performance to ensure that the adjustments have led to improvements. Evaluating fine-tuned models involves several steps, including selecting appropriate evaluation metrics, conducting thorough testing, and analyzing results to make informed decisions about the model's deployment. This process ensures that the model not only performs well on the training data but also generalizes effectively to unseen data.
+### 3. Brief Note on Industry Evaluation Standards
 
-The first step is selecting the right evaluation metrics, which depend on the task at hand. For classification tasks, metrics like accuracy, precision, recall, F1-score, and AUC-ROC are commonly used. For regression tasks, metrics such as Mean Absolute Error (MAE), Mean Squared Error (MSE), and R-squared are appropriate. It's important to choose metrics that align with the specific goals of your model, as different metrics can highlight different aspects of performance.
+In production and research settings, AI developers use more advanced evaluation techniques to measure model quality and alignment at scale, including:
 
-Once the metrics are selected, the next step is to test the model on a validation set that was not used during the training process. This helps assess the model's ability to generalize. Additionally, performing cross-validation can provide a more reliable estimate of the model's performance by averaging results over multiple folds. This technique helps mitigate the risk of overfitting, which occurs when a model learns the training data too well but fails to perform on new data.
+- **Automated metrics** like BLEU, ROUGE, and exact match
+- **Human preference scoring** across ranked outputs
+- **LLM-as-a-judge** frameworks (e.g., using GPT-4 to evaluate outputs)
+- **Adversarial testing** and robustness checks
 
+These methods require larger datasets, infrastructure, or teams — and we’ll explore them in depth in the [Evaluation & Alignment chapter](#) later in the course.
 
-In addition to traditional metrics, it is beneficial to conduct error analysis to understand where the model performs poorly. This involves examining cases where the model's predictions differ significantly from the actual outcomes. By identifying patterns in these errors, you can gain insights into potential model improvements or data quality issues. Visual tools such as confusion matrices for classification tasks can be particularly helpful in this analysis.
+### Summary
 
+For now, focus on:
+- **Manual prompt testing** to compare output quality before and after fine-tuning
+- **Loss curve inspection** to confirm that your training was stable and effective
 
-Finally, it's important to consider the model's performance in the context of its deployment environment. This includes evaluating the model's inference time, resource consumption, and scalability. For instance, a model that performs well in terms of accuracy but requires excessive computational resources may not be suitable for real-time applications. Thus, balancing performance metrics with practical deployment considerations is key to building strategic AI solutions.
-
-## Challenges and Limitations of Fine-Tuning
-
-Fine-tuning pre-trained models is a powerful technique that enables the adaptation of general-purpose models to specific tasks. However, it comes with a set of challenges and limitations that practitioners must navigate carefully. Understanding these challenges is crucial for effectively applying fine-tuning techniques in building strategic AI solutions.
-
-One of the primary challenges of fine-tuning is the risk of overfitting. When a model is fine-tuned on a small dataset, it may learn patterns that are specific to the training data but do not generalize well to new, unseen data. This is particularly problematic in domains where labeled data is scarce. To mitigate overfitting, techniques such as data augmentation, dropout, and early stopping can be employed. Data augmentation artificially increases the size of the training dataset by creating modified versions of the existing data, while dropout randomly sets a portion of the neurons to zero during training to prevent co-adaptation.
-
-
-
-Another limitation is the computational cost associated with fine-tuning. Pre-trained models, especially those based on deep learning architectures like transformers or convolutional neural networks, can be large and require significant computational resources for training. This can be a barrier for organizations with limited access to high-performance computing resources. Techniques such as model pruning, quantization, and knowledge distillation can help reduce the computational burden by simplifying the model or transferring knowledge to a smaller model.
-
-
-
-Fine-tuning also requires careful consideration of the learning rate. If the learning rate is too high, the model may diverge from a good solution; if too low, the model may converge too slowly or get stuck in a local minimum. A common approach is to use a smaller learning rate for the pre-trained layers and a larger one for the newly added layers, as the pre-trained layers likely already contain useful features that should not be disrupted excessively.
-
-
-Finally, domain shift poses a significant challenge in fine-tuning. The pre-trained model may have been trained on data that is significantly different from the target domain, leading to suboptimal performance. This is especially relevant in fields like medical imaging, where pre-trained models might have been developed on general object datasets but need to be applied to specific medical images. Transfer learning strategies, such as domain adaptation techniques, can help bridge this gap by aligning the feature distributions between the source and target domains.
-
-## Case Studies of Successful Fine-Tuning
-
-In the previous section, we explored the challenges and limitations associated with fine-tuning AI models, such as overfitting, data scarcity, and computational costs. In this section, we will delve into case studies that highlight successful applications of fine-tuning techniques across various domains. These examples will illustrate how strategic fine-tuning can significantly enhance model performance, adapt solutions to specific tasks, and overcome some of the challenges previously discussed.
-
-### Case Study 1: Fine-Tuning BERT for Sentiment Analysis
-
-The Bidirectional Encoder Representations from Transformers (BERT) model has become a cornerstone in natural language processing (NLP) tasks due to its ability to understand context in text. However, when applied to a specific task like sentiment analysis, BERT requires fine-tuning to deliver optimal results. In this case study, we explore how fine-tuning BERT on a sentiment analysis dataset, such as the IMDb reviews dataset, can improve its ability to classify text as positive or negative.
-
-
-In the code example above, we demonstrate the process of fine-tuning a BERT model for sentiment analysis. We define a custom dataset class to handle text and label pairs, tokenize the input text, and set up a Trainer from the `transformers` library to manage the training process. This fine-tuning allows BERT to adjust its parameters specifically for sentiment analysis, thereby enhancing its predictive accuracy on this task.
-
-### Case Study 2: Fine-Tuning GPT-3 for Custom Text Generation
-
-Generative Pre-trained Transformer 3 (GPT-3) is renowned for its ability to generate human-like text. However, when tasked with generating text in a specific domain, such as legal or medical documents, fine-tuning becomes essential. This case study explores how fine-tuning GPT-3 on a specialized corpus can tailor its outputs to meet domain-specific requirements.
-
-Fine-tuning GPT-3 involves using a smaller, domain-specific dataset to adjust the model weights subtly, ensuring that the generated text aligns with the desired style and content. For example, a legal firm might fine-tune GPT-3 using a corpus of legal documents to generate drafts of contracts or legal summaries. This process involves using techniques like few-shot learning, where only a small number of examples are needed to guide the model's output effectively.
-
-
-The pseudo-code above outlines the process of fine-tuning GPT-3 using the OpenAI API. By providing a set of examples and specifying the task, users can guide the model to produce text that closely follows the desired format and content style. This approach highlights the flexibility and power of fine-tuning in customizing AI models to fit specific use cases.
-
-### Conclusion
-
-These case studies underscore the importance and effectiveness of fine-tuning in adapting pre-trained models to specific tasks and domains. By strategically addressing the challenges of fine-tuning, such as selecting appropriate datasets and managing training parameters, organizations can harness the full potential of AI models to deliver tailored, high-performance solutions.
+These methods are simple, powerful, and enough to validate that your fine-tuning is working as expected.
 
 ## Future Trends in Fine-Tuning
 
 As we look towards the future of fine-tuning in AI, several trends are emerging that promise to enhance the capabilities and efficiency of machine learning models. Fine-tuning, which involves adapting a pre-trained model to a specific task, is becoming increasingly sophisticated, driven by advancements in computational power, algorithmic innovation, and the proliferation of diverse datasets. This section explores these trends, providing insights into how they are shaping the landscape of AI solutions.
 
 One significant trend is the development of more efficient fine-tuning methods that reduce the computational cost and time associated with adapting large models. Techniques such as parameter-efficient fine-tuning (PEFT) are gaining traction. PEFT methods, like LoRA (Low-Rank Adaptation), focus on adjusting only a small subset of model parameters, rather than the entire model, thus significantly reducing the resources required for fine-tuning.
-
 
 Another trend is the use of self-supervised learning to enhance fine-tuning. Self-supervised learning enables models to learn useful representations from unlabeled data, which can then be fine-tuned with minimal labeled examples. This approach is particularly valuable in domains where labeled data is scarce or expensive to obtain. By leveraging large amounts of unlabeled data, models can achieve better performance with fewer labeled examples during the fine-tuning phase.
 
