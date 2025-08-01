@@ -12,6 +12,9 @@ content.jsonl
 # Ignore rendered HTML
 docs/**/*.html
 
+# Ignore HTML in docs root
+docs/*.html
+
 # Keep special manually-maintained HTML files
 !docs/_header.html
 !docs/_footer.html
