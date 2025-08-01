@@ -299,14 +299,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="introduction-to-streamlit">Introduction to Streamlit</h2>
 <p>In the rapidly evolving landscape of AI, creating intuitive and interactive user interfaces is crucial for effectively demonstrating AI applications. Streamlit is an open-source app framework specifically designed for machine learning and data science projects. It allows developers to quickly prototype and deploy web applications with minimal effort, making it an ideal tool for building strategic AI solutions. This section will introduce you to Streamlit, providing a comprehensive understanding of its features and capabilities.</p>
 <p>Streamlit stands out for its simplicity and ease of use. Unlike traditional web development frameworks that require knowledge of HTML, CSS, and JavaScript, Streamlit allows you to build web applications using only Python. This is particularly advantageous for data scientists and AI practitioners who may not have extensive web development experience. Streamlit automatically updates your application as you modify your code, providing a seamless development experience.</p>
-<div id="dc57f24a" class="cell" data-execution_count="1">
+<div id="a2f97bd5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To get started with Streamlit, first ensure you have it installed.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You can install Streamlit using pip:</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install streamlit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once installed, you can create a simple Streamlit application with just a few lines of code. Let’s walk through a basic example where we create a simple application that displays a greeting message. This will demonstrate the core concepts of Streamlit, including writing text and running the application.</p>
-<div id="51417fca" class="cell" data-execution_count="2">
+<div id="298ffa34" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the Streamlit library</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> streamlit <span class="im">as</span> st</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -318,7 +318,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The code above demonstrates the simplicity of Streamlit. The <code>st.write()</code> function is versatile, allowing you to display text, data, and even plots. To run the application, open your terminal, navigate to the directory where your script is saved, and execute the command <code>streamlit run app.py</code>. This will start a local server and open the application in your default web browser.</p>
 <p>Streamlit also supports interactive widgets, which are essential for creating dynamic AI applications. These widgets include sliders, buttons, and input fields, allowing users to interact with the AI models directly. For example, you can use a slider to adjust parameters of a machine learning model and observe the results in real-time.</p>
-<div id="fe0caa13" class="cell" data-execution_count="3">
+<div id="e6e08fde" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of adding an interactive slider in Streamlit</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> streamlit <span class="im">as</span> st</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -335,12 +335,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="setting-up-your-development-environment">Setting Up Your Development Environment</h2>
 <p>Before diving into developing user interfaces for AI applications using Streamlit, it is essential to set up a robust development environment. A well-configured environment not only streamlines the development process but also reduces potential errors and enhances productivity. In this section, we’ll walk through the steps required to set up a development environment tailored for building AI applications with Streamlit.</p>
 <p>The first step in setting up your development environment is to ensure you have Python installed on your machine. Streamlit, being a Python library, requires Python to run. It is recommended to use the latest version of Python 3 for compatibility and performance reasons. You can download Python from the official Python website and follow the installation instructions specific to your operating system.</p>
-<div id="1c6dd721" class="cell" data-execution_count="4">
+<div id="d7d834a8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To check if Python is installed and to verify the version, you can run the following command in your terminal:</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>python <span class="op">--</span>version</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Once Python is installed, the next step is to create a virtual environment. Virtual environments are crucial for managing dependencies and ensuring that your projects do not interfere with each other. They allow you to create isolated spaces on your machine where you can install specific versions of libraries without affecting system-wide installations.</p>
-<div id="7f47d334" class="cell" data-execution_count="5">
+<div id="68e02461" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To create a virtual environment, navigate to your project directory and run:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>python <span class="op">-</span>m venv myenv</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -352,12 +352,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">'source myenv/bin/activate'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With the virtual environment activated, you can now install Streamlit. Using a virtual environment ensures that Streamlit and its dependencies are contained within your project, preventing potential conflicts with other Python projects. Streamlit can be installed using the Python package manager, pip.</p>
-<div id="fb53f5df" class="cell" data-execution_count="6">
+<div id="70002e62" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Streamlit using pip</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install streamlit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After installing Streamlit, it’s a good practice to verify the installation by running a simple Streamlit application. This will confirm that Streamlit is working correctly and that your environment is set up properly. Streamlit provides a sample application that you can run with a single command.</p>
-<div id="c4a4b03e" class="cell" data-execution_count="7">
+<div id="970a6c4d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run Streamlit's hello command to verify the installation</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>streamlit hello</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -380,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install streamlit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Once Streamlit is installed, you can create a new Python file for your app. Let’s call it <code>app.py</code>. In this file, you will write the code to define the structure and functionality of your Streamlit application. Streamlit apps are built using Python scripts, and the framework automatically handles the creation of the web interface.</p>
 <p>The first step in building your Streamlit app is to import the Streamlit library into your script. After importing, you can use its functions to add various elements to your app, such as text, charts, and interactive widgets. Here’s a simple example to get you started:</p>
-<div id="2e4f354d" class="cell" data-execution_count="8">
+<div id="cc51e09c" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> streamlit <span class="im">as</span> st</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Title of the app</span></span>
@@ -391,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In the code above, we first import Streamlit with the alias <code>st</code>, which is a common convention. We then use <code>st.title()</code> to set the title of the app, which appears prominently at the top of the page. The <code>st.write()</code> function is a versatile command that allows you to display text, data, and even Markdown. This makes it easy to add descriptive content to your app.</p>
 <p>Streamlit also supports interactive widgets, which are crucial for AI applications that require user input. For example, you might want to let users select parameters for a machine learning model or input data for analysis. Let’s add a simple slider to our app to demonstrate how user input can be handled:</p>
-<div id="4ceff5c6" class="cell" data-execution_count="9">
+<div id="0bdcdb4f" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding a slider</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>number <span class="op">=</span> st.slider(<span class="st">'Select a number'</span>, <span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">50</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -408,7 +408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="designing-user-friendly-interfaces">Designing User-Friendly Interfaces</h2>
 <p>In the context of AI applications, designing user-friendly interfaces is crucial for ensuring that users can effectively interact with complex models without needing to understand the underlying technical details. A well-designed interface bridges the gap between sophisticated AI models and end-users, facilitating ease of use, enhancing user experience, and ensuring that the AI solutions are accessible to a broader audience.</p>
 <p>A user-friendly interface should be intuitive, meaning that users can navigate and utilize it with minimal instruction. This involves clear labeling, logical layout, and responsive design elements that guide users seamlessly through their interactions. For AI applications, this often means providing clear feedback about the AI’s processing and results, as well as offering easy ways to input data and adjust parameters.</p>
-<div id="baeb4136" class="cell" data-execution_count="10">
+<div id="88acb5c6" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> streamlit <span class="im">as</span> st</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Title for the application</span></span>
@@ -435,7 +435,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the example above, we use Streamlit to create a simple interface for an AI-powered image classifier. The interface includes a title, a brief explanation of the app’s functionality, and a file uploader for users to upload images. Once an image is uploaded, it is displayed on the interface, and a simulated prediction process is shown. This example highlights the importance of providing immediate feedback to users, which is a key aspect of user-friendly design.</p>
 <p>Beyond the basic functionality, designing user-friendly interfaces for AI applications should also consider accessibility and inclusivity. This means ensuring that the interface is usable by people with diverse abilities and preferences. For instance, providing alternative text for images, ensuring that the interface is navigable via keyboard, and supporting screen readers can make the application accessible to more users.</p>
 <p>Another important concept in designing user-friendly interfaces for AI applications is the transparency of AI operations. Users should be informed about how their data is used and how the AI arrives at its decisions. This can be achieved by incorporating explainability features, such as visualizations of decision paths or confidence scores, which can help users trust and understand the AI’s outputs.</p>
-<div id="bf2f18d2" class="cell" data-execution_count="11">
+<div id="00c3b19a" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of adding transparency features</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Displaying a confidence score</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>confidence_score <span class="op">=</span> <span class="fl">0.85</span></span>
@@ -452,7 +452,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In AI applications, handling user inputs and interactions is a critical aspect of creating a seamless user experience. This process involves capturing user data, processing it, and providing meaningful feedback or results. Effective handling of user inputs not only enhances the usability of the application but also ensures that the AI models receive accurate data for processing. Let’s explore the key concepts involved in managing user inputs and interactions in AI-driven interfaces.</p>
 <p>First, consider the types of user inputs that an AI application might need to handle. These could range from text inputs, such as search queries or chat messages, to more complex inputs like images, voice commands, or even gestures. Each type of input requires specific methods of capture and processing. For instance, text inputs might be captured using input fields in a web form, while voice commands might require integration with a speech recognition API.</p>
 <p>Let’s consider a simple example where we handle text input in a Python-based web application using the Flask framework. This example will demonstrate how to capture user input from a form, process it, and return a response.</p>
-<div id="b49677bf" class="cell" data-execution_count="12">
+<div id="d13b7619" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> flask <span class="im">import</span> Flask, request, render_template</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> Flask(<span class="va">__name__</span>)</span>
@@ -498,7 +498,7 @@ In addition to capturing inputs, it's essential to handle user interactions effe
 
 Moreover, handling errors gracefully is a crucial part of managing user interactions. Users might input data that is unexpected or malformed, and the application should be able to handle these cases without crashing. For example, if a user submits non-text data where text is expected, the application should notify the user with a clear error message and guide them on how to correct the input.
 
-::: {#66a7a54e .cell execution_count=13}
+::: {#fac2e446 .cell execution_count=13}
 ``` {.python .cell-code}
 @app.route('/', methods=['GET', 'POST'])
 def handle_input():
@@ -520,7 +520,7 @@ def handle_input():
 <h2 class="anchored" data-anchor-id="displaying-ai-outputs-effectively">Displaying AI Outputs Effectively</h2>
 <p>In the realm of AI applications, effectively displaying AI outputs is crucial for ensuring user understanding and engagement. The outputs generated by AI systems can be complex, ranging from simple numerical predictions to intricate visualizations. Therefore, the design of user interfaces should prioritize clarity, relevance, and accessibility. This involves not only presenting the data in a user-friendly manner but also providing context that helps users interpret the AI’s results accurately.</p>
 <p>One important concept to consider is the use of visual hierarchy. By strategically organizing information, you can guide users’ attention to the most important parts of the AI output. For example, in a predictive analytics dashboard, key metrics or alerts should be prominently displayed using larger fonts or contrasting colors. This helps users quickly grasp the essential information without being overwhelmed by less critical details.</p>
-<div id="2bf6d71e" class="cell" data-execution_count="14">
+<div id="084ba11b" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data</span></span>
@@ -538,7 +538,7 @@ def handle_input():
 </div>
 <p>In the code above, we use a bar chart to display model performance metrics such as accuracy, precision, and recall. By choosing different colors for each bar, we enhance the visual distinction between metrics, making it easier for users to compare values at a glance. This approach leverages visual hierarchy by focusing on the most critical performance indicators.</p>
 <p>Another key aspect of displaying AI outputs effectively is providing interpretability. Users need to understand not just the ‘what’ but also the ‘why’ behind AI decisions. For instance, when presenting the output of a machine learning model, consider including explanations or confidence intervals that indicate the reliability of the predictions. This can be achieved through tooltips, annotations, or supplementary explanatory text.</p>
-<div id="d36f1daf" class="cell" data-execution_count="15">
+<div id="bd83bb49" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample AI output</span></span>
@@ -565,7 +565,7 @@ def handle_input():
 <p>Streamlit is a popular open-source framework that allows developers to create interactive web applications for machine learning and data science projects. It is particularly well-suited for prototyping user interfaces for AI applications because it simplifies the process of turning Python scripts into shareable web apps. Streamlit’s simplicity and ease of use make it an ideal choice for quickly deploying AI prototypes to gather user feedback and iterate on design.</p>
 <p>One of the key features of Streamlit is its ability to automatically update the interface as the underlying code changes. This means that developers can focus on building the functionality of their AI applications without worrying about the complexities of front-end development. Streamlit handles the rendering of the user interface, allowing developers to create interactive widgets for inputs and display outputs effectively.</p>
 <p>To deploy a Streamlit application, you first need to create a Python script that defines the layout and behavior of your app. Streamlit provides a variety of widgets such as sliders, buttons, and text inputs, which can be used to capture user inputs. These inputs can then be processed by your AI models, and the results can be displayed back to the user in an intuitive manner. Let’s look at a simple example of a Streamlit app that takes a user’s input text and returns a sentiment analysis result using a pre-trained AI model.</p>
-<div id="96670299" class="cell" data-execution_count="16">
+<div id="02f33b87" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> streamlit <span class="im">as</span> st</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> textblob <span class="im">import</span> TextBlob</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -598,7 +598,7 @@ def handle_input():
 <h2 class="anchored" data-anchor-id="best-practices-and-common-pitfalls">Best Practices and Common Pitfalls</h2>
 <p>When prototyping user interfaces for AI applications, adhering to best practices and being aware of common pitfalls is crucial for creating effective and user-friendly solutions. A well-designed interface not only enhances user experience but also ensures that the AI functionalities are accessible and intuitive. Let’s explore some of these best practices and pitfalls, providing insights into how to implement them in your projects.</p>
 <p>One of the most important best practices is to keep the user interface simple and focused. AI applications can be complex, but the UI should not overwhelm the user with too many options or data points at once. Instead, prioritize clarity and ease of use by presenting only the most relevant information and controls. Use progressive disclosure to reveal more options as needed, allowing users to explore advanced features without feeling intimidated initially.</p>
-<div id="e0242858" class="cell" data-execution_count="17">
+<div id="65e3b215" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> streamlit <span class="im">as</span> st</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a simple and focused UI</span></span>
@@ -615,7 +615,7 @@ def handle_input():
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># st.write(result)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Another best practice is to provide clear feedback to users. When users interact with your AI application, it should be evident that their inputs are being processed and what the outcomes are. For instance, if a user submits a query, the application should acknowledge receipt and indicate that processing is underway. This can be achieved through loading indicators or status messages, which reassure users and improve their overall experience.</p>
-<div id="63050498" class="cell" data-execution_count="18">
+<div id="e2def77b" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Providing feedback to users</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> user_input:</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> st.spinner(<span class="st">'Processing...'</span>):</span>
@@ -627,7 +627,7 @@ def handle_input():
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>        st.write(<span class="st">'Your processed result here.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A common pitfall in prototyping AI interfaces is neglecting error handling and edge cases. AI models can sometimes produce unexpected results or fail to handle certain inputs gracefully. It’s crucial to anticipate these scenarios and implement appropriate error messages or fallback mechanisms. This not only improves robustness but also maintains user trust in the application.</p>
-<div id="f2da423c" class="cell" data-execution_count="19">
+<div id="7f0fba40" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of error handling</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate a function that may raise an exception</span></span>
