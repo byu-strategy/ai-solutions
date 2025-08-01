@@ -8,3 +8,19 @@
 content.jsonl
 
 /.quarto/
+
+# Ignore all Quarto-rendered HTML in docs/
+docs/**/*.html
+
+# Keep your manually maintained HTML files
+!docs/header.html
+!docs/footer.html
+
+# Ignore Quarto intermediate files
+docs/_freeze/
+docs/.quarto/
+docs/search.json
+
+# Keep source QMD files
+!**/*.qmd
+
