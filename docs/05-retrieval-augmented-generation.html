@@ -324,7 +324,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <p>This process helps mitigate hallucinations by grounding generation in retrieved facts.</p>
 <p>Example of RAG process:</p>
 <hr>
-<div id="834ed78a" class="cell" data-execution_count="1">
+<div id="153412e0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll use a mock retrieval system and a basic generative model.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Mock retrieval function</span></span>
@@ -364,7 +364,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <h2 class="anchored" data-anchor-id="key-components-of-rag-retriever-and-generator">Key Components of RAG: Retriever and Generator</h2>
 <p>The retriever is responsible for fetching relevant information from a large corpus of documents or a knowledge base. Typically, the retriever uses sophisticated search algorithms to identify and rank the most relevant documents based on the input query. These search algorithms can be based on traditional information retrieval techniques, such as TF-IDF or BM25 (which find word matches), or more advanced methods like dense retrieval using neural embeddings (which find semantic matches). Dense retrieval involves encoding both the query and documents into a high-dimensional vector space, allowing for more nuanced similarity comparisons.</p>
 <p>Example of deep retrieval:</p>
-<div id="7130eed3" class="cell" data-execution_count="2">
+<div id="aaa176a2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentence_transformers <span class="im">import</span> SentenceTransformer, util</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a pre-trained model for dense retrieval</span></span>
@@ -396,7 +396,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <p>In this example, we use a pre-trained SentenceTransformer model to perform dense retrieval. The model encodes both the query and the documents into vectors, and we compute cosine similarity to identify the most relevant document. This approach allows the retriever to efficiently find pertinent information that can be passed to the generator.</p>
 <p>Once the retriever has identified relevant documents, the generator takes over. The generator is typically a large language model, such as GPT (Generative Pre-trained Transformer), which is fine-tuned to integrate the retrieved information into coherent and contextually appropriate responses. The generator uses the retrieved documents as additional context, effectively ‘grounding’ its outputs in specific, relevant, and often factual data.</p>
 <p>Example of generation:</p>
-<div id="8eea94d0" class="cell" data-execution_count="3">
+<div id="a926a34b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a text generation pipeline</span></span>
@@ -430,7 +430,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <h2 class="anchored" data-anchor-id="use-cases-and-applications-of-rag">Use Cases and Applications of RAG</h2>
 <p>Retrieval-augmented generation (RAG) is a powerful technique that combines the strengths of information retrieval and natural language generation. This approach is particularly useful in situations where a model needs to generate text based on a large corpus of external data. By integrating retrieval mechanisms, RAG models can access and incorporate up-to-date and specialized information that might not be present in the model’s training data. This makes RAG highly applicable in various domains, including customer support, content creation, and personalized recommendations.</p>
 <p>One prominent use case of RAG is in the field of customer support. Traditional chatbots often struggle to provide accurate and contextually relevant responses due to limitations in their training data. By employing a RAG approach, these systems can retrieve relevant documents or knowledge base articles in real-time, allowing them to generate responses that are both informed and precise. For instance, if a customer inquires about a specific product feature, a RAG-based system can retrieve the latest product documentation and generate a detailed response.</p>
-<div id="264264ee" class="cell" data-execution_count="4">
+<div id="c8956ae4" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> RagTokenizer, RagRetriever, RagTokenForGeneration</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the tokenizer, retriever, and model</span></span>
@@ -454,7 +454,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <p>In addition to customer support, RAG can be leveraged for content creation, particularly in areas requiring up-to-date information. For example, journalists or content creators can use RAG models to draft articles that incorporate the latest news or scientific research. By retrieving the most recent publications or reports, RAG systems can ensure that the generated content is both relevant and accurate. This capability is especially valuable in fast-paced industries where information rapidly evolves.</p>
 <p>Another compelling application of RAG is in personalized recommendations and decision support systems. By retrieving and synthesizing information tailored to a user’s specific context or preferences, RAG models can provide highly customized advice or suggestions. For instance, in the healthcare sector, a RAG-based system could assist doctors by retrieving the latest medical research relevant to a patient’s condition, thus supporting more informed decision-making.</p>
 <p>The adaptability of RAG models also extends to educational tools, where they can enhance learning experiences by providing students with explanations or examples sourced from a wide range of educational materials. This can help in creating interactive study aids that adjust to the learner’s pace and knowledge level, offering personalized guidance and supplementary resources.</p>
-<div id="12ff715f" class="cell" data-execution_count="5">
+<div id="a34ac52c" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: Using RAG for educational purposes</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Query about a complex topic</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>topic_query <span class="op">=</span> <span class="st">"Explain the concept of quantum entanglement in simple terms."</span></span>
@@ -474,7 +474,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <h2 class="anchored" data-anchor-id="evaluating-the-performance-of-rag-systems">Evaluating the Performance of RAG Systems</h2>
 <p>Evaluating the performance of Retrieval-augmented Generation (RAG) systems is crucial to ensure their effectiveness and reliability in real-world applications. RAG systems combine information retrieval techniques with generative models to produce answers that are both relevant and contextually appropriate. Given the dual nature of these systems, their evaluation involves assessing both the retrieval and generation components.</p>
 <p>The retrieval component of a RAG system is typically evaluated using metrics common in information retrieval, such as Precision, Recall, and F1-score. Precision measures the proportion of relevant documents retrieved among all retrieved documents, while Recall measures the proportion of relevant documents retrieved out of all relevant documents available. F1-score provides a balance between Precision and Recall. These metrics help determine how well the system is retrieving useful information to support the generative model.</p>
-<div id="4a28bfff" class="cell" data-execution_count="6">
+<div id="a116ba6c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_score, recall_score, f1_score</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_retrieval(true_labels, predicted_labels):</span>
@@ -490,7 +490,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision<span class="sc">}</span><span class="ss">, Recall: </span><span class="sc">{</span>recall<span class="sc">}</span><span class="ss">, F1-score: </span><span class="sc">{</span>f1<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For the generative component, evaluation often involves metrics used in natural language processing (NLP), such as BLEU, ROUGE, and METEOR scores. These metrics compare the generated text against a set of reference texts to assess the quality and relevance of the output. BLEU (Bilingual Evaluation Understudy) measures n-gram overlap between the generated text and reference texts, while ROUGE (Recall-Oriented Understudy for Gisting Evaluation) focuses on recall-based overlap. METEOR (Metric for Evaluation of Translation with Explicit ORdering) considers synonyms and stemming, providing a more nuanced evaluation.</p>
-<div id="227699ac" class="cell" data-execution_count="7">
+<div id="2cef489f" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.translate.bleu_score <span class="im">import</span> sentence_bleu</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rouge <span class="im">import</span> Rouge</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
