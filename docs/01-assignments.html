@@ -402,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>“How can I reset my password?”</li>
 <li>“What is your return policy?”</li>
 </ol>
-<div id="a6472235" class="cell" data-execution_count="1">
+<div id="0d557338" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openai</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace 'your-api-key' with your actual OpenAI API key</span></span>
@@ -437,7 +437,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Do they address the customer’s inquiry effectively?</li>
 </ul>
 <p>Refine your prompts based on this analysis. For example, you might add context or specify the format of the response.</p>
-<div id="5e3daea0" class="cell" data-execution_count="2">
+<div id="969caa26" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Refined prompts</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>refined_prompts <span class="op">=</span> [</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Please provide detailed store hours for each day of the week."</span>,</span>
@@ -510,7 +510,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Install Required Libraries</strong>: Ensure you have the necessary Python libraries installed. You will need <code>transformers</code>, <code>torch</code>, and <code>faiss-cpu</code>. You can install them using pip:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install transformers torch faiss-cpu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Download or Generate Synthetic Data</strong>: Use the following code to generate a synthetic dataset of FAQs and answers. This will simulate the company documentation.</p>
-<p>::: {#a018dbdf .cell execution_count=3} ``` {.python .cell-code} import pandas as pd</p>
+<p>::: {#75670abe .cell execution_count=3} ``` {.python .cell-code} import pandas as pd</p>
 <p>data = { “question”: [ “How can I reset my password?”, “What is the refund policy?”, “How do I update my billing information?”, “Where can I download the mobile app?”, “What are the customer support hours?” ], “answer”: [ “To reset your password, go to the login page and click on ‘Forgot Password’.”, “Our refund policy allows returns within 30 days of purchase with a receipt.”, “To update billing information, navigate to ‘Account Settings’ and select ‘Billing’.”, “The mobile app can be downloaded from the App Store or Google Play.”, “Customer support is available from 9 AM to 5 PM, Monday to Friday.” ] }</p>
 <p>df = pd.DataFrame(data) df.to_csv(“synthetic_faq.csv”, index=False) ``` :::</p></li>
 </ol>
@@ -519,16 +519,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="step-2-implement-the-rag-pipeline">Step 2: Implement the RAG Pipeline</h3>
 <ol type="1">
 <li><p><strong>Load Data</strong>: Load the synthetic FAQ data into your Python environment.</p>
-<p>::: {#dc7bdc67 .cell execution_count=4} <code>{.python .cell-code}  df = pd.read_csv("synthetic_faq.csv")</code> :::</p></li>
+<p>::: {#ae385c0b .cell execution_count=4} <code>{.python .cell-code}  df = pd.read_csv("synthetic_faq.csv")</code> :::</p></li>
 <li><p><strong>Create a Simple Retrieval System</strong>: Use FAISS to index the FAQ questions for fast retrieval.</p>
-<p>::: {#8bd0ac51 .cell execution_count=5} ``` {.python .cell-code} import faiss from sklearn.feature_extraction.text import TfidfVectorizer</p>
+<p>::: {#d6edb2d1 .cell execution_count=5} ``` {.python .cell-code} import faiss from sklearn.feature_extraction.text import TfidfVectorizer</p>
 <p>vectorizer = TfidfVectorizer() X = vectorizer.fit_transform(df[‘question’])</p>
 <p>index = faiss.IndexFlatL2(X.shape[1]) index.add(X.toarray()) ``` :::</p></li>
 <li><p><strong>Implement a Generation Model</strong>: Use a pre-trained language model from <code>transformers</code> to generate answers.</p>
-<p>::: {#f2c0e04f .cell execution_count=6} ``` {.python .cell-code} from transformers import pipeline</p>
+<p>::: {#3cb6d266 .cell execution_count=6} ``` {.python .cell-code} from transformers import pipeline</p>
 <p>generator = pipeline(“text-generation”, model=“gpt2”) ``` :::</p></li>
 <li><p><strong>Combine Retrieval and Generation</strong>: Write a function to retrieve the most relevant FAQ and generate a response.</p>
-<p>::: {#23b41931 .cell execution_count=7} ``` {.python .cell-code} import numpy as np</p>
+<p>::: {#4d501bac .cell execution_count=7} ``` {.python .cell-code} import numpy as np</p>
 <p>def retrieve_and_generate(query): query_vec = vectorizer.transform([query]).toarray() D, I = index.search(query_vec, k=1) retrieved_answer = df.iloc[I[0][0]][‘answer’]</p>
 <pre><code> # Generate response based on retrieved answer
  generated_response = generator(retrieved_answer, max_length=50, num_return_sequences=1)
@@ -604,7 +604,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Download the synthetic customer service dataset from the following <a href="https://example.com/synthetic-customer-service-data.csv">link</a>. This dataset contains pairs of customer inquiries and appropriate responses.</li>
 <li>Load the dataset into your Python environment using pandas.</li>
 </ul>
-<p>::: {#8302c8d6 .cell execution_count=8} ``` {.python .cell-code} import pandas as pd</p>
+<p>::: {#5c46358e .cell execution_count=8} ``` {.python .cell-code} import pandas as pd</p>
 <p>data = pd.read_csv(‘synthetic-customer-service-data.csv’) print(data.head()) ``` :::</p></li>
 <li><p><strong>Model Selection</strong></p>
 <ul>
@@ -617,7 +617,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Use the <code>Trainer</code> API from the Transformers library to fine-tune the model on the customer service dataset. You will need to tokenize the text data and define a training loop.</li>
 <li>Example code snippet for fine-tuning:</li>
 </ul>
-<p>::: {#d2c5266e .cell execution_count=9} ``` {.python .cell-code} from transformers import DistilBertForSequenceClassification, Trainer, TrainingArguments, DistilBertTokenizer</p>
+<p>::: {#9f78c69f .cell execution_count=9} ``` {.python .cell-code} from transformers import DistilBertForSequenceClassification, Trainer, TrainingArguments, DistilBertTokenizer</p>
 <p>tokenizer = DistilBertTokenizer.from_pretrained(‘distilbert-base-uncased’) model = DistilBertForSequenceClassification.from_pretrained(‘distilbert-base-uncased’)</p>
 <p># Tokenize the dataset def tokenize_function(examples): return tokenizer(examples[‘inquiry’], truncation=True, padding=True)</p>
 <p>tokenized_data = data.map(tokenize_function, batched=True)</p>
@@ -628,7 +628,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Evaluate the fine-tuned model using a test set from the dataset. Report the accuracy and any other relevant metrics.</li>
 </ul>
-<p>::: {#42d1ca4f .cell execution_count=10} <code>{.python .cell-code}  results = trainer.evaluate()  print(results)</code> :::</p></li>
+<p>::: {#44dcf98d .cell execution_count=10} <code>{.python .cell-code}  results = trainer.evaluate()  print(results)</code> :::</p></li>
 <li><p><strong>Deliverables</strong></p>
 <ul>
 <li>A Python script or Jupyter Notebook with your complete fine-tuning process.</li>
@@ -747,7 +747,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="step-3-implement-the-agent">Step 3: Implement the Agent</h3>
 <ol type="1">
 <li><p><strong>Set Up Environment</strong>: Use Python to set up the environment. You can generate synthetic data for stock levels and reorder points.</p>
-<div id="acb72a7c" class="cell" data-execution_count="11">
+<div id="b3e9bb6b" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate synthetic data</span></span>
@@ -758,7 +758,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Initial Stock Levels:"</span>, stock_levels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p><strong>Implement Agent</strong>: Write Python code to implement the agent. The agent should monitor stock levels and reorder products when necessary.</p>
-<div id="3c834020" class="cell" data-execution_count="12">
+<div id="9518992e" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_and_reorder(stock_levels, reorder_thresholds):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> product, stock <span class="kw">in</span> stock_levels.items():</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> stock <span class="op">&lt;</span> reorder_thresholds[product]:</span>
@@ -826,7 +826,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="step-1-data-analysis">Step 1: Data Analysis</h3>
 <ol type="1">
 <li><p><strong>Data Acquisition</strong>: Download the sales data from the following link: <a href="https://example.com/sales-data.csv">ShopSmart Sales Data</a>. If the link is unavailable, use the synthetic data generated below:</p>
-<div id="825e70cd" class="cell" data-execution_count="13">
+<div id="814c218d" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -842,7 +842,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>sales_data.to_csv(<span class="st">'sales_data.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></li>
 <li><p><strong>Data Exploration</strong>: Load the data into a Pandas DataFrame and perform exploratory data analysis (EDA) to understand the sales trends.</p>
-<div id="5e0afb99" class="cell" data-execution_count="14">
+<div id="dc43f82c" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
@@ -947,7 +947,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>Clean and preprocess the data to handle missing values, outliers, and categorical variables.</p></li>
 <li><p>Example Python code for preprocessing:</p>
-<div id="b493bc32" class="cell" data-execution_count="15">
+<div id="aef518ed" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
@@ -967,7 +967,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Train your model and evaluate its performance using appropriate metrics (e.g., RMSE, MAE).</li>
 </ul></li>
 <li><p><strong>Example Python Code for Model Development:</strong></p>
-<div id="ab2087e2" class="cell" data-execution_count="16">
+<div id="38172bb7" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
