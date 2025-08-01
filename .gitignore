@@ -13,8 +13,8 @@ content.jsonl
 docs/**/*.html
 
 # Keep special manually-maintained HTML files
-!docs/header.html
-!docs/footer.html
+!docs/_header.html
+!docs/_footer.html
 
 # Ignore Quarto output and libraries
 docs/_freeze/
