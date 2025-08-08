@@ -36,6 +36,8 @@ csl: informs.csl
 
 format:
   html:
+    include-in-header: _header.html
+    include-after-body: _footer.html
     theme: cosmo
     link-external-icon: false
     link-external-newwindow: false

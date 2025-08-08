@@ -13,7 +13,7 @@ RAG is especially valuable in use cases where factual accuracy and context are c
 - Business analysts querying private dashboards  
 - Legal teams reviewing company-specific policies
 
-By connecting the model to a retrieval system, RAG enables it to generate responses that reflect the most up-to-date and relevant information (not just what it remembers from pretraining).
+By connecting the model to a retrieval system, RAG enables it to generate responses that reflect the most up-to-date and relevant information.
 
 ---
 
@@ -28,6 +28,7 @@ At a high level, RAG combines two components:
    A language model (like GPT-4) that takes the user’s query plus the retrieved content and generates a coherent, fact-based response.
 
 This process helps mitigate hallucinations by grounding generation in retrieved facts.
+
 
 ```{mermaid}
 flowchart LR
@@ -46,12 +47,12 @@ flowchart LR
     style E fill:#ccfbf1,stroke:#333
     
     
+Example of RAG process:
 
 ---
   
   
 ```{python}
-# Let's illustrate a simple RAG-like process using Python.
 # We'll use a mock retrieval system and a basic generative model.
 
 # Mock retrieval function
@@ -86,11 +87,13 @@ response = generate_response(retrieved_docs)
 print(response)
 ```
 
-In this code example, we simulate a RAG-like process using a simple retrieval function and a generative function. The `retrieve_documents` function mimics the retrieval step by selecting documents from a corpus that contain the query keyword. The `generate_response` function then synthesizes a response based on the retrieved documents. Although this example is rudimentary compared to sophisticated RAG models, it illustrates the fundamental concept of combining retrieval and generation.
+In this code example, we simulate a RAG-like process using a simple retrieval function and a generative function. The `retrieve_documents` function is selecting documents from a corpus that contain the query keyword. The `generate_response` function then synthesizes a response based on the retrieved documents. Although this example is rudimentary compared to sophisticated RAG models, it illustrates the fundamental concept of combining retrieval and generation.
 
 In practice, RAG models are implemented using more advanced techniques. The retrieval component often employs vector search methods, such as those based on embeddings from neural networks, to find semantically relevant documents. The generative component is typically a powerful language model, like GPT or BERT, fine-tuned to produce coherent and contextually appropriate responses. These components work together in a pipeline, where the retrieval step informs and constrains the generation process, leading to more accurate and reliable AI-driven interactions.
 
+
 # Key Components of RAG: Retriever and Generator
+
 
 The retriever is responsible for fetching relevant information from a large corpus of documents or a knowledge base. Typically, the retriever uses sophisticated search algorithms to identify and rank the most relevant documents based on the input query. These search algorithms can be based on traditional information retrieval techniques, such as TF-IDF or BM25 (which find word matches), or more advanced methods like dense retrieval using neural embeddings (which find semantic matches). Dense retrieval involves encoding both the query and documents into a high-dimensional vector space, allowing for more nuanced similarity comparisons.
 
@@ -163,6 +166,8 @@ Semantic search technologies can scan large databases of disparate information a
 Conventional or keyword search solutions in RAG produce limited results for knowledge-intensive tasks. Developers must also deal with word embeddings, document chunking, and other complexities as they manually prepare their data. In contrast, semantic search technologies do all the work of knowledge base preparation so developers don't have to. They also generate semantically relevant passages and token words ordered by relevance to maximize the quality of the RAG payload.
 
 # Benefits and Challenges of Using RAG
+
+In this section, we will explore how to integrate retrieval and generation components to create a Retrieval-augmented Generation (RAG) system. 
 
 ## More developer control
 With RAG, developers can test and improve their chat applications more efficiently. They can control and change the LLM's information sources to adapt to changing requirements or cross-functional usage. Developers can also restrict sensitive information retrieval to different authorization levels and ensure the LLM generates appropriate responses. In addition, they can also troubleshoot and make fixes if the LLM references incorrect information sources for specific questions. Organizations can implement generative AI technology more confidently for a broader range of applications.
@@ -267,6 +272,6 @@ print(relevant_docs)
 
 Another promising development is the refinement of the generative components of RAG systems. As generative models like GPT, BERT, and their successors continue to improve, they will become more adept at producing coherent, contextually appropriate, and informative text. Future RAG systems might employ adaptive generation techniques that tailor outputs based on user feedback or interaction history, leading to more personalized and user-centric experiences.
 
-Moreover, the scalability of RAG systems will be a critical area of focus. As the volume of data grows, the ability to efficiently retrieve and generate information at scale will be paramount. Techniques such as distributed computing, parallel processing, and the use of specialized hardware like GPUs and TPUs will be essential to handle the computational demands of large-scale RAG applications. Additionally, innovations in model compression and optimization will ensure that RAG systems remain accessible and efficient even on resource-constrained devices.
+The scalability of RAG systems will be a critical area of focus. As the volume of data grows, the ability to efficiently retrieve and generate information at scale will be paramount. Techniques such as distributed computing, parallel processing, and the use of specialized hardware like GPUs and TPUs will be essential to handle the computational demands of large-scale RAG applications. Additionally, innovations in model compression and optimization will ensure that RAG systems remain accessible and efficient even on resource-constrained devices.
 
 Ethical considerations and bias mitigation will also play a significant role in the future of RAG systems. As these systems become more prevalent in decision-making processes and information dissemination, ensuring that they operate fairly and without bias is crucial. Future research will likely focus on developing techniques to detect and mitigate biases in both the retrieval and generation phases, ensuring that RAG systems provide equitable and accurate information to all users.
