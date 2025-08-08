@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5fd9db47a040b21ac2cac9a0b3b722ba.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e8de9bd59ba156b9e4cb33cd6f01d621.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -348,7 +348,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>---</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>::: {#bd2361e7 .cell execution_count=1}</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>::: {#c184ca9f .cell execution_count=1}</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>``` {.python .cell-code}</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a># We'll use a mock retrieval system and a basic generative model.</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
@@ -400,7 +400,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <h1>Key Components of RAG: Retriever and Generator</h1>
 <p>The retriever is responsible for fetching relevant information from a large corpus of documents or a knowledge base. Typically, the retriever uses sophisticated search algorithms to identify and rank the most relevant documents based on the input query. These search algorithms can be based on traditional information retrieval techniques, such as TF-IDF or BM25 (which find word matches), or more advanced methods like dense retrieval using neural embeddings (which find semantic matches). Dense retrieval involves encoding both the query and documents into a high-dimensional vector space, allowing for more nuanced similarity comparisons.</p>
 <p>Example of deep retrieval:</p>
-<div id="462ddff0" class="cell" data-execution_count="2">
+<div id="f0b49f17" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sentence_transformers <span class="im">import</span> SentenceTransformer, util</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load a pre-trained model for dense retrieval</span></span>
@@ -432,7 +432,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <p>In this example, we use a pre-trained SentenceTransformer model to perform dense retrieval. The model encodes both the query and the documents into vectors, and we compute cosine similarity to identify the most relevant document. This approach allows the retriever to efficiently find pertinent information that can be passed to the generator.</p>
 <p>Once the retriever has identified relevant documents, the generator takes over. The generator is typically a large language model, such as GPT (Generative Pre-trained Transformer), which is fine-tuned to integrate the retrieved information into coherent and contextually appropriate responses. The generator uses the retrieved documents as additional context, effectively ‘grounding’ its outputs in specific, relevant, and often factual data.</p>
 <p>Example of generation:</p>
-<div id="5741d71c" class="cell" data-execution_count="3">
+<div id="6b808465" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> pipeline</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize a text generation pipeline</span></span>
@@ -482,7 +482,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <section id="evaluating-the-performance-of-rag-systems" class="level1">
 <h1>Evaluating the Performance of RAG Systems</h1>
 <p>The retrieval component of a RAG system is typically evaluated using metrics common in information retrieval, such as Precision, Recall, and F1-score. Precision measures the proportion of relevant documents retrieved among all retrieved documents, while Recall measures the proportion of relevant documents retrieved out of all relevant documents available. F1-score provides a balance between Precision and Recall. These metrics help determine how well the system is retrieving useful information to support the generative model.</p>
-<div id="f8335ce2" class="cell" data-execution_count="4">
+<div id="849c112c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_score, recall_score, f1_score</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_retrieval(true_labels, predicted_labels):</span>
@@ -498,7 +498,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Precision: </span><span class="sc">{</span>precision<span class="sc">}</span><span class="ss">, Recall: </span><span class="sc">{</span>recall<span class="sc">}</span><span class="ss">, F1-score: </span><span class="sc">{</span>f1<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For the generative component, evaluation often involves metrics used in natural language processing (NLP), such as BLEU, ROUGE, and METEOR scores. These metrics compare the generated text against a set of reference texts to assess the quality and relevance of the output. BLEU (Bilingual Evaluation Understudy) measures n-gram overlap between the generated text and reference texts, while ROUGE (Recall-Oriented Understudy for Gisting Evaluation) focuses on recall-based overlap. METEOR (Metric for Evaluation of Translation with Explicit ORdering) considers synonyms and stemming, providing a more nuanced evaluation.</p>
-<div id="82ac98b5" class="cell" data-execution_count="5">
+<div id="456f22aa" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.translate.bleu_score <span class="im">import</span> sentence_bleu</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rouge <span class="im">import</span> Rouge</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -525,7 +525,7 @@ A language model (like GPT-4) that takes the user’s query plus the retrieved c
 <h1>Future Trends and Developments in Retrieval-Augmented Generation</h1>
 <p>As we look towards the future of Retrieval-Augmented Generation (RAG) systems, several exciting trends and developments emerge, promising to enhance the capabilities, efficiency, and applicability of these systems. RAG, which combines the strengths of retrieval-based methods and generative models, is poised to evolve significantly, driven by advancements in machine learning, computational power, and data availability.</p>
 <p>One key trend is the integration of more sophisticated retrieval mechanisms. Traditional retrieval methods often rely on keyword matching or basic semantic similarity. However, future RAG systems are likely to incorporate advanced retrieval models that leverage deep learning techniques, such as dense vector embeddings and transformer-based architectures, to better understand and match the context and nuances of both queries and documents. This will result in more accurate and contextually relevant retrievals, enhancing the overall quality of generated responses.</p>
-<div id="095353ff" class="cell" data-execution_count="6">
+<div id="b6ebf9db" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of using a transformer-based retrieval model</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> retrieve_documents(query, corpus, model):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Retrieve documents using a transformer-based model."""</span></span>
