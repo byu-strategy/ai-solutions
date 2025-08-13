@@ -306,7 +306,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="introduction-to-prompt-engineering">Introduction to Prompt Engineering</h2>
 <p>Prompt engineering is a fundamental concept in the development of strategic AI solutions, particularly when working with language models like GPT-3. At its core, prompt engineering involves crafting inputs, or ‘prompts’, to effectively communicate with AI models to elicit the most accurate and relevant responses. This process is crucial because the quality of the AI’s output is heavily dependent on how the input is structured. A well-designed prompt can significantly enhance the model’s performance by providing context, specifying the format of the response, or setting constraints on the possible answers.</p>
 <p>The art of prompt engineering lies in understanding the model’s capabilities and limitations, and then designing prompts that guide the model to perform tasks effectively. This involves iteratively testing and refining prompts to achieve the desired results. For instance, if you want the model to generate a summary of a lengthy article, your prompt might include specific instructions such as ‘Provide a concise summary of the following text’.</p>
-<div id="324547a5" class="cell" data-execution_count="1">
+<div id="597ed1a4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a basic prompt for text summarization using an AI model</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"Provide a concise summary of the following text: 'Artificial intelligence is transforming industries by automating processes, enhancing decision-making, and driving innovation. It is particularly impactful in sectors such as healthcare, finance, and transportation.'"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -316,7 +316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In this example, the prompt clearly instructs the model to summarize the text. The specificity of the prompt helps the model understand the task and focus on extracting the key points from the provided information. However, crafting effective prompts often requires more than just clear instructions; it also involves understanding the context and nuances of the task at hand. For instance, when dealing with complex topics, it may be necessary to break down the task into smaller, more manageable parts and guide the model through each step.</p>
 <p>Programmatic prompting is another dimension of prompt engineering, where prompts are generated or modified programmatically based on certain conditions or inputs. This approach is particularly useful when dealing with dynamic or large-scale data, where manually crafting each prompt is impractical. By using programmatic methods, prompts can be tailored to specific datasets or user inputs, enhancing the flexibility and scalability of AI applications.</p>
-<div id="ec9c05b8" class="cell" data-execution_count="2">
+<div id="e9b08d52" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of programmatic prompting</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_prompt(task_type, text):</span>
@@ -347,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Instructions/Questions</strong>: This is the directive part of the prompt, where you ask the model to perform a specific action or answer a question. Clear and concise instructions are key to obtaining precise outputs. For instance, ‘Describe the protagonist’s main challenge and how they overcome it.’</p></li>
 </ol>
 <p>Let’s consider a practical example to illustrate these components in action. Suppose we want an AI to summarize a piece of text. A well-structured prompt might look like this:</p>
-<div id="578039bb" class="cell" data-execution_count="3">
+<div id="ab5eaf22" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the components of the prompt</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>task_definition <span class="op">=</span> <span class="st">"Summarize the following article in two sentences."</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>context <span class="op">=</span> <span class="st">"The article discusses recent advancements in renewable energy technologies."</span></span>
@@ -367,21 +367,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="types-of-prompts-directives-questions-and-more">Types of Prompts: Directives, Questions, and More</h2>
 <p>In the realm of prompt engineering, understanding the different types of prompts is essential for crafting effective interactions with AI models. Prompts can be broadly categorized into several types, each serving a distinct purpose and eliciting different kinds of responses from the model. The primary types of prompts include directives, questions, and others such as examples or statements. Each type has unique characteristics and applications, which we will explore in detail.</p>
 <p>Directives are prompts that instruct the AI to perform a specific task. They are often imperative and straightforward, guiding the AI in a clear direction. For instance, a directive might ask the AI to ‘summarize this text’ or ‘translate this paragraph into French’. Directives are particularly useful when the desired outcome is a precise action or transformation of data.</p>
-<div id="d8e93e6c" class="cell" data-execution_count="4">
+<div id="12be1cee" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a directive prompt</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"Translate the following English text to Spanish: 'Hello, how are you?'"</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ai_model.generate(prompt)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response)  <span class="co"># Expected output: "Hola, ¿cómo estás?"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Questions, on the other hand, are prompts designed to elicit informative responses. They can be open-ended or closed-ended, depending on the level of detail required. Open-ended questions encourage expansive answers and are useful in exploratory tasks, while closed-ended questions are more suited for eliciting specific information. For example, asking ‘What are the benefits of renewable energy?’ invites a detailed discussion, whereas ‘Is the sky blue?’ seeks a simple confirmation.</p>
-<div id="1648dfef" class="cell" data-execution_count="5">
+<div id="4c241c9b" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a question prompt</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"What are the main causes of climate change?"</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ai_model.generate(prompt)</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(response)  <span class="co"># Expected output: A detailed explanation of climate change causes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Beyond directives and questions, there are other types of prompts such as examples and statements. Example-based prompts provide the AI with specific instances to illustrate a pattern or concept. These prompts can be particularly effective in few-shot learning scenarios, where the AI is given a few examples to infer the task. Statements, in contrast, can be used to assert information or set a context for the AI to consider in its response.</p>
-<div id="1a891022" class="cell" data-execution_count="6">
+<div id="a2353fc4" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an example-based prompt</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> <span class="st">"Here are some examples of palindrome words: 'radar', 'level', 'rotor'. Can you identify more?"</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> ai_model.generate(prompt)</span>
@@ -396,7 +396,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Another important aspect is context. Providing context in your prompts can significantly improve the quality of the AI’s responses. Context can be established by including relevant background information or framing the prompt within a specific scenario. For example, ‘In the context of a retail business, how can AI improve inventory management?’ gives the AI a clear framework to generate a more targeted response.</p>
 <p>Additionally, consider the tone and style of your prompts. Depending on the application, you might require formal, technical responses or more casual, conversational ones. Adjusting the phrasing of your prompt can influence the tone of the AI’s output. For example, ‘Could you provide a detailed technical analysis of blockchain technology?’ versus ‘What’s the deal with blockchain?’ will yield different styles of responses.</p>
 <p>In programmatic prompting, dynamic generation of prompts based on user input or data is common. This requires constructing prompts programmatically while maintaining clarity and context. Let’s look at a Python example where we dynamically create a prompt based on user input.</p>
-<div id="e865f4b1" class="cell" data-execution_count="7">
+<div id="ee1eef51" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to generate a prompt based on user input</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_prompt(topic, context):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f'In the context of </span><span class="sc">{</span>context<span class="sc">}</span><span class="ss">, how does </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss"> impact the industry?'</span></span>
@@ -415,7 +415,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="common-pitfalls-in-prompt-design">Common Pitfalls in Prompt Design</h2>
 <p>In the realm of prompt engineering, understanding common pitfalls in prompt design is essential for crafting effective interactions with AI models. These pitfalls can lead to suboptimal results, misunderstandings, or even completely erroneous outputs. By recognizing and addressing these issues, you can significantly improve the quality and reliability of the AI solutions you develop.</p>
 <p>One of the most prevalent pitfalls is ambiguity in prompt design. Ambiguous prompts can confuse the AI model, leading to responses that are not aligned with user expectations. For instance, consider a prompt like ‘Explain the benefits.’ Without context, the model has no clear direction on what benefits to discuss. This can be addressed by providing specific context or constraints within the prompt.</p>
-<div id="2e63e7a5" class="cell" data-execution_count="8">
+<div id="975381cd" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ambiguous prompt example</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ambiguous_prompt <span class="op">=</span> <span class="st">"Explain the benefits."</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -423,7 +423,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>improved_prompt <span class="op">=</span> <span class="st">"Explain the benefits of using renewable energy sources over fossil fuels."</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Another common issue is overly complex or lengthy prompts. When a prompt is too complex, it can overwhelm the model, causing it to miss the main point or generate irrelevant information. It’s crucial to keep prompts concise and focused, breaking down complex queries into simpler parts if necessary.</p>
-<div id="777d1406" class="cell" data-execution_count="9">
+<div id="7d0f44d1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Overly complex prompt example</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>complex_prompt <span class="op">=</span> (</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"In the context of global economic trends, technological advancements, and social changes, describe how the </span></span>
@@ -436,7 +436,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>simplified_prompt_2 <span class="op">=</span> <span class="st">"How is AI integration expected to affect employment rates negatively?"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ignoring the model’s limitations is another pitfall. AI models have inherent biases and knowledge limitations based on their training data. If a prompt assumes the model has up-to-date or niche knowledge, it may result in inaccurate responses. To mitigate this, always verify information from the model and use prompts that acknowledge these limitations.</p>
-<div id="2beecfc1" class="cell" data-execution_count="10">
+<div id="751b0f94" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prompt assuming up-to-date knowledge</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>outdated_prompt <span class="op">=</span> <span class="st">"What are the latest advancements in quantum computing as of today?"</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -451,7 +451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Programmatic prompting is a powerful technique that leverages automation to enhance and streamline interactions with AI models. Unlike manual prompting, where each interaction is crafted individually, programmatic prompting involves writing scripts or programs that generate prompts dynamically. This approach can be particularly useful in scenarios where the same type of interaction needs to be repeated multiple times with variations, such as in data processing tasks, automated report generation, or large-scale testing of AI models.</p>
 <p>One of the key benefits of programmatic prompting is efficiency. By automating the creation and management of prompts, you can significantly reduce the time and effort required to interact with AI models. Additionally, programmatic prompting ensures consistency across interactions, minimizing the risk of human error. This is especially important in enterprise environments where reliability and accuracy are critical.</p>
 <p>To implement programmatic prompting, you typically use a programming language like Python to write scripts that generate prompts based on predefined templates and input data. These scripts can then automatically send the prompts to an AI model and process the responses. Let’s explore a basic example of programmatic prompting using Python and a hypothetical AI model API.</p>
-<div id="19597af4" class="cell" data-execution_count="11">
+<div id="cd432cd3" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function to generate a prompt based on a template and input data</span></span>
@@ -495,7 +495,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the realm of prompt engineering, contextual prompts play a vital role in enhancing the quality and relevance of AI-generated responses. Contextual prompts involve providing background information or a specific context to the AI model, allowing it to generate responses that are more aligned with the user’s needs or the task at hand. This technique is particularly useful when dealing with complex queries or when the AI needs to maintain consistency across multiple interactions.</p>
 <p>A key aspect of contextual prompting is understanding what context is necessary for the task. Context can include various types of information such as user history, previous interactions, specific domain knowledge, or even the tone and style preferred by the user. By incorporating this background information, AI models can produce more coherent and tailored responses, which is crucial in strategic AI solutions where precision and relevance are paramount.</p>
 <p>For example, consider a customer service chatbot designed to assist users with product inquiries. By utilizing contextual prompts, the chatbot can reference previous interactions with the user, such as past purchases or previous questions, to provide more personalized and useful responses. This not only enhances the user experience but also increases the efficiency of the interaction.</p>
-<div id="b65f9f56" class="cell" data-execution_count="12">
+<div id="4577d2db" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of using contextual prompts in a customer service chatbot</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume we have a function get_user_context() that retrieves user's past interactions</span></span>
@@ -520,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In the above code example, the function <code>generate_response</code> takes a user query and enriches it with context retrieved from the user’s past interactions. By doing so, the AI model is better equipped to provide a response that is not only accurate but also personalized to the user’s history and needs. This method of contextual prompting is a powerful tool in creating strategic AI solutions that require a high degree of personalization and relevance.</p>
 <p>Another critical application of contextual prompts is in educational AI systems where the model needs to adapt to the learning pace and style of individual students. By storing and using contextual information such as a student’s previous performance, preferred learning methods, and areas of difficulty, AI systems can tailor educational content to optimize learning outcomes.</p>
-<div id="9ac2c3a0" class="cell" data-execution_count="13">
+<div id="80416ce1" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of using contextual prompts in an educational AI system</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume we have a function get_student_profile() that retrieves a student's learning context</span></span>
@@ -551,7 +551,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="iterative-prompt-refinement-ab-testing-and-optimization">Iterative Prompt Refinement: A/B Testing and Optimization</h2>
 <p>In the realm of prompt engineering, refining prompts is a crucial step to ensure that AI models deliver the best possible results. One effective method for refining prompts is through iterative prompt refinement, which involves A/B testing and optimization. This process is akin to traditional A/B testing in marketing or web design, where two or more variations are compared to determine which performs better. In the context of AI, this means testing different prompt versions to see which one elicits the most accurate, relevant, or creative responses from the model.</p>
 <p>The iterative nature of this process is key. By continually testing and refining prompts, we can incrementally improve the quality of the AI’s output. This involves not only comparing the performance of different prompts but also understanding why certain prompts work better. It requires a systematic approach to experimentation, where variables are controlled and results are carefully analyzed. This enables the identification of patterns and insights that can guide further prompt development.</p>
-<div id="1bafff5d" class="cell" data-execution_count="14">
+<div id="e2d3c606" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let's assume we have a function `evaluate_prompt` that takes a prompt and returns a score based on the AI's response quality.</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_prompt(prompt):</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This function is a placeholder for whatever evaluation mechanism you use.</span></span>
@@ -575,7 +575,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The code example above demonstrates a basic A/B testing setup for prompt refinement. Here, we define a simple <code>evaluate_prompt</code> function that simulates the evaluation process. In practice, this function would be more sophisticated, potentially involving human reviewers or automated metrics to assess the quality of the AI’s responses to each prompt. By comparing the scores of different prompts, we can identify which prompt performs best and should be used as a basis for further refinement.</p>
 <p>Once the best-performing prompt is identified, the next step is optimization. This involves tweaking the prompt to see if further improvements can be made. Optimization might include adjusting the wording, adding more context, or experimenting with different prompt structures. The goal is to fine-tune the prompt to maximize the quality of the AI’s output, ensuring it aligns closely with the desired objectives.</p>
-<div id="5417281b" class="cell" data-execution_count="15">
+<div id="010e70fe" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Optimization example: Let's tweak the best prompt slightly and re-evaluate.</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>optimized_prompts <span class="op">=</span> [</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    best_prompt,</span>
@@ -598,7 +598,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the realm of prompt engineering, evaluating the performance of prompts is crucial for ensuring that AI solutions deliver the desired outcomes. This involves defining and measuring success metrics that align with the intended goals of the AI system. Evaluating prompt performance not only helps in understanding how well a prompt is performing but also provides insights into areas for improvement. This section will explore various strategies for evaluating prompt performance and the key metrics that can be used to measure success.</p>
 <p>One of the primary considerations when evaluating prompt performance is defining clear success criteria. These criteria should be aligned with the objectives of the AI application. For instance, if the goal is to generate creative content, success metrics might include originality and coherence. On the other hand, if the goal is to retrieve accurate information, metrics like precision and recall might be more appropriate. Establishing these criteria allows for a structured evaluation process.</p>
 <p>Quantitative metrics play a significant role in evaluating prompt performance. These can include measures such as accuracy, precision, recall, and F1 score, particularly in tasks like classification or information retrieval. For generation tasks, metrics such as BLEU, ROUGE, or METEOR scores can be used to assess the quality of the generated text against a reference. However, it’s important to remember that these metrics may not fully capture the nuances of human language, so they should be complemented with qualitative assessments.</p>
-<div id="b947e8b8" class="cell" data-execution_count="16">
+<div id="3ff9ee60" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of calculating precision, recall, and F1 score</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_score, recall_score, f1_score</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -623,7 +623,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="case-study-1-customer-support-automation" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-1-customer-support-automation">Case Study 1: Customer Support Automation</h3>
 <p>One of the most common applications of prompt engineering is in the field of customer support automation. Companies often use AI models to handle customer inquiries, reducing the need for human intervention. A well-engineered prompt can help the AI system understand the context of a customer’s question and provide accurate, helpful responses.</p>
-<div id="8ffd1aae" class="cell" data-execution_count="17">
+<div id="cce7aa56" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a customer support prompt</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_customer_response(issue_description):</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="ss">f"""</span></span>
@@ -645,7 +645,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="case-study-2-content-generation-for-marketing" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-2-content-generation-for-marketing">Case Study 2: Content Generation for Marketing</h3>
 <p>Another intriguing application of prompt engineering is in the domain of content generation for marketing purposes. Companies leverage AI to create engaging and persuasive content for advertisements, blog posts, and social media. The key to success in this area is crafting prompts that elicit creative and contextually appropriate outputs from the AI model.</p>
-<div id="3d3da3fd" class="cell" data-execution_count="18">
+<div id="0e48d004" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a marketing content generation prompt</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_marketing_content(product_name, target_audience):</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="ss">f"""</span></span>
@@ -668,7 +668,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="case-study-3-educational-tool-development" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-3-educational-tool-development">Case Study 3: Educational Tool Development</h3>
 <p>Prompt engineering is also pivotal in the development of educational tools. AI models can assist in creating personalized learning experiences by generating explanations, quizzes, and feedback for students. The challenge lies in designing prompts that can adapt to different learning styles and educational needs.</p>
-<div id="d86f5d17" class="cell" data-execution_count="19">
+<div id="52b9cc35" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an educational prompt for generating quiz questions</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_quiz_questions(topic, difficulty_level):</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="ss">f"""</span></span>
