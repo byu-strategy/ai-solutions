@@ -10,7 +10,7 @@ content.jsonl
 /.quarto/
 
 # Ignore rendered HTML
-docs/**/*.html
+# docs/**/*.html
 
 # Keep special manually-maintained HTML files
 !docs/_header.html
@@ -19,8 +19,8 @@ docs/**/*.html
 # Ignore Quarto output and libraries
 docs/_freeze/
 docs/.quarto/
-docs/search.json
-docs/site_libs/
+# docs/search.json
+# docs/site_libs/
 
 # Ignore OS files
 .DS_Store
