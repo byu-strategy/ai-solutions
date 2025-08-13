@@ -487,22 +487,22 @@ PEFT is an umbrella term for many techniques allow you to fine-tune large models
 
 Instead of modifying all the weights, PEFT methods freeze the original model and train **small, added components**—like adapter layers or low-rank matrices—that learn task-specific behavior.
 
-In this course, we’ll focus on one of the most widely used PEFT techniques: **LoRA (Low-Rank Adaptation)**, which uses lightweight matrix updates to adapt the model efficiently while keeping the original weights frozen.
+In this course, we’ll focus on one of the most widely used PEFT technique: **LoRA (Low-Rank Adaptation)**, which uses lightweight matrix updates to adapt the model efficiently while keeping the original weights frozen.
 
 ![Overview of PEFT Methods](images/peft-methods.png){#fig-peft-methods fig-align="center" width="80%"}
 
 ---
-#### Low Rank Adaptation (LoRA)
-LoRA targets the attention layers (a core component of transformer models like GPT or LLaMA). These layers contain big weight matrices, like Wq and Wv, which help the model decide what to pay attention to in a sentence. 
+##### **Low Rank Adaptation (LoRA)**
+LoRA (Low-Rank Adaptation) is a clever way to fine-tune large language models without changing most of their weights.
 
-Instead of changing these matrices directly, LoRA: 
+Instead of updating all the millions (or even billions!) of parameters in a model, LoRA adds a few small, trainable layers that sit inside the existing model architecture. During training, only these small layers are updated, while the original model remains frozen. This makes training faster, cheaper, and requires much less memory.
 
-- Adds two small matrices, called A and B 
-- Multiplies them together to form a low-rank approximation 
+Think of it like adding a few adjustable knobs to an already well-built machine, instead of rebuilding the entire machine from scratch.
 
-Adds this result to the original frozen matrix during training and inference 
+![Comparison of full parameter fine-tuning vs LoRA](images/lora-regular.png)
 
-#### Quantized Low Rank Adaptation (QLoRA)
+##### **Quantized Low Rank Adaptation (QLoRA)**
+
 While LoRA dramatically reduces the number of parameters you need to train, the base model (like LLaMA or Mistral) still takes up a lot of memory. That’s where QLoRA (Quantized LoRA) comes in.
 
 QLoRA keeps everything that makes LoRA efficient—but adds quantization to reduce the memory footprint of the base model itself. This makes it possible to fine-tune large models even on laptops or free Colab GPUs.
@@ -519,139 +519,247 @@ This doesn’t change the model’s structure—it just changes how the numbers 
 It’s like switching from a high-resolution video to a compressed version that still looks good—but takes up less space.
 :::
 
-### **Fine-Tuning Tools / Frameworks **
+For a deeper understanding of LoRA and QLoRA, [watch this video](https://www.youtube.com/watch?v=t1caDsMzWBk).
+
+### **Fine-Tuning Tools (No-Code to Low-Code)**
+
+If you're just getting started or want to fine-tune without writing a lot of code, the following tools offer simple, powerful interfaces:
+
+#### **[OpenAI Platform](https://platform.openai.com/){target=_blank}**
+
+A hosted solution for fine-tuning OpenAI models like `gpt-3.5-turbo`. You upload your training data, and OpenAI handles the rest. No infrastructure or model setup needed.
+
+**Pros**: Easy to use, fully managed, excellent for production-ready APIs  
+**Cons**: Only supports OpenAI models (not open-source), limited customization
+
+#### **[Hugging Face AutoTrain](https://huggingface.co/autotrain){target=_blank}**
+
+A no-code/low-code tool for training and fine-tuning Hugging Face models using your own data. Supports classification, summarization, instruction tuning, and more.
+
+**Pros**: Very user-friendly UI, supports both public and private models  
+**Cons**: Less control than coding directly with the Transformers library
+
+#### **[LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory){target=_blank}**
+
+A lightweight framework (requires Python) for fine-tuning open-source models like LLaMA, Mistral, and Qwen. Supports LoRA, QLoRA, and other efficient training methods.
+
+**Pros**: High flexibility, supports many models and fine-tuning strategies  
+**Cons**: Requires setup and command-line use
+
 
 ## 4) Training Arguments and Hyperparameter Optimization
 
-Hyperparameter optimization is a critical step in the process of fine-tuning machine learning models. While model parameters are learned from the data during training, hyperparameters are set before the learning process begins and control the behavior of the training algorithm. Examples of hyperparameters include learning rate, batch size, number of epochs, and architecture-specific settings like the number of layers in a neural network.
+When fine-tuning a language model, you need to configure how the training process will run. These configurations are called hyperparameters. Hyperparameters are like **settings or dials** that you tune before training begins. They define how the model learns, how fast it learns, how long it trains, and how much data it sees at a time. Choosing the right hyperparameters is critical to getting good result. If they’re set poorly, the model may underfit (learn too little) or overfit (memorize the data instead of generalizing). Good choices help the model learn effectively and perform well on new data.
 
-Choosing the right hyperparameters can significantly affect the performance of a model. Poorly chosen hyperparameters can lead to underfitting, where the model fails to capture the underlying trends in the data, or overfitting, where the model captures noise instead of the signal. Thus, hyperparameter optimization involves systematically searching for the best set of hyperparameters that minimize a predefined loss function on a validation set.
+Below are the most important hyperparameters you’ll encounter when fine-tuning a language model. For each, we define what it is, how it affects the training process, and provide common values.
 
-There are several techniques for hyperparameter optimization, including grid search, random search, and more advanced methods like Bayesian optimization.
+### **1) Learning Rate**
 
-When you fine-tune a language model, you have to decide **how** the training process will work. These decisions are controlled by something called **training arguments** or **hyperparameters**.
+**Definition**:  
+Controls how much the model’s weights are adjusted with each training step.
 
-Hyperparameters are like **settings or dials** that you tune before training begins. They define how the model learns, how fast it learns, how long it trains, and how much data it sees at a time. Choosing the right hyperparameters is critical to getting good results.
+**Effect on Training**:  
+- Too high → unstable training, poor convergence  
+- Too low → slow learning or getting stuck in suboptimal solutions
 
+**Common Values**:  
+`1e-5`, `2e-5`, `5e-5`, `1e-4`, `2e-4`  
+(LoRA/QLoRA often use `1e-4` to `2e-4`)
 
-### Key Hyperparameters and What They Do
+### **2) Number of Epochs**
 
-| Hyperparameter                | What It Controls                                  | Why It Matters                                               |
-|------------------------------|---------------------------------------------------|--------------------------------------------------------------|
-| `learning_rate`              | How quickly the model updates its weights         | Too high: unstable training; too low: slow or no learning    |
-| `num_train_epochs`           | How many times the model sees the full dataset    | More epochs = more learning, but also risk of overfitting    |
-| `per_device_train_batch_size`| How many examples the model processes at once     | Larger batches are faster but use more memory                |
-| `gradient_accumulation_steps`| Simulates larger batches over multiple steps      | Useful when memory is limited                                |
-| `cutoff_len`                 | Maximum number of tokens per example              | Truncates long inputs; controls memory usage                 |
-| `val_size`                   | Portion of data used for validation (e.g., 0.1)   | Helps track performance on unseen data                      |
-| `lr_scheduler_type`          | How the learning rate changes over time           | Controls whether training slows down or stays steady         |
-| `max_samples`                | Maximum number of training examples to use        | Useful for quick experiments or debugging                    |
+**Definition**:  
+The number of times the model iterates over the entire training dataset.
 
+**Effect on Training**:  
+- More epochs → more learning opportunity  
+- Too many → overfitting on small datasets
 
-### A Few Examples
+**Common Values**:  
+`1`, `2`, `3` (up to `10` for small datasets)
 
-#### Learning Rate
+### **3) Batch Size**
 
-The **learning rate** controls how big each step is during training. If it’s too big, the model may bounce around and never converge. If it’s too small, it may take forever to learn—or not learn at all.
+**Definition**:  
+Number of training examples processed simultaneously per GPU.
 
-- Typical values: `2e-5`, `5e-5`, `1e-4`
-- For LoRA or QLoRA, `2e-4` is a good starting point
+**Effect on Training**:  
+- Larger batch size → faster training, more stable gradients  
+- Smaller batch size → lower memory usage (can be paired with gradient accumulation)
 
-#### Batch Size and Gradient Accumulation
+**Common Values**:  
+`2`, `4`, `8`, `16`  
+(LoRA/QLoRA typically use `2` or `4`)
 
-If your GPU can only fit 2 examples at a time (`batch_size=2`), but you want to simulate a batch size of 8, you can use:
+### **4) Gradient Accumulation Steps** 
 
-```python
-per_device_train_batch_size = 2
-gradient_accumulation_steps = 4
-```
+**Definition**:  
+Delays weight updates by accumulating gradients over multiple mini-batches.
 
-This tells the model to accumulate gradients for 4 steps before updating weights—just like having a batch of 8.
+**Effect on Training**:  
+- Simulates a larger effective batch size without needing more memory  
+- Helps stabilize training with small per-device batch sizes
 
+**Example**:  
+Batch size `2` + accumulation `4` = effective batch size `8`
 
-### Choosing Good Defaults
+**Common Values**:  
+`1`, `2`, `4`, `8`
 
-If you’re just getting started, here’s a simple configuration that works well for small LoRA fine-tuning:
+### **5) Cutoff Length**
 
-```yaml
-learning_rate: 2e-4
-num_train_epochs: 3
-per_device_train_batch_size: 2
-gradient_accumulation_steps: 4
-cutoff_len: 512
-val_size: 0.1
-lr_scheduler_type: cosine
-max_samples: 10000
-```
+**Definition**:  
+Maximum number of tokens used from each input during training.
 
-This setup is designed to balance learning quality with resource efficiency.
+**Effect on Training**:  
+- Longer inputs = more context, but higher memory usage  
+- Shorter inputs = lower memory usage, but possible information loss
 
+**Common Values**:  
+`512`, `1024`, `2048`
 
-### Summary
+### **6) Validation Size**
 
-- Hyperparameters are not learned—they're chosen by you.
-- The right values depend on your model, dataset size, hardware, and goals.
-- You don’t have to guess—start with reasonable defaults and adjust based on the results.
+**Definition**:  
+Percentage of data reserved for validation (not used in training).
 
+**Effect on Training**:  
+- Enables tracking of model performance during training  
+- Helps detect overfitting
 
-## 5) Evaluating Your Fine-Tuned Model
+**Common Values**:  
+`0.05`, `0.1`, `0.2`  
+(Set to `0` to disable validation)
 
-Once you’ve fine-tuned your model, the next step is to evaluate whether it actually improved. For student projects using LLaMA Factory, the most practical and meaningful evaluation methods are **manual (human) testing** and **inspecting the training loss curve**. These methods give immediate insight into how well your fine-tuning worked — without needing complex infrastructure.
+Understanding these hyperparameters—and adjusting them thoughtfully—can dramatically improve the results of your fine-tuning runs.
 
-### 1. Human Evaluation (Manual Prompt Testing)
+::: {.callout-tip collapse=true}
+#### Summary Table
 
-The most intuitive way to evaluate your model is to test it yourself:
+| Hyperparameter                 | What It Controls                                  | Why It Matters                                               |
+|-------------------------------|---------------------------------------------------|--------------------------------------------------------------|
+| `learning_rate`               | How quickly the model updates its weights         | Too high: unstable training; too low: slow or no learning    |
+| `num_train_epochs`            | How many times the model sees the full dataset    | More epochs = more learning, but also risk of overfitting    |
+| `per_device_train_batch_size` | How many examples the model processes at once     | Larger batches are faster but use more memory                |
+| `gradient_accumulation_steps` | Simulates larger batches over multiple steps      | Useful when memory is limited                                |
+| `cutoff_len`                  | Maximum number of tokens per example              | Truncates long inputs; controls memory usage                 |
+| `val_size`                    | Portion of data used for validation (e.g., 0.1)   | Helps track performance on unseen data                       |
+:::
 
-- Create a short set of prompts related to your task.
-- Run these prompts through both the **pretrained base model** and your **fine-tuned version**.
-- Compare the outputs directly.
+In summary, hyperparameters are not learned during training—they’re chosen by you before training begins. The ideal values depend on several factors, including your model size, dataset, available hardware, and specific goals. Fortunately, you don’t have to guess: most tools offer solid default settings, which you can use as a starting point and adjust based on your results.
 
-Ask:
-- Does the fine-tuned model follow instructions better?
-- Are the responses more accurate, helpful, or aligned with your desired tone?
-- Does the model fail in new or surprising ways?
+## 5) Evaluating Training with the Loss Curve
 
-This **side-by-side comparison** is especially useful for instruction-following or customer support use cases. If you fine-tuned on a small, custom dataset, human feedback is often the most reliable signal of success.
+When fine-tuning a model, one of the simplest and most useful diagnostic tools is the **loss curve**—a plot of the model’s training and validation loss across training steps. It gives you direct feedback on how well your model is learning and whether it’s likely to generalize to new data.
 
-### 2. Loss Curve Inspection
+### Understanding Loss
 
-Another helpful tool is your model’s **loss curve** — a graph of how the training loss changes over time (per step or per epoch). You can find this in the training logs or visualize it using tools like **Weights & Biases** (W&B).
+During training, your model tries to **minimize the loss**—a numerical estimate of how wrong its predictions are. A lower loss means better performance on the task at hand.
 
-A healthy loss curve typically shows:
-- A **downward trend** over time → the model is learning.
-- **Plateaus** near zero → the model may have finished learning.
-- **Spikes or instability** → possible issues with data quality, learning rate, or batch size.
-- **Divergence late in training** → potential overfitting if validation loss increases.
+However, **low training loss alone is not enough**. What really matters is how well the model performs on unseen (validation) data. That’s where the idea of **generalization** comes in.
 
-Even without formal metrics, this curve helps you understand how training behaved.
+> A well-generalizing model will have both low training loss and low validation loss.
 
-### 3. Brief Note on Industry Evaluation Standards
+### Underfitting
 
-In production and research settings, AI developers use more advanced evaluation techniques to measure model quality and alignment at scale, including:
+Underfitting occurs when the model **fails to learn the core patterns** in the training data. This can happen if the model is too simple, trained for too few steps, or if the data lacks clear structure.
 
-- **Automated metrics** like BLEU, ROUGE, and exact match
-- **Human preference scoring** across ranked outputs
-- **LLM-as-a-judge** frameworks (e.g., using GPT-4 to evaluate outputs)
-- **Adversarial testing** and robustness checks
+<div style="float: right; margin-left: 20px; margin-bottom: 10px; text-align: center;">
+  <img src="images/underfitting.png" alt="Underfitting Loss Curve" width="280">
+  <p style="font-size: 0.85em; color: gray;">Underfitting Loss Curve</p>
+</div>
 
-These methods require larger datasets, infrastructure, or teams — and we’ll explore them in depth in the [Evaluation & Alignment chapter](#) later in the course.
+On a loss curve, underfitting shows up as:
 
-### Summary
+- **High training loss** that doesn’t improve much
+- **High validation loss** that stays close to the training loss
 
-For now, focus on:
-- **Manual prompt testing** to compare output quality before and after fine-tuning
-- **Loss curve inspection** to confirm that your training was stable and effective
+This means the model is struggling even on the examples it has seen.
 
-These methods are simple, powerful, and enough to validate that your fine-tuning is working as expected.
+**How to fix it:**
+- Train longer (increase `num_train_epochs`)
+- Use a larger model or increase LoRA rank
+- Improve the quality and clarity of your dataset
 
-## Future Trends in Fine-Tuning
+### Overfitting
 
-As we look towards the future of fine-tuning in AI, several trends are emerging that promise to enhance the capabilities and efficiency of machine learning models. Fine-tuning, which involves adapting a pre-trained model to a specific task, is becoming increasingly sophisticated, driven by advancements in computational power, algorithmic innovation, and the proliferation of diverse datasets. This section explores these trends, providing insights into how they are shaping the landscape of AI solutions.
+Overfitting happens when the model learns **too much** from the training data—memorizing noise or quirks instead of learning generalizable patterns.
 
-One significant trend is the development of more efficient fine-tuning methods that reduce the computational cost and time associated with adapting large models. Techniques such as parameter-efficient fine-tuning (PEFT) are gaining traction. PEFT methods, like LoRA (Low-Rank Adaptation), focus on adjusting only a small subset of model parameters, rather than the entire model, thus significantly reducing the resources required for fine-tuning.
+<div style="float: right; margin-left: 20px; margin-bottom: 10px; text-align: center;">
+  <img src="images/overfitting.png" alt="Overfitting Loss Curve" width="280">
+  <p style="font-size: 0.85em; color: gray;">Overfitting Loss Curve</p>
+</div>
 
-Another trend is the use of self-supervised learning to enhance fine-tuning. Self-supervised learning enables models to learn useful representations from unlabeled data, which can then be fine-tuned with minimal labeled examples. This approach is particularly valuable in domains where labeled data is scarce or expensive to obtain. By leveraging large amounts of unlabeled data, models can achieve better performance with fewer labeled examples during the fine-tuning phase.
+On the loss curve, this appears as:
 
-In addition to these technical advancements, there is a growing emphasis on ethical considerations in fine-tuning. As AI solutions become more integrated into decision-making processes, ensuring that models are fair, transparent, and unbiased is crucial. Techniques such as adversarial debiasing and fairness-aware fine-tuning are being developed to address these challenges, ensuring that AI systems do not perpetuate or exacerbate existing biases.
+- **Low training loss**
+- **Validation loss starts increasing** after a certain point
 
-Finally, the integration of domain-specific knowledge into fine-tuning processes is becoming more prevalent. By incorporating expert knowledge or domain-specific constraints, models can be fine-tuned to perform more effectively in specialized fields such as healthcare, finance, or legal services. This trend highlights the importance of interdisciplinary collaboration in the development of strategic AI solutions.
+This growing gap is called the **generalization gap**—it shows the model is performing worse on unseen data, even as it continues to improve on training data.
+
+**How to fix it:**
+
+- Stop training earlier (reduce `num_train_epochs`)
+- Use regularization (e.g., dropout)
+- Use a smaller model or lower LoRA rank
+- Add more diverse or augmented data
+
+### A Healthy Fit (Good Generalization)
+
+A well-tuned model finds the sweet spot: it learns useful patterns from the training data **without overfitting**. This is the ideal scenario for most fine-tuning tasks.
+
+<div style="float: right; margin-left: 20px; margin-bottom: 10px; text-align: center;">
+  <img src="images/healthy-loss-curve.png" alt="Healthy Loss Curve" width="280">
+  <p style="font-size: 0.85em; color: gray;">Healthy Loss Curve</p>
+</div>
+
+On the loss curve, you’ll see:
+
+- **Training and validation loss both decrease steadily**
+- The two curves stay close together
+- Loss values flatten as training converges
+
+This means the model is generalizing well and ready for real-world usage.
+
+**How to maintain a good fit:**
+
+- Use early stopping
+- Monitor the validation loss closely
+- Regularly evaluate on real task outputs
+
+::: {.callout-note collapse=true}
+#### Summary: How to Interpret the Loss Curve
+
+| Pattern       | Training Loss | Validation Loss     | Model Behavior         |
+|---------------|---------------|----------------------|-------------------------|
+| **Underfitting**  | High          | High                 | Not learning enough     |
+| **Overfitting**   | Low           | Starts increasing    | Memorizing training     |
+| **Good Fit**      | Decreasing    | Closely follows train| Generalizing well       |
+
+:::
+
+**Final Tip: Don’t Just Watch the Curve**
+
+The loss curve is a powerful guide—but it’s not the whole story. After training, always evaluate your model’s outputs directly:
+
+- Are they more accurate, helpful, or aligned?
+- Can you do side-by-side comparisons with the base model?
+- Does it solve the original task more effectively?
+
+You’ll learn more about advanced evaluation techniques in a future chapter.
+
+## Conclusion
+
+Fine-tuning is one of the most effective ways to adapt a pre-trained language model to your specific tasks, data, and goals. Unlike prompt engineering or retrieval-augmented generation, fine-tuning directly changes the model’s internal behavior—resulting in more consistent, efficient, and domain-aware outputs.
+
+In this chapter, you’ve learned:
+
+- **What fine-tuning is** and how it builds on pre-training
+- **Why fine-tuning matters** for cost efficiency, task specialization, control, and privacy
+- **How to choose a base model** based on size, license, and compatibility
+- **How to prepare data** through sourcing, cleaning, and formatting
+- **Which techniques to use**, including full fine-tuning, LoRA, and QLoRA
+- **How to configure training** using hyperparameters
+- **How to evaluate training** using the loss curve to detect underfitting, overfitting, or a good fit
+
+Fine-tuning unlocks powerful customization, but it also requires aligned tools, clean data, and thoughtful training design. When done well, it can produce models that outperform much larger base models on specific tasks—using less compute and offering faster inference.
