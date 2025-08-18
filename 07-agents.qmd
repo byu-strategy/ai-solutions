@@ -27,8 +27,106 @@ The diagram below illustrates this progression, showing how both autonomy and ta
 
 ![AI Autonomy spectramDiagram](images/ai-autonomy-spectrum.png){#fig-ai-agent fig-cap="An AI Agent processes a query using reasoning (LLM), memory, and tools to produce an action." fig-align="center" width="110%"}
 
+::: {.callout-note collapse=true}
+### A Short History of AI Agents
 
---- 
+The idea of an **AI agent** is not new. In the classical AI framework, most famously described in Russell & Norvig’s *Artificial Intelligence: A Modern Approach*, an **agent** is defined as anything that:
+
+- **Perceives** its **environment** through **sensors**  
+- **Acts** on the environment through **actuators**  
+- Uses a decision-making function to map perceptions to actions in pursuit of goals  
+
+For example, a robot might use a camera (sensor) to see, wheels (actuators) to move, and a decision algorithm to navigate a maze.
+
+**Modern AI agents**, built on LLMs, reinterpret this framework in a digital context:  
+
+- **Environment** → the digital world where the agent operates (APIs, databases, the internet, conversation history)  
+- **Sensors** → inputs such as user prompts, retrieved documents, or API outputs  
+- **Actuators** → outward actions like tool calls, database updates, or generated responses  
+
+The big shift is in the **decision-making function**. In classical agents, this logic was hand-coded. In modern agents, the **LLM itself provides the control logic**—planning, adapting, and deciding what to do next. This marks a leap from scripted behavior to flexible, language-driven autonomy.  
+:::
+
+### Why Agents Matter  
+
+At first glance, an AI agent might seem like just an upgraded version of RAG. But the real difference lies in **autonomy**. Whereas RAG follows a fixed, human-defined sequence of steps, an agent can dynamically decide *what to do next* based on the situation. This ability makes agents especially valuable for **open-ended, multi-step problems** where the path to a solution is not obvious in advance.  
+
+Think about booking travel. It is rarely a one-shot task. You might search for flights, compare options, adjust your dates, check hotel availability, and then revise everything when you see a better deal. Or consider managing a business workflow: pulling data from a database, analyzing it, drafting a report, sending an email, and waiting for a response before continuing. A research assistant faces the same challenge: exploring multiple sources, synthesizing information, identifying gaps, and refining the search until the picture is complete.  
+
+These are all problems where **autonomy matters**. A traditional system like RAG can only run through a predefined sequence, but an agent can adapt, plan, and act on its own—reducing the need for humans to micromanage each step. In practice, this makes agents far more capable partners for tasks that involve uncertainty, iteration, and complex decision-making.  
+
+### Core Capabilities of AI Agents
+
+The defining capability of an AI agent is **multistep reasoning**. Unlike a simple LLM call, which generates an answer in one pass, multistep reasoning allows the system to approach a goal through a sequence of intermediate steps: decide what to do, take an action, observe the result, and update its plan. This stepwise loop is what enables agents to handle tasks that are too complex for a single response.  
+
+Supporting this core loop are several key capabilities:  
+
+- **Planning** – the ability to decompose a high-level objective into smaller actions, and to update that plan as new information arrives.  
+- **Tool use** – the capacity to call external functions (APIs, databases, search engines, calculators) and incorporate their results.  
+- **Memory** – mechanisms for tracking context:  
+  - *Short-term memory* keeps progress within a task (which steps have been completed).  
+  - *Long-term memory* retains knowledge across sessions (facts, preferences, prior outputs).  
+- **Reflection and iteration** – the ability to evaluate whether the current approach is working, recognize errors or dead ends, and adapt the strategy.  
+
+::: {.callout-tip collapse=true}
+### Summary: What is an AI Agent?  
+
+An **AI agent** is a software system that can make decisions and take actions to achieve specific goals.  
+Agents are made possible by placing an **LLM in charge of the control logic**—deciding which steps to take and in what order.  
+
+**Chain-of-thought reasoning** is an LLM capability that enables step-by-step thinking.  
+When combined with **tools** (to act in the environment) and **memory** (to track state across steps), this reasoning extends into **multistep reasoning**—allowing the agent to solve complex problems and carry out sophisticated tasks.  
+:::
+
+### Limitations and Challenges of Agents  
+
+While AI agents represent a major step forward, they are far from flawless. Understanding their limitations is essential for using them responsibly and setting realistic expectations.  
+
+- **Reliability**  
+  Agents can be unpredictable. The same prompt may lead to different sequences of actions, and small variations in context can cause the agent to take a completely different path. This variability makes them difficult to depend on for mission-critical tasks without safeguards.  
+
+- **Hallucination**  
+  Like all LLMs, agents can generate plausible but incorrect information. When combined with tool use, hallucinations can be amplified—for example, issuing invalid API calls or misinterpreting retrieved results.  
+
+- **Cost and efficiency**  
+Multistep reasoning often requires multiple tool calls, repeated planning, and re-tries. Each step consumes compute resources, API credits, or time, making agents far more expensive than one-shot LLM calls. Many tasks are better off using a simple LLM or AI System. If the task is simple (e.g., answering a factual question or drafting a short email), an agent may loop through unnecessary steps, slowing down the process and wasting resources.    
+
+- **Safety and control**  
+  Giving an agent too much autonomy can be risky. Without constraints, an agent might take unwanted actions, misuse tools, or enter infinite loops. For this reason, most production systems today are **“agentic but constrained”**: they limit tool access, enforce strict rules, and often keep a human in the loop.  
+
+- **Evaluation difficulty**  
+  Measuring agent performance is challenging. Unlike classification models where accuracy is clear-cut, success for agents depends on context: Did it achieve the goal? Did it do so efficiently? Was the reasoning safe and interpretable? These questions are harder to answer systematically.  
+
+In practice, these challenges mean that agents are often deployed in **narrow, well-defined domains** with strong guardrails, rather than as fully autonomous general-purpose systems. This balance allows developers to harness their power while maintaining safety, cost control, and reliability.  
+
+## Building AI Agents
+
+### Agent Architecture  
+
+At the heart of every AI agent is a decision-making loop that allows it to operate autonomously. This loop can be described as **Reason → Act → Observe → Update**, with **memory** supporting each stage.
+
+![AI Agent Diagram](images/agent-diagram.png){#fig-ai-agent fig-cap="An AI Agent processes a query using reasoning (LLM), memory, and tools to produce an action." fig-align="center" width="70%"}
+
+- **Reason** – The agent decides what to do next. This is powered by the LLM’s ability to use chain-of-thought reasoning: breaking down the problem, planning a step, and generating an action.  
+- **Act** – The agent executes the step, often by calling an external tool such as a database, API, calculator, or search engine.  
+- **Observe** – The agent takes in the result of its action. For example, it might read the output of an API call or the contents of a retrieved document.  
+- **Update** – Based on the observation, the agent revises its plan. It may confirm progress, identify errors, or decide on the next action.  
+
+Throughout this loop, **memory plays a critical role**:  
+- *Short-term memory* retains the immediate context of the current task, such as prior steps, intermediate results, and the agent’s reasoning scratchpad.  
+- *Long-term memory* allows the agent to carry knowledge, facts, or user preferences across multiple sessions or tasks.  
+
+Without memory, the agent could still reason, act, and observe—but it would forget prior steps and lack continuity. With memory, the agent can perform true **multistep reasoning**, keeping track of where it is in the loop and adapting as the task unfolds.  
+
+---
+
+**In practice:**  
+- In a coded framework (e.g., LangChain), this loop is implemented through function calls and state management.  
+- In a no-code platform (e.g., Make or n8n), the loop maps to nodes, flows, and conditional branches—each representing a piece of the cycle.  
+
+---
+
+✅ **Takeaway:** The agent architecture is simple but powerful. By looping through **Reason → Act → Observe → Update**, and anchoring that process with **memory**, an AI agent transforms from a one-shot LLM into an adaptive system capable of solving complex, multi-step tasks.  
 
 In the realm of artificial intelligence, agents are entities that perceive their environment through sensors and act upon that environment using actuators. These agents can range from simple rule-based systems to complex learning algorithms capable of adapting to new situations. The concept of an AI agent is foundational in AI system design and is crucial for developing workflows that involve multi-step reasoning. An AI agent operates autonomously to achieve specific goals by making decisions based on its perceptions and the knowledge it possesses.
 
