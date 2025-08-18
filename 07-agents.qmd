@@ -5,6 +5,31 @@ format: html
 
 ## Introduction to AI Agents
 
+### What is an AI Agent?
+
+To understand what an AI agent is, it helps to first build context around the systems we have studied so far. One way to compare them is by looking at their **control logic**—the set of rules or instructions that determine how a system operates step by step.
+
+We began with **Large Language Models (LLMs)**. These are powerful tools for tasks like summarizing an article or drafting an email. In this case, the **control logic resides entirely with the human**. The user provides a prompt, the model generates a response, and the human decides how to interpret or use that output. While useful, LLMs have a clear limitation: they are bound by their training data and cannot access new information on their own.  
+
+To overcome this, we explored **Retrieval-Augmented Generation (RAG)**. RAG extends an LLM by connecting it to external sources such as a database or search engine. This makes the system far more useful, since it can pull in relevant information at runtime. However, the **control logic is still defined by humans**. The system always follows the same programmatic sequence: retrieve documents, feed them into the LLM, and return a response. No matter the situation, the path is fixed.  
+
+AI agents represent the next stage. Instead of following a rigid script, an agent allows the **control logic to live inside the LLM itself**. In this setup, the model becomes the brain of the system. It can break a problem into smaller steps, decide which tools to use, take actions, observe results, and adapt its strategy until it reaches a solution. This autonomy shifts the role of the model from a passive component to an active problem-solver.  
+
+At the highest level of autonomy, we encounter **multi-agent systems**. These environments consist of multiple LLM-powered agents that coordinate with each other to tackle complex, multi-step tasks. For example, one agent might specialize in retrieving data, another in analysis, and another in writing a final report. In this case, the **control logic is distributed across multiple agents**, enabling collaboration and division of labor.  
+
+Taken together, these stages form a spectrum of autonomy:  
+- **LLMs** — control logic resides in the human  
+- **RAG** — control logic is fixed and human-defined  
+- **Agents** — control logic moves inside the LLM  
+- **Multi-agent systems** — control logic is distributed across agents  
+
+The diagram below illustrates this progression, showing how both autonomy and task complexity increase as control shifts from human-defined workflows to LLM-driven decision-making.
+
+![AI Autonomy spectramDiagram](images/ai-autonomy-spectrum.png){#fig-ai-agent fig-cap="An AI Agent processes a query using reasoning (LLM), memory, and tools to produce an action." fig-align="center" width="110%"}
+
+
+--- 
+
 In the realm of artificial intelligence, agents are entities that perceive their environment through sensors and act upon that environment using actuators. These agents can range from simple rule-based systems to complex learning algorithms capable of adapting to new situations. The concept of an AI agent is foundational in AI system design and is crucial for developing workflows that involve multi-step reasoning. An AI agent operates autonomously to achieve specific goals by making decisions based on its perceptions and the knowledge it possesses.
 
 The behavior of an AI agent is determined by its 'agent function,' which maps any given percept sequence (the history of perceptions) to an action. This function can be implemented in various ways, from simple condition-action rules to sophisticated algorithms that involve learning and adaptation. A key aspect of designing AI agents is ensuring that they can handle the complexity of real-world environments, which often requires them to perform multi-step reasoning and adapt to changes over time.
