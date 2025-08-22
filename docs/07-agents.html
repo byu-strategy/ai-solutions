@@ -262,7 +262,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-ai-agents" id="toc-introduction-to-ai-agents" class="nav-link active" data-scroll-target="#introduction-to-ai-agents">Introduction to AI Agents</a></li>
+  <li><a href="#introduction-to-ai-agents" id="toc-introduction-to-ai-agents" class="nav-link active" data-scroll-target="#introduction-to-ai-agents">Introduction to AI Agents</a>
+  <ul class="collapse">
+  <li><a href="#what-is-an-ai-agent" id="toc-what-is-an-ai-agent" class="nav-link" data-scroll-target="#what-is-an-ai-agent">What is an AI Agent?</a></li>
+  <li><a href="#why-agents-matter" id="toc-why-agents-matter" class="nav-link" data-scroll-target="#why-agents-matter">Why Agents Matter</a></li>
+  <li><a href="#core-capabilities-of-ai-agents" id="toc-core-capabilities-of-ai-agents" class="nav-link" data-scroll-target="#core-capabilities-of-ai-agents">Core Capabilities of AI Agents</a></li>
+  <li><a href="#limitations-and-challenges-of-agents" id="toc-limitations-and-challenges-of-agents" class="nav-link" data-scroll-target="#limitations-and-challenges-of-agents">Limitations and Challenges of Agents</a></li>
+  </ul></li>
+  <li><a href="#building-ai-agents" id="toc-building-ai-agents" class="nav-link" data-scroll-target="#building-ai-agents">Building AI Agents</a>
+  <ul class="collapse">
+  <li><a href="#agent-architecture" id="toc-agent-architecture" class="nav-link" data-scroll-target="#agent-architecture">Agent Architecture</a></li>
+  </ul></li>
   <li><a href="#understanding-multi-step-reasoning" id="toc-understanding-multi-step-reasoning" class="nav-link" data-scroll-target="#understanding-multi-step-reasoning">Understanding Multi-Step Reasoning</a></li>
   <li><a href="#the-role-of-agents-in-ai-workflows" id="toc-the-role-of-agents-in-ai-workflows" class="nav-link" data-scroll-target="#the-role-of-agents-in-ai-workflows">The Role of Agents in AI Workflows</a></li>
   <li><a href="#overview-of-model-context-protocol" id="toc-overview-of-model-context-protocol" class="nav-link" data-scroll-target="#overview-of-model-context-protocol">Overview of Model Context Protocol</a></li>
@@ -304,10 +314,163 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="introduction-to-ai-agents" class="level2">
 <h2 class="anchored" data-anchor-id="introduction-to-ai-agents">Introduction to AI Agents</h2>
+<section id="what-is-an-ai-agent" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-an-ai-agent">What is an AI Agent?</h3>
+<p>To understand what an AI agent is, it helps to first build context around the systems we have studied so far. One way to compare them is by looking at their <strong>control logic</strong>—the set of rules or instructions that determine how a system operates step by step.</p>
+<p>We began with <strong>Large Language Models (LLMs)</strong>. These are powerful tools for tasks like summarizing an article or drafting an email. In this case, the <strong>control logic resides entirely with the human</strong>. The user provides a prompt, the model generates a response, and the human decides how to interpret or use that output. While useful, LLMs have a clear limitation: they are bound by their training data and cannot access new information on their own.</p>
+<p>To overcome this, we explored <strong>Retrieval-Augmented Generation (RAG)</strong>. RAG extends an LLM by connecting it to external sources such as a database or search engine. This makes the system far more useful, since it can pull in relevant information at runtime. However, the <strong>control logic is still defined by humans</strong>. The system always follows the same programmatic sequence: retrieve documents, feed them into the LLM, and return a response. No matter the situation, the path is fixed.</p>
+<p>AI agents represent the next stage. Instead of following a rigid script, an agent allows the <strong>control logic to live inside the LLM itself</strong>. In this setup, the model becomes the brain of the system. It can break a problem into smaller steps, decide which tools to use, take actions, observe results, and adapt its strategy until it reaches a solution. This autonomy shifts the role of the model from a passive component to an active problem-solver.</p>
+<p>At the highest level of autonomy, we encounter <strong>multi-agent systems</strong>. These environments consist of multiple LLM-powered agents that coordinate with each other to tackle complex, multi-step tasks. For example, one agent might specialize in retrieving data, another in analysis, and another in writing a final report. In this case, the <strong>control logic is distributed across multiple agents</strong>, enabling collaboration and division of labor.</p>
+<p>Taken together, these stages form a spectrum of autonomy:<br>
+- <strong>LLMs</strong> — control logic resides in the human<br>
+- <strong>RAG</strong> — control logic is fixed and human-defined<br>
+- <strong>Agents</strong> — control logic moves inside the LLM<br>
+- <strong>Multi-agent systems</strong> — control logic is distributed across agents</p>
+<p>The diagram below illustrates this progression, showing how both autonomy and task complexity increase as control shifts from human-defined workflows to LLM-driven decision-making.</p>
+<div id="fig-ai-agent" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-cap="An AI Agent processes a query using reasoning (LLM), memory, and tools to produce an action.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-agent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ai-autonomy-spectrum.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:110.0%" data-fig-cap="An AI Agent processes a query using reasoning (LLM), memory, and tools to produce an action.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-agent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: AI Autonomy spectramDiagram
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+A Short History of AI Agents
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The idea of an <strong>AI agent</strong> is not new. In the classical AI framework, most famously described in Russell &amp; Norvig’s <em>Artificial Intelligence: A Modern Approach</em>, an <strong>agent</strong> is defined as anything that:</p>
+<ul>
+<li><strong>Perceives</strong> its <strong>environment</strong> through <strong>sensors</strong><br>
+</li>
+<li><strong>Acts</strong> on the environment through <strong>actuators</strong><br>
+</li>
+<li>Uses a decision-making function to map perceptions to actions in pursuit of goals</li>
+</ul>
+<p>For example, a robot might use a camera (sensor) to see, wheels (actuators) to move, and a decision algorithm to navigate a maze.</p>
+<p><strong>Modern AI agents</strong>, built on LLMs, reinterpret this framework in a digital context:</p>
+<ul>
+<li><strong>Environment</strong> → the digital world where the agent operates (APIs, databases, the internet, conversation history)<br>
+</li>
+<li><strong>Sensors</strong> → inputs such as user prompts, retrieved documents, or API outputs<br>
+</li>
+<li><strong>Actuators</strong> → outward actions like tool calls, database updates, or generated responses</li>
+</ul>
+<p>The big shift is in the <strong>decision-making function</strong>. In classical agents, this logic was hand-coded. In modern agents, the <strong>LLM itself provides the control logic</strong>—planning, adapting, and deciding what to do next. This marks a leap from scripted behavior to flexible, language-driven autonomy.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="why-agents-matter" class="level3">
+<h3 class="anchored" data-anchor-id="why-agents-matter">Why Agents Matter</h3>
+<p>At first glance, an AI agent might seem like just an upgraded version of RAG. But the real difference lies in <strong>autonomy</strong>. Whereas RAG follows a fixed, human-defined sequence of steps, an agent can dynamically decide <em>what to do next</em> based on the situation. This ability makes agents especially valuable for <strong>open-ended, multi-step problems</strong> where the path to a solution is not obvious in advance.</p>
+<p>Think about booking travel. It is rarely a one-shot task. You might search for flights, compare options, adjust your dates, check hotel availability, and then revise everything when you see a better deal. Or consider managing a business workflow: pulling data from a database, analyzing it, drafting a report, sending an email, and waiting for a response before continuing. A research assistant faces the same challenge: exploring multiple sources, synthesizing information, identifying gaps, and refining the search until the picture is complete.</p>
+<p>These are all problems where <strong>autonomy matters</strong>. A traditional system like RAG can only run through a predefined sequence, but an agent can adapt, plan, and act on its own—reducing the need for humans to micromanage each step. In practice, this makes agents far more capable partners for tasks that involve uncertainty, iteration, and complex decision-making.</p>
+</section>
+<section id="core-capabilities-of-ai-agents" class="level3">
+<h3 class="anchored" data-anchor-id="core-capabilities-of-ai-agents">Core Capabilities of AI Agents</h3>
+<p>The defining capability of an AI agent is <strong>multistep reasoning</strong>. Unlike a simple LLM call, which generates an answer in one pass, multistep reasoning allows the system to approach a goal through a sequence of intermediate steps: decide what to do, take an action, observe the result, and update its plan. This stepwise loop is what enables agents to handle tasks that are too complex for a single response.</p>
+<p>Supporting this core loop are several key capabilities:</p>
+<ul>
+<li><strong>Planning</strong> – the ability to decompose a high-level objective into smaller actions, and to update that plan as new information arrives.<br>
+</li>
+<li><strong>Tool use</strong> – the capacity to call external functions (APIs, databases, search engines, calculators) and incorporate their results.<br>
+</li>
+<li><strong>Memory</strong> – mechanisms for tracking context:
+<ul>
+<li><em>Short-term memory</em> keeps progress within a task (which steps have been completed).<br>
+</li>
+<li><em>Long-term memory</em> retains knowledge across sessions (facts, preferences, prior outputs).<br>
+</li>
+</ul></li>
+<li><strong>Reflection and iteration</strong> – the ability to evaluate whether the current approach is working, recognize errors or dead ends, and adapt the strategy.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Summary: What is an AI Agent?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>An <strong>AI agent</strong> is a software system that can make decisions and take actions to achieve specific goals.<br>
+Agents are made possible by placing an <strong>LLM in charge of the control logic</strong>—deciding which steps to take and in what order.</p>
+<p><strong>Chain-of-thought reasoning</strong> is an LLM capability that enables step-by-step thinking.<br>
+When combined with <strong>tools</strong> (to act in the environment) and <strong>memory</strong> (to track state across steps), this reasoning extends into <strong>multistep reasoning</strong>—allowing the agent to solve complex problems and carry out sophisticated tasks.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="limitations-and-challenges-of-agents" class="level3">
+<h3 class="anchored" data-anchor-id="limitations-and-challenges-of-agents">Limitations and Challenges of Agents</h3>
+<p>While AI agents represent a major step forward, they are far from flawless. Understanding their limitations is essential for using them responsibly and setting realistic expectations.</p>
+<ul>
+<li><p><strong>Reliability</strong><br>
+Agents can be unpredictable. The same prompt may lead to different sequences of actions, and small variations in context can cause the agent to take a completely different path. This variability makes them difficult to depend on for mission-critical tasks without safeguards.</p></li>
+<li><p><strong>Hallucination</strong><br>
+Like all LLMs, agents can generate plausible but incorrect information. When combined with tool use, hallucinations can be amplified—for example, issuing invalid API calls or misinterpreting retrieved results.</p></li>
+<li><p><strong>Cost and efficiency</strong><br>
+Multistep reasoning often requires multiple tool calls, repeated planning, and re-tries. Each step consumes compute resources, API credits, or time, making agents far more expensive than one-shot LLM calls. Many tasks are better off using a simple LLM or AI System. If the task is simple (e.g., answering a factual question or drafting a short email), an agent may loop through unnecessary steps, slowing down the process and wasting resources.</p></li>
+<li><p><strong>Safety and control</strong><br>
+Giving an agent too much autonomy can be risky. Without constraints, an agent might take unwanted actions, misuse tools, or enter infinite loops. For this reason, most production systems today are <strong>“agentic but constrained”</strong>: they limit tool access, enforce strict rules, and often keep a human in the loop.</p></li>
+<li><p><strong>Evaluation difficulty</strong><br>
+Measuring agent performance is challenging. Unlike classification models where accuracy is clear-cut, success for agents depends on context: Did it achieve the goal? Did it do so efficiently? Was the reasoning safe and interpretable? These questions are harder to answer systematically.</p></li>
+</ul>
+<p>In practice, these challenges mean that agents are often deployed in <strong>narrow, well-defined domains</strong> with strong guardrails, rather than as fully autonomous general-purpose systems. This balance allows developers to harness their power while maintaining safety, cost control, and reliability.</p>
+</section>
+</section>
+<section id="building-ai-agents" class="level2">
+<h2 class="anchored" data-anchor-id="building-ai-agents">Building AI Agents</h2>
+<section id="agent-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="agent-architecture">Agent Architecture</h3>
+<p>At the heart of every AI agent is a decision-making loop that allows it to operate autonomously. This loop can be described as <strong>Reason → Act → Observe → Update</strong>, with <strong>memory</strong> supporting each stage.</p>
+<div id="fig-ai-agent" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-cap="An AI Agent processes a query using reasoning (LLM), memory, and tools to produce an action.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ai-agent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/agent-diagram.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%" data-fig-cap="An AI Agent processes a query using reasoning (LLM), memory, and tools to produce an action.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ai-agent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.2: AI Agent Diagram
+</figcaption>
+</figure>
+</div>
+<ul>
+<li><strong>Reason</strong> – The agent decides what to do next. This is powered by the LLM’s ability to use chain-of-thought reasoning: breaking down the problem, planning a step, and generating an action.<br>
+</li>
+<li><strong>Act</strong> – The agent executes the step, often by calling an external tool such as a database, API, calculator, or search engine.<br>
+</li>
+<li><strong>Observe</strong> – The agent takes in the result of its action. For example, it might read the output of an API call or the contents of a retrieved document.<br>
+</li>
+<li><strong>Update</strong> – Based on the observation, the agent revises its plan. It may confirm progress, identify errors, or decide on the next action.</li>
+</ul>
+<p>Throughout this loop, <strong>memory plays a critical role</strong>:<br>
+- <em>Short-term memory</em> retains the immediate context of the current task, such as prior steps, intermediate results, and the agent’s reasoning scratchpad.<br>
+- <em>Long-term memory</em> allows the agent to carry knowledge, facts, or user preferences across multiple sessions or tasks.</p>
+<p>Without memory, the agent could still reason, act, and observe—but it would forget prior steps and lack continuity. With memory, the agent can perform true <strong>multistep reasoning</strong>, keeping track of where it is in the loop and adapting as the task unfolds.</p>
+<hr>
+<p><strong>In practice:</strong><br>
+- In a coded framework (e.g., LangChain), this loop is implemented through function calls and state management.<br>
+- In a no-code platform (e.g., Make or n8n), the loop maps to nodes, flows, and conditional branches—each representing a piece of the cycle.</p>
+<hr>
+<p>✅ <strong>Takeaway:</strong> The agent architecture is simple but powerful. By looping through <strong>Reason → Act → Observe → Update</strong>, and anchoring that process with <strong>memory</strong>, an AI agent transforms from a one-shot LLM into an adaptive system capable of solving complex, multi-step tasks.</p>
 <p>In the realm of artificial intelligence, agents are entities that perceive their environment through sensors and act upon that environment using actuators. These agents can range from simple rule-based systems to complex learning algorithms capable of adapting to new situations. The concept of an AI agent is foundational in AI system design and is crucial for developing workflows that involve multi-step reasoning. An AI agent operates autonomously to achieve specific goals by making decisions based on its perceptions and the knowledge it possesses.</p>
 <p>The behavior of an AI agent is determined by its ‘agent function,’ which maps any given percept sequence (the history of perceptions) to an action. This function can be implemented in various ways, from simple condition-action rules to sophisticated algorithms that involve learning and adaptation. A key aspect of designing AI agents is ensuring that they can handle the complexity of real-world environments, which often requires them to perform multi-step reasoning and adapt to changes over time.</p>
 <p>To illustrate the concept of AI agents, consider a simple example of a vacuum cleaner robot. This robot is an agent that perceives its environment (a room) through sensors that detect dirt and obstacles. Based on its perceptions, the robot decides on actions such as moving forward, turning, or vacuuming. The agent’s goal is to clean the room efficiently. This example highlights the basic structure of an agent: perception, decision-making, and action, all directed towards achieving a goal.</p>
-<div id="0f9a28e3" class="cell" data-execution_count="1">
+<div id="9b5699cb" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> VacuumCleanerAgent:</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.position <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">0</span>)  <span class="co"># Starting position</span></span>
@@ -348,12 +511,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the Python code example above, we define a simple <code>VacuumCleanerAgent</code> class. The agent has a basic environment represented as a grid, where ‘1’ indicates a dirty spot and ‘0’ indicates a clean spot. The agent’s behavior is determined by its decision-making process, which in this case is a straightforward rule: if it perceives dirt, it performs the ‘suck’ action to clean it; otherwise, it moves to the next position. This simple agent demonstrates the core components of an AI agent: perception, decision-making, and action.</p>
 <p>This foundational understanding of AI agents sets the stage for developing more sophisticated systems capable of multi-step reasoning. As we move forward, we will explore how agents can be designed to handle more complex tasks, adapt to new information, and optimize their actions to achieve long-term goals. Such capabilities are essential for building strategic AI solutions that can operate effectively in dynamic environments.</p>
 </section>
+</section>
 <section id="understanding-multi-step-reasoning" class="level2">
 <h2 class="anchored" data-anchor-id="understanding-multi-step-reasoning">Understanding Multi-Step Reasoning</h2>
 <p>Multi-step reasoning is a fundamental capability in constructing AI agents that can perform complex tasks. Unlike simple decision-making processes, multi-step reasoning involves breaking down a problem into a series of interconnected steps, each requiring its own logic and decision-making. This approach is crucial in scenarios where decisions are dependent on the outcomes of previous steps, and where the agent must navigate through a sequence of actions to achieve a desired goal.</p>
 <p>In multi-step reasoning, the AI agent needs to maintain a state or context that evolves as it processes each step. This context allows the agent to track its progress and adjust its strategy as necessary. For instance, consider a customer service chatbot that needs to authenticate a user, understand their issue, and provide relevant solutions. Each of these tasks represents a step in the reasoning process, requiring the agent to gather information, make decisions, and execute actions based on the accumulated context.</p>
 <p>To illustrate this concept, let’s consider an example of a simple AI agent designed to solve a maze. The agent’s goal is to find the exit, starting from a given point. The maze-solving task can be broken down into several steps: exploring the maze, marking visited paths, backtracking when necessary, and recognizing the exit. The agent must reason through these steps, adapting its path based on the structure of the maze and its current position.</p>
-<div id="3270082f" class="cell" data-execution_count="2">
+<div id="df7e6c7a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MazeSolver:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maze):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.maze <span class="op">=</span> maze</span>
@@ -422,7 +586,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The primary function of agents in AI workflows is to manage the complexity inherent in multi-step reasoning tasks. This involves breaking down a complex problem into smaller, manageable sub-tasks, and then executing these tasks in a coordinated manner. For instance, consider an AI system designed to manage an e-commerce platform. Such a system might use agents to handle inventory management, customer interactions, and payment processing. Each of these tasks involves multiple steps that require reasoning and decision-making.</p>
 <p>Agents can be categorized based on their level of sophistication and autonomy. Reactive agents operate based on a set of predefined rules and respond to changes in the environment without any memory of past interactions. On the other hand, deliberative agents are capable of planning and have a model of the world that allows them to predict the outcomes of their actions. Hybrid agents combine both reactive and deliberative approaches, allowing them to respond quickly to changes while also planning for future actions.</p>
 <p>Let’s consider a practical example of an agent in a multi-step reasoning workflow: a customer service chatbot. This agent must understand customer queries, retrieve relevant information, and provide appropriate responses. The workflow involves several steps, such as natural language understanding, information retrieval, and response generation. Each of these steps requires the agent to reason about the task at hand and make decisions based on the input it receives.</p>
-<div id="ae6ffc44" class="cell" data-execution_count="3">
+<div id="0575311b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ChatbotAgent:</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, knowledge_base):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.knowledge_base <span class="op">=</span> knowledge_base</span>
@@ -463,7 +627,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the context of building strategic AI solutions, particularly when developing agent workflows for multi-step reasoning, understanding the Model Context Protocol (MCP) is essential. MCP is a framework that allows AI systems to effectively manage and utilize the context needed for decision-making across multiple steps. By maintaining context, agents can make informed decisions that are consistent with previous interactions and adapt to new information as it becomes available.</p>
 <p>The Model Context Protocol is designed to handle the complexities of real-world environments, where decisions are not made in isolation but rather as part of a sequence of actions. This involves maintaining a context that includes historical data, current state information, and potential future scenarios. By structuring this information effectively, agents can reason through multiple steps and adjust their strategies as needed.</p>
 <p>A fundamental aspect of MCP is the ability to store and retrieve context information efficiently. This context can include the agent’s previous actions, the outcomes of those actions, and any external factors that may influence future decisions. By leveraging this stored context, agents can avoid redundant computations and make more accurate predictions about future states.</p>
-<div id="e67608af" class="cell" data-execution_count="4">
+<div id="bef805b3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ContextManager:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize an empty context list to store historical data</span></span>
@@ -488,7 +652,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In the code example above, we define a simple <code>ContextManager</code> class that maintains a list of context entries. Each entry is a dictionary that records a step in the agent’s decision-making process, including the action taken and the result of that action. This structure allows the agent to retrieve and review its past actions to inform future decisions.</p>
 <p>Another critical feature of MCP is the ability to update context dynamically. As the agent interacts with its environment, new information becomes available that might necessitate a change in strategy. The protocol must support the integration of this new data into the existing context seamlessly. This adaptability is crucial for agents operating in dynamic environments, where conditions can change rapidly and unpredictably.</p>
-<div id="4aa06800" class="cell" data-execution_count="5">
+<div id="4515c626" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_context(context_manager, new_data):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update the context with new data</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    context_manager.add_to_context(new_data)</span>
@@ -511,7 +675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the context of building strategic AI solutions, designing agent workflows for multi-step reasoning is a crucial aspect. An agent workflow refers to a structured sequence of operations that an AI agent performs to achieve a specific task or a set of tasks. These workflows are essential in enabling AI systems to handle complex problems that require reasoning across multiple steps, often involving interactions with various data sources, models, and decision-making processes.</p>
 <p>To develop effective agent workflows, it’s important to first understand the problem domain and the specific tasks that the agent needs to accomplish. This involves identifying the inputs, outputs, and constraints associated with each task. Once these elements are clearly defined, you can begin to design a workflow that systematically addresses the problem. A well-designed workflow should be modular, allowing for easy updates and maintenance, and should also be robust, capable of handling unexpected situations gracefully.</p>
 <p>Let’s consider an example of an AI agent designed to assist in customer service. This agent needs to understand customer queries, retrieve relevant information, and provide accurate responses. The workflow for such an agent might involve the following steps: (1) Preprocessing the input to clean and standardize the data, (2) Utilizing natural language processing (NLP) techniques to interpret the query, (3) Accessing a knowledge base to extract relevant information, and (4) Generating a coherent response to the customer. Each of these steps can be thought of as a module within the overall workflow.</p>
-<div id="469e32f0" class="cell" data-execution_count="6">
+<div id="4a28537c" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a simple agent workflow for a customer service chatbot</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess_input(user_input):</span>
@@ -553,7 +717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In this code example, we see a basic implementation of an agent workflow using a customer service chatbot. The workflow is divided into four distinct functions, each representing a step in the reasoning process. This modular approach not only makes the code more organized but also allows for flexibility in modifying or extending each part of the workflow as needed.</p>
 <p>Another important aspect of designing agent workflows is handling errors and exceptions. In real-world applications, agents may encounter unexpected inputs or failures in external systems they rely on. Incorporating error handling mechanisms ensures that the agent can respond to such situations without crashing, maintaining a seamless user experience. For instance, in the above code, if the query is not recognized, the agent returns a default message indicating its inability to provide information.</p>
-<div id="4aff2436" class="cell" data-execution_count="7">
+<div id="71a0f8a3" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding error handling to the workflow</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> access_knowledge_base_with_error_handling(intent):</span>
@@ -579,7 +743,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="implementing-control-flow-in-agent-workflows">Implementing Control Flow in Agent Workflows</h2>
 <p>In the context of developing agent workflows, implementing control flow is a critical step that determines how an AI system processes information and makes decisions. Control flow refers to the order in which individual operations or instructions are executed within an agent’s workflow. In multi-step reasoning tasks, control flow ensures that the agent can handle complex sequences of operations, manage dependencies between tasks, and adapt to dynamic inputs or changing environments.</p>
 <p>A well-designed control flow allows an AI agent to execute tasks conditionally, repeat tasks as needed, and handle exceptions gracefully. This is crucial in strategic AI solutions where decisions are often contingent on the outcomes of prior steps. For example, in a customer service chatbot, the control flow might dictate how the bot responds based on the user’s previous interactions, current mood, or specific queries. Implementing effective control flow involves using constructs such as conditionals, loops, and function calls, which can be orchestrated using programming languages like Python.</p>
-<div id="9044dcfe" class="cell" data-execution_count="8">
+<div id="74d17bcd" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a simple control flow using conditionals and loops</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate_customer_query(query):</span>
@@ -598,7 +762,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In the above code, we demonstrate a basic control flow using a function <code>evaluate_customer_query</code> that processes customer queries. The function uses conditional statements (<code>if</code>, <code>elif</code>, and <code>else</code>) to decide the response based on the content of the query. A loop iterates over a list of queries, applying the function to each query and printing the response. This simple control flow structure allows the agent to make decisions based on the input it receives.</p>
 <p>In more complex workflows, control flow might involve managing sequences of operations that depend on each other. Consider a scenario where an AI agent is responsible for processing an order. The agent must verify inventory, process payment, and finally, arrange shipping. Each of these steps is contingent upon the successful completion of the previous one. Here, control flow is essential to ensure that each step is executed in the correct order and that errors in any step are handled appropriately, possibly by retrying the operation or alerting a human operator.</p>
-<div id="083a80af" class="cell" data-execution_count="9">
+<div id="9c6b49f1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of control flow in a multi-step order processing</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> process_order(order):</span>
@@ -635,7 +799,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In the rapidly evolving landscape of artificial intelligence, the ability to integrate external data sources into agent workflows is crucial for building robust and intelligent solutions. This integration allows agents to access real-time information, enrich their decision-making capabilities, and adapt to dynamic environments. In this section, we will explore the importance of external data sources, discuss various types of data that can be integrated, and provide practical examples of how to implement this in Python.</p>
 <p>External data sources can include APIs, databases, web scraping, and streaming data. Each of these sources offers unique benefits and challenges. For instance, APIs provide structured data and are often easy to integrate, but they may have rate limits or require authentication. Databases can offer comprehensive datasets but may require complex queries to extract relevant information. Web scraping allows access to unstructured data on the web, but it can be brittle if website structures change. Streaming data, such as from IoT devices or social media feeds, provides real-time insights but requires handling large volumes of data efficiently.</p>
 <p>Let’s consider a practical example where an AI agent integrates weather data from an external API to enhance its decision-making process. Suppose we are building an AI solution for an agricultural application where the agent needs to make recommendations based on current and forecasted weather conditions. We will use the OpenWeatherMap API for this purpose. First, we need to obtain an API key by signing up on their platform. Once we have the key, we can proceed with the integration.</p>
-<div id="3145535e" class="cell" data-execution_count="10">
+<div id="4a3e6e3b" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to get weather data from OpenWeatherMap API</span></span>
@@ -660,7 +824,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In the code above, we define a function <code>get_weather_data</code> that takes a city name and an API key as inputs. It constructs a request to the OpenWeatherMap API, retrieves the weather data in JSON format, and returns it. This function handles potential errors by checking the response status code, which is a good practice when dealing with external APIs. Now, the AI agent can use this weather data to make informed decisions, such as advising farmers on the best times for planting or harvesting.</p>
 <p>Integrating external data sources is not limited to APIs. For example, if our AI solution needs to analyze historical weather patterns, we might connect to a database containing such data. This involves using database connectors and executing SQL queries to fetch the required information. Python’s <code>sqlite3</code> library is a simple way to interact with SQLite databases. Let’s see how this can be implemented.</p>
-<div id="7cf96f3a" class="cell" data-execution_count="11">
+<div id="b5d61481" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to retrieve historical weather data from an SQLite database</span></span>
@@ -685,7 +849,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="error-handling-and-recovery-strategies">Error Handling and Recovery Strategies</h2>
 <p>In the realm of building strategic AI solutions, error handling and recovery strategies are critical components that ensure the robustness and reliability of multi-step reasoning processes. When developing agent workflows, it’s essential to anticipate potential errors and design systems that can gracefully handle these errors without disrupting the entire workflow. This section will explore the principles of effective error handling and recovery strategies, providing insights and practical examples to guide you in implementing these techniques.</p>
 <p>Error handling in AI workflows involves identifying points of failure, defining the types of errors that may occur, and determining appropriate responses for each error type. Common errors in multi-step reasoning processes include data retrieval failures, computational errors, and integration issues with external systems. By implementing structured error handling, you can ensure that your AI solutions are resilient and can provide meaningful feedback when things go wrong.</p>
-<div id="5b81b956" class="cell" data-execution_count="12">
+<div id="68924d11" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DataRetrievalError(<span class="pp">Exception</span>):</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -716,7 +880,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>In the example above, custom exception classes are defined for different types of errors, allowing for specific error handling strategies. This approach provides clarity and enables more precise recovery actions depending on the error type. For instance, if a <code>DataRetrievalError</code> is raised, the system might attempt to access a backup data source or notify an administrator to check the data source’s availability.</p>
 <p>Recovery strategies are as crucial as error detection. They involve actions taken to restore the workflow to a functional state after an error occurs. Depending on the error’s nature, recovery strategies can range from retrying operations, using default values, or even rolling back to previous states. Implementing retry mechanisms with exponential backoff can be particularly effective for transient errors, such as temporary network issues.</p>
-<div id="410f54f4" class="cell" data-execution_count="13">
+<div id="e18ea325" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -757,7 +921,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="testing-and-iterating-agent-workflows">Testing and Iterating Agent Workflows</h2>
 <p>Testing and iterating agent workflows are critical steps in developing robust AI solutions. These processes ensure that the system can handle real-world complexities and perform as expected across various scenarios. Given the dynamic nature of AI systems, especially those involving multi-step reasoning, continuous testing and iteration are essential for maintaining system accuracy and reliability.</p>
 <p>To start, testing agent workflows involves validating each step of the reasoning process. This means examining how the agent processes inputs, transitions between states, and produces outputs. Testing should cover a range of scenarios, from normal operation to edge cases, to uncover potential flaws or inefficiencies. For example, if an agent is designed to recommend products based on user preferences, tests should include scenarios where user data is incomplete or contradictory.</p>
-<div id="f96fbbbf" class="cell" data-execution_count="14">
+<div id="ff8e6e24" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of a simple test case for a product recommendation agent</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_recommendation_system(agent, user_data, expected_output):</span>
@@ -785,7 +949,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Iteration in agent workflows involves refining the system based on test results and feedback. This process can include adjusting algorithms, modifying data processing steps, or reconfiguring decision-making logic. Iteration is not a one-time task but an ongoing cycle of improvement. For instance, if the recommendation agent frequently fails to suggest appropriate products for users with niche interests, the algorithm might need adjustments to better handle specialized data.</p>
 <p>A critical part of this iterative process is incorporating feedback loops. Feedback can come from various sources, such as user interactions, system logs, or performance metrics. By analyzing this feedback, developers can identify patterns or recurring issues, which can then guide further refinements. For example, if logs show that the agent struggles with processing large datasets, developers might optimize the data handling processes or increase computational resources.</p>
-<div id="dfe031f2" class="cell" data-execution_count="15">
+<div id="c7cfb18a" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of an iterative improvement process using feedback</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> improve_agent(agent, feedback_data):</span>
@@ -815,7 +979,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="case-study-1-customer-support-chatbots" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-1-customer-support-chatbots">Case Study 1: Customer Support Chatbots</h3>
 <p>One of the most prevalent applications of agent workflows is in the realm of customer service, where chatbots are used to handle customer inquiries. These chatbots leverage multi-step reasoning to understand and respond to complex queries. For instance, a customer support chatbot for an e-commerce platform might need to guide a user through the process of returning a product. This involves understanding the user’s initial request, retrieving the order details, and then providing specific instructions based on the user’s location and the product’s return policy.</p>
-<div id="a1537c27" class="cell" data-execution_count="16">
+<div id="2513e49f" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomerSupportAgent:</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, order_database):</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.order_database <span class="op">=</span> order_database</span>
@@ -855,7 +1019,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="case-study-2-autonomous-financial-advisors" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-2-autonomous-financial-advisors">Case Study 2: Autonomous Financial Advisors</h3>
 <p>Another compelling example of agent workflows is in the financial sector, where autonomous financial advisors use multi-step reasoning to provide investment advice. These systems analyze a client’s financial data, assess risk appetite, and suggest a diversified portfolio. The process involves multiple stages, including data collection, risk assessment, and portfolio recommendation, each requiring careful reasoning and decision-making.</p>
-<div id="105a6b28" class="cell" data-execution_count="17">
+<div id="8523d2bc" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> FinancialAdvisorAgent:</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, market_data):</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.market_data <span class="op">=</span> market_data</span>
@@ -894,7 +1058,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="case-study-3-healthcare-diagnostic-assistants" class="level3">
 <h3 class="anchored" data-anchor-id="case-study-3-healthcare-diagnostic-assistants">Case Study 3: Healthcare Diagnostic Assistants</h3>
 <p>In healthcare, diagnostic assistant agents are increasingly used to support medical professionals by providing preliminary diagnostics based on patient symptoms. These agents employ multi-step reasoning to evaluate symptoms, check against medical databases, and suggest potential conditions. This not only aids in faster diagnosis but also helps in reducing the cognitive load on healthcare providers.</p>
-<div id="0afe8d13" class="cell" data-execution_count="18">
+<div id="51d6be5c" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DiagnosticAgent:</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, medical_database):</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.medical_database <span class="op">=</span> medical_database</span>
