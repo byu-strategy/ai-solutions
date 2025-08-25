@@ -7,6 +7,10 @@ format: html
 
 ### What is an AI Agent?
 
+<div style="text-align: center;">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/F8NKVhkZZWI" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+</div>
+
 To understand what an AI agent is, it helps to first build context around the systems we have studied so far. One way to compare them is by looking at their **control logic**—the set of rules or instructions that determine how a system operates step by step.
 
 We began with **Large Language Models (LLMs)**. These are powerful tools for tasks like summarizing an article or drafting an email. In this case, the **control logic resides entirely with the human**. The user provides a prompt, the model generates a response, and the human decides how to interpret or use that output. While useful, LLMs have a clear limitation: they are bound by their training data and cannot access new information on their own.  
@@ -19,8 +23,8 @@ At the highest level of autonomy, we encounter **multi-agent systems**. These en
 
 Taken together, these stages form a spectrum of autonomy:  
 - **LLMs** — control logic resides in the human  
-- **RAG** — control logic is fixed and human-defined  
-- **Agents** — control logic moves inside the LLM  
+- **AI Systems** — control logic is fixed and human-defined  
+- **AI Agents** — control logic moves inside the LLM  
 - **Multi-agent systems** — control logic is distributed across agents  
 
 The diagram below illustrates this progression, showing how both autonomy and task complexity increase as control shifts from human-defined workflows to LLM-driven decision-making.
@@ -103,79 +107,159 @@ In practice, these challenges mean that agents are often deployed in **narrow, w
 
 ### Agent Architecture  
 
-At the heart of every AI agent is a decision-making loop that allows it to operate autonomously. This loop can be described as **Reason → Act → Observe → Update**, with **memory** supporting each stage.
+An AI agent is best understood as an **iterative decision loop** driven by an LLM serving as the system’s **control logic**. The loop repeatedly plans, takes actions, reads results, and adapts until the goal is met. Three core elements support this loop throughout: **Reasoning (LLM)**, **Tools**, and **Memory**.  
 
-![AI Agent Diagram](images/agent-diagram.png){#fig-ai-agent fig-cap="An AI Agent processes a query using reasoning (LLM), memory, and tools to produce an action." fig-align="center" width="70%"}
+#### Reasoning  
+- **Definition:** Reasoning is the agent’s ability to decide what to do next. In LLM-based agents, this decision-making is powered by the model’s **chain-of-thought (CoT) reasoning**, which allows the agent to break down problems into smaller steps and plan its actions.  
+- **Role in the loop:** At each iteration, reasoning provides the **control logic** that selects the next action, interprets observations, and updates the plan.  
+- **Key capabilities:**  
+  - Decomposing complex goals into manageable sub-tasks.  
+  - Sequencing actions in a logical order.  
+  - Adjusting the plan when results differ from expectations.  
+- **Examples:**  
+  - Determining whether to search for more data before answering a question.  
+  - Choosing which API to call based on the type of user request.  
 
-- **Reason** – The agent decides what to do next. This is powered by the LLM’s ability to use chain-of-thought reasoning: breaking down the problem, planning a step, and generating an action.  
-- **Act** – The agent executes the step, often by calling an external tool such as a database, API, calculator, or search engine.  
-- **Observe** – The agent takes in the result of its action. For example, it might read the output of an API call or the contents of a retrieved document.  
-- **Update** – Based on the observation, the agent revises its plan. It may confirm progress, identify errors, or decide on the next action.  
+#### Tools  
+- **Definition:** Tools are the external functions or systems that allow the agent to interact with its environment. They extend the LLM’s capabilities beyond text generation.  
+- **Role in the loop:** When reasoning decides an action, the agent invokes a tool to **act** and then **observe** the tool’s output.  
+- **Key categories:**  
+  - **Data access:** vector retrieval, SQL/NoSQL queries, file systems, data warehouses.  
+  - **Web & APIs:** search engines, CRMs, billing platforms, calendar integrations, external services.  
+  - **Computation:** calculators, Python or code sandboxes, simulation environments.  
+  - **Messaging & actions:** sending emails, posting to Slack, creating tickets in project management tools.  
+- **Examples:**  
+  - Pulling a list of customer accounts from a CRM.  
+  - Running a financial calculation using a code sandbox.  
+  - Sending a status update to a Slack channel.  
 
-Throughout this loop, **memory plays a critical role**:  
-- *Short-term memory* retains the immediate context of the current task, such as prior steps, intermediate results, and the agent’s reasoning scratchpad.  
-- *Long-term memory* allows the agent to carry knowledge, facts, or user preferences across multiple sessions or tasks.  
+#### Memory  
+- **Definition:** Memory allows the agent to retain context across steps and tasks, giving it continuity that a single LLM call does not provide.  
+- **Role in the loop:** Memory supports the agent during reasoning, action, and observation by recalling what has already happened and providing relevant knowledge for the next step.  
+- **Types of memory:**  
+  - **Short-term memory (working memory):** Maintains the current task context, such as previous steps, partial results, and user constraints.  
+  - **Long-term memory (persistent memory):** Stores facts, preferences, and prior outcomes across sessions, enabling agents to improve over time.  
+- **Examples:**  
+  - Remembering which documents have already been retrieved to avoid duplication.  
+  - Storing a user’s preferred format for weekly reports.  
+  - Retaining knowledge of prior conversations with the same customer.  
 
-Without memory, the agent could still reason, act, and observe—but it would forget prior steps and lack continuity. With memory, the agent can perform true **multistep reasoning**, keeping track of where it is in the loop and adapting as the task unfolds.  
+#### The Agent Loop  
+By looping through **Reason → Act → Observe → Update**, and anchoring the process with **Memory** and **Tools**, the LLM’s **control logic** enables true **multistep reasoning**—planning, acting, and adapting until the goal is reached. With proper guardrails for safety and cost, this architecture transforms an LLM from a one-shot text generator into a reliable, problem-solving agent.  
 
----
+### Types of AI Agents  
 
-**In practice:**  
-- In a coded framework (e.g., LangChain), this loop is implemented through function calls and state management.  
-- In a no-code platform (e.g., Make or n8n), the loop maps to nodes, flows, and conditional branches—each representing a piece of the cycle.  
+There are many ways to classify AI agents. In business, they are often grouped by use case (sales, support, automation). In modern AI research, they are described by autonomy (single-agent, multi-agent, human-in-the-loop). In robotics, they are framed by how they interact with their environment (reactive vs. deliberative).  
 
----
+For this course, we will focus on one of the most influential frameworks: the **five types of agents** described by Stuart Russell and Peter Norvig in *Artificial Intelligence: A Modern Approach*. This classification shows the progression from simple rule-following systems to adaptive, learning agents.  
 
-✅ **Takeaway:** The agent architecture is simple but powerful. By looping through **Reason → Act → Observe → Update**, and anchoring that process with **memory**, an AI agent transforms from a one-shot LLM into an adaptive system capable of solving complex, multi-step tasks.  
+<div style="text-align: center;">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/fXizBc03D7E" title="Russell and Norvig: Five Types of AI Agents" frameborder="0" allowfullscreen></iframe>
+</div>
+#### The Five Types of Agents  
 
-In the realm of artificial intelligence, agents are entities that perceive their environment through sensors and act upon that environment using actuators. These agents can range from simple rule-based systems to complex learning algorithms capable of adapting to new situations. The concept of an AI agent is foundational in AI system design and is crucial for developing workflows that involve multi-step reasoning. An AI agent operates autonomously to achieve specific goals by making decisions based on its perceptions and the knowledge it possesses.
+1. **Simple Reflex Agents**  
+   - Act only on the current percept.  
+   - Use fixed condition–action rules (e.g., “if sensor detects obstacle, then turn left”).  
+   - No memory or internal model.  
 
-The behavior of an AI agent is determined by its 'agent function,' which maps any given percept sequence (the history of perceptions) to an action. This function can be implemented in various ways, from simple condition-action rules to sophisticated algorithms that involve learning and adaptation. A key aspect of designing AI agents is ensuring that they can handle the complexity of real-world environments, which often requires them to perform multi-step reasoning and adapt to changes over time.
+2. **Model-Based Reflex Agents**  
+   - Maintain an internal model of the world.  
+   - Use percepts + model to handle partially observable environments.  
+   - More flexible than simple reflex agents.  
 
-To illustrate the concept of AI agents, consider a simple example of a vacuum cleaner robot. This robot is an agent that perceives its environment (a room) through sensors that detect dirt and obstacles. Based on its perceptions, the robot decides on actions such as moving forward, turning, or vacuuming. The agent's goal is to clean the room efficiently. This example highlights the basic structure of an agent: perception, decision-making, and action, all directed towards achieving a goal.
+3. **Goal-Based Agents**  
+   - Consider future consequences of actions.  
+   - Select actions that move the agent closer to a defined goal.  
+   - Planning becomes central to decision-making.  
 
-```{python}
-class VacuumCleanerAgent:
-    def __init__(self):
-        self.position = (0, 0)  # Starting position
-        self.environment = [[0, 0, 1], [0, 1, 0], [0, 0, 0]]  # 0 is clean, 1 is dirty
+4. **Utility-Based Agents**  
+   - Extend goal-based agents with preferences and trade-offs.  
+   - Optimize for **utility functions** (e.g., comfort, efficiency, profit).  
+   - Allow for reasoning under uncertainty.  
 
-    def perceive(self):
-        x, y = self.position
-        return self.environment[x][y]
+5. **Learning Agents**  
+   - Adapt their behavior over time by learning from experience.  
+   - Can improve their performance in changing environments.  
+   - Represent the most advanced stage of this progression.  
 
-    def decide(self, percept):
-        if percept == 1:
-            return 'suck'
-        else:
-            return 'move'
+The Russell & Norvig framework illustrates how agent design has evolved—from rigid rule-based reflexes to adaptive, learning-driven systems. Modern LLM-based agents fit into this trajectory by placing powerful reasoning and planning inside the control logic, making them closer to **goal-based and learning agents** than reflex systems.  
 
-    def act(self, action):
-        if action == 'suck':
-            x, y = self.position
-            self.environment[x][y] = 0  # Clean the dirt
-        elif action == 'move':
-            x, y = self.position
-            if y + 1 < len(self.environment[0]):
-                self.position = (x, y + 1)  # Move right
-            elif x + 1 < len(self.environment):
-                self.position = (x + 1, 0)  # Move down and reset to the first column
+### AI Agent Technologies  
 
-    def run(self):
-        while True:
-            percept = self.perceive()
-            action = self.decide(percept)
-            self.act(action)
-            if self.position == (len(self.environment) - 1, len(self.environment[0]) - 1):
-                break
+To build practical AI agents, developers and consultants rely on a set of technologies that allow LLMs to interact with their environment, manage workflows, and remain safe and reliable. These technologies fall into several categories: **APIs**, **protocols and standards**, **frameworks**, **orchestration platforms**, and **supporting infrastructure**.  
 
-agent = VacuumCleanerAgent()
-agent.run()
-```
+#### APIs: The Foundation of Tool Use  
+- **Definition:** An API (Application Programming Interface) is a structured way for software to request and exchange data or services from another system.  
+- **Role in agents:** APIs are how agents “act” in the world—whether retrieving CRM data, querying a database, or sending an email.  
+- **Examples:**  
+  - CRM (HubSpot, Salesforce) for customer records.  
+  - Productivity (Google Sheets, Slack, Notion) for workflows.  
+  - Data (financial APIs, search APIs, weather, mapping) for decision-making.  
+- **Best practice:** Maintain a catalog of available APIs with schemas, authentication scopes, and safety constraints to avoid misuse.  
 
-In the Python code example above, we define a simple `VacuumCleanerAgent` class. The agent has a basic environment represented as a grid, where '1' indicates a dirty spot and '0' indicates a clean spot. The agent's behavior is determined by its decision-making process, which in this case is a straightforward rule: if it perceives dirt, it performs the 'suck' action to clean it; otherwise, it moves to the next position. This simple agent demonstrates the core components of an AI agent: perception, decision-making, and action.
+#### Model Context Protocol (MCP)  
+- **Definition:** MCP is an emerging open standard for connecting LLMs with external tools, memory stores, and environments in a secure, structured way.  
+- **Role in agents:** Provides a consistent “plug-and-play” interface so LLMs can call tools without bespoke engineering for each integration.  
+- **Value:** Encourages interoperability across vendors and platforms, making agents more portable.  
+- **Status:** Recently proposed and supported by industry leaders (Anthropic, others), expected to become a backbone standard for enterprise-ready agents. 
 
-This foundational understanding of AI agents sets the stage for developing more sophisticated systems capable of multi-step reasoning. As we move forward, we will explore how agents can be designed to handle more complex tasks, adapt to new information, and optimize their actions to achieve long-term goals. Such capabilities are essential for building strategic AI solutions that can operate effectively in dynamic environments.
+#### Frameworks for Agent Development  
+Frameworks help developers prototype, chain, and manage agents in code.  
+
+- **LangChain**  
+  - A widely used open-source framework for building LLM-powered applications.  
+  - Provides modules for chaining LLM calls, integrating tools, handling memory, and building custom agents.  
+  - Strength: large ecosystem, active community.  
+  - Limitation: complexity and overhead for production-scale systems.  
+
+- **LangGraph**  
+  - Built on LangChain, but focuses on **graph-based agent workflows**.  
+  - Makes the **Reason → Act → Observe → Update** loop explicit as a state machine.  
+  - Supports error handling, retries, and guardrails natively.  
+  - Increasingly viewed as best practice for structured, reliable agents.  
+
+#### No-Code Orchestration Platforms  
+For consultants and business teams, **no-code tools** enable agent workflows without writing code.  
+
+- **n8n**  
+  - Open-source workflow automation platform.  
+  - Node-based editor where each node can be an API call, an LLM, or a logic block.  
+  - Flexible: can host on-premises for privacy, extend with custom code.  
+- **Make (formerly Integromat)**  
+  - Cloud-based drag-and-drop automation platform.  
+  - Strong app ecosystem (Google, Slack, HubSpot, Airtable, etc.).  
+  - Great for quickly connecting LLMs with existing SaaS systems.  
+- **Comparison:**  
+  - n8n = more technical, extensible, self-hostable.  
+  - Make = more polished, SaaS-native, easier for business teams.  
+
+#### Supporting Technologies (Industry Best Practices)  
+- **Vector Databases (Pinecone, Weaviate, Chroma, FAISS)**  
+  - Store embeddings of text or data for retrieval-augmented memory.  
+  - Enable agents to “remember” relevant context beyond the LLM context window.  
+- **State & Workflow Management**  
+  - Task graphs, finite state machines, or DAGs ensure agents don’t get stuck in infinite loops.  
+  - Tools: LangGraph, Prefect, Airflow (for large-scale orchestration).  
+- **Monitoring & Observability**  
+  - Tracing, logging, and evaluation are critical for debugging agent behavior.  
+  - Tools: LangSmith, Weights & Biases, Arize, or custom dashboards.  
+- **Guardrails & Safety Layers**  
+  - Validate inputs/outputs, enforce schemas, and filter unsafe actions.  
+  - Tools: Guardrails AI, Outlines, OpenAI function calling schema.  
+- **Cost & Efficiency Controls**  
+  - Token usage monitoring and caching of results.  
+  - Batch processing and early termination when simple answers suffice.  
+
+✅ **Takeaway:**  
+Building modern AI agents requires more than just an LLM.  
+- **APIs** connect agents to the outside world.  
+- **MCP** and similar protocols provide a secure, standardized way to integrate tools.  
+- **Frameworks** (LangChain, LangGraph) give developers code-first options for chaining reasoning and actions.  
+- **No-code orchestration tools** (n8n, Make) democratize agent building for consultants and business teams.  
+- **Supporting infrastructure** (memory stores, monitoring, guardrails) ensures agents are safe, reliable, and production-ready.  
+
+Together, these technologies make agent architectures **practical and enterprise-ready**, bridging the gap between theoretical design and real-world deployment.  
 
 ## Understanding Multi-Step Reasoning
 
