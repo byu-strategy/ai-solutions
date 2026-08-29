@@ -9,7 +9,7 @@ Artificial Intelligence (AI) is a broad field of computer science focused on cre
 
 At its core, AI can be divided into two main categories: narrow AI and general AI. Narrow AI, also known as weak AI, is designed to perform a specific task, such as language translation or facial recognition. These systems are highly specialized and can outperform humans in their designated areas. In contrast, general AI, or strong AI, refers to a system with the ability to understand, learn, and apply intelligence across a wide range of tasks, much like a human. Currently, most AI applications are narrow AI, as we have not yet achieved the technological advancements necessary for general AI.
 
-One of the key components of AI is machine learning (ML), a subset of AI that focuses on building systems that learn from data. Machine learning algorithms identify patterns within data and use these patterns to make predictions or decisions without being explicitly programmed to perform the task. For example, a machine learning model can be trained to recognize images of cats by learning from a dataset of labeled images. Once trained, the model can identify cats in new, unseen images.
+One of the key components of AI  is machine learning (ML), a subset of AI that focuses on building systems that learn from data. Machine learning algorithms identify patterns within data and use these patterns to make predictions or decisions without being explicitly programmed to perform the task. For example, a machine learning model can be trained to recognize images of cats by learning from a dataset of labeled images. Once trained, the model can identify cats in new, unseen images.
 
 ```{python}
 # Example of a simple machine learning model using scikit-learn
