@@ -26,3 +26,7 @@ docs/.quarto/
 .DS_Store
 
 
+
+# Symlinks into OneDrive (student data, heavy materials) - never in git
+_private
+_materials
